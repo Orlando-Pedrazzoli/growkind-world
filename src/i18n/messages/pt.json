@@ -1,0 +1,57 @@
+{
+  "site": {
+    "name": "GrowKind World",
+    "tagline": "Educação que cresce com a criança"
+  },
+  "nav": {
+    "home": "Home",
+    "livro": "Livro",
+    "rdf": "RDF & Cursos",
+    "loja": "Loja",
+    "blog": "Blog",
+    "sobre": "Sobre"
+  },
+  "footer": {
+    "privacidade": "Privacidade",
+    "termos": "Termos",
+    "cookies": "Cookies",
+    "devolucoes": "Devoluções",
+    "direitos": "Todos os direitos reservados."
+  },
+  "cta": {
+    "saberMais": "Saber mais",
+    "verLoja": "Ver loja",
+    "lerMais": "Ler mais",
+    "listaEspera": "Entrar na lista de espera",
+    "subscrever": "Subscrever"
+  },
+  "formulario": {
+    "nome": "Nome",
+    "email": "Email",
+    "perfil": "Eu sou...",
+    "perfilOpcoes": {
+      "paiMae": "Pai/Mãe",
+      "educador": "Educador(a)",
+      "psicologo": "Psicólogo(a)",
+      "terapeuta": "Terapeuta",
+      "outroProfissional": "Outro profissional"
+    },
+    "enviar": "Enviar",
+    "obrigatorio": "Campo obrigatório",
+    "emailInvalido": "Email inválido",
+    "sucesso": "Obrigado! Verifique o seu email.",
+    "erro": "Algo correu mal. Tente novamente."
+  },
+  "cookies": {
+    "mensagem": "Este site utiliza cookies para melhorar a sua experiência.",
+    "aceitar": "Aceitar",
+    "recusar": "Recusar",
+    "saberMais": "Saber mais"
+  },
+  "loja": {
+    "adicionarCarrinho": "Adicionar ao carrinho",
+    "tamanho": "Tamanho",
+    "esgotado": "Esgotado",
+    "emBreve": "Em breve"
+  }
+}

@@ -1,0 +1,153 @@
+@import "tailwindcss";
+
+/* ============================================
+   GROWKIND WORLD — DESIGN TOKENS
+   Tailwind v4 CSS-first configuration
+   ============================================ */
+
+@theme {
+  /* ---- Paleta oficial GrowKind ---- */
+  --color-gk-green-dark: #1A5C2A;
+  --color-gk-green-light: #C8DCC0;
+  --color-gk-ocre: #C17F3A;
+  --color-gk-creme: #F8F4ED;
+  --color-gk-black: #1E1E1E;
+  --color-gk-white: #FFFFFF;
+
+  /* ---- Cores dos movimentos RDF ---- */
+  --color-rdf-m1: #7BAA5D;
+  --color-rdf-m2: #4E7EA7;
+  --color-rdf-m3: #E09A3E;
+  --color-rdf-eixo: #C17F3A;
+
+  /* ---- Tipografia ---- */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  /* ---- Espaçamento editorial ---- */
+  --spacing-section: 6rem;
+  --spacing-section-mobile: 3.5rem;
+
+  /* ---- Larguras de conteúdo ---- */
+  --width-content: 720px;
+  --width-content-wide: 1080px;
+  --width-page: 1280px;
+
+  /* ---- Transições ---- */
+  --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  /* ---- Animações ---- */
+  --animate-fade-in: fade-in 0.8s var(--ease-editorial) forwards;
+  --animate-slide-up: slide-up 0.8s var(--ease-editorial) forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-gk-black);
+  background-color: var(--color-gk-white);
+  line-height: 1.7;
+}
+
+/* Títulos com Playfair Display */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+}
+
+/* Links globais */
+a {
+  color: var(--color-gk-green-dark);
+  text-decoration: none;
+  transition: color 0.3s var(--ease-editorial);
+}
+
+a:hover {
+  color: var(--color-gk-ocre);
+}
+
+/* Selecção de texto com identidade */
+::selection {
+  background-color: var(--color-gk-green-light);
+  color: var(--color-gk-green-dark);
+}
+
+/* Focus visible para acessibilidade */
+:focus-visible {
+  outline: 2px solid var(--color-gk-ocre);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   UTILITY CLASSES (custom, não Tailwind)
+   ============================================ */
+
+.section-padding {
+  padding-block: var(--spacing-section);
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-block: var(--spacing-section-mobile);
+  }
+}
+
+.content-width {
+  max-width: var(--width-content);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.content-width-wide {
+  max-width: var(--width-content-wide);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
+
+.page-width {
+  max-width: var(--width-page);
+  margin-inline: auto;
+  padding-inline: 1.5rem;
+}
