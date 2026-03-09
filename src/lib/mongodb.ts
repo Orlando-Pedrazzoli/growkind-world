@@ -1,13 +1,5 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
-if (!MONGODB_URI) {
-  throw new Error(
-    'MONGODB_URI não definida. Adicionar ao ficheiro .env.local'
-  );
-}
-
 /**
  * Cache global para evitar múltiplas conexões em ambiente serverless (Vercel).
  * Em desenvolvimento, usa o cache do módulo global para sobreviver a hot reloads.
@@ -32,6 +24,14 @@ if (!global.mongooseCache) {
 }
 
 async function dbConnect(): Promise<typeof mongoose> {
+  const MONGODB_URI = process.env.MONGODB_URI;
+
+  if (!MONGODB_URI) {
+    throw new Error(
+      'MONGODB_URI não definida. Adicionar ao ficheiro .env.local',
+    );
+  }
+
   if (cached.conn) {
     return cached.conn;
   }
@@ -41,7 +41,7 @@ async function dbConnect(): Promise<typeof mongoose> {
       bufferCommands: false,
     };
 
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((m) => {
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then(m => {
       return m;
     });
   }
