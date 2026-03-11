@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,17 +17,44 @@ const navItems = [
 export default function Header() {
   const t = useTranslations('nav');
   const [menuAberto, setMenuAberto] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrolled(window.scrollY > 60);
+    }
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[var(--color-gk-green-light)]/30 bg-[var(--color-gk-white)]/95 backdrop-blur-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled || menuAberto
+          ? 'border-b border-[var(--color-gk-green-light)]/30 bg-[var(--color-gk-white)]/95 backdrop-blur-sm'
+          : 'bg-transparent'
+      }`}
+    >
       <div className="page-width flex h-16 items-center justify-between md:h-20">
-        {/* Logo / Nome */}
+        {/* Logo */}
         <Link
           href="/"
-          className="font-[family-name:var(--font-display)] text-lg font-bold tracking-tight text-[var(--color-gk-green-dark)] md:text-xl"
+          className={`font-[family-name:var(--font-display)] text-lg font-bold tracking-tight transition-all duration-500 md:text-xl ${
+            scrolled || menuAberto
+              ? 'text-[var(--color-gk-green-dark)]'
+              : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
+          }`}
         >
           GrowKind
-          <span className="font-light text-[var(--color-gk-ocre)]">
+          <span
+            className={`font-light transition-colors duration-500 ${
+              scrolled || menuAberto
+                ? 'text-[var(--color-gk-ocre)]'
+                : 'text-white/90'
+            }`}
+          >
             {' '}
             World
           </span>
@@ -39,7 +66,11 @@ export default function Header() {
             <Link
               key={item.key}
               href={item.href}
-              className="relative text-sm font-medium text-[var(--color-gk-black)]/70 transition-colors duration-300 hover:text-[var(--color-gk-green-dark)]"
+              className={`relative text-sm font-medium transition-colors duration-500 ${
+                scrolled
+                  ? 'text-[var(--color-gk-black)]/70 hover:text-[var(--color-gk-green-dark)]'
+                  : 'text-white hover:text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
+              }`}
             >
               {t(item.key)}
             </Link>
@@ -55,17 +86,29 @@ export default function Header() {
         >
           <motion.span
             animate={menuAberto ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            className="block h-0.5 w-6 bg-[var(--color-gk-green-dark)]"
+            className={`block h-0.5 w-6 transition-colors duration-500 ${
+              scrolled || menuAberto
+                ? 'bg-[var(--color-gk-green-dark)]'
+                : 'bg-white'
+            }`}
           />
           <motion.span
             animate={menuAberto ? { opacity: 0 } : { opacity: 1 }}
-            className="block h-0.5 w-6 bg-[var(--color-gk-green-dark)]"
+            className={`block h-0.5 w-6 transition-colors duration-500 ${
+              scrolled || menuAberto
+                ? 'bg-[var(--color-gk-green-dark)]'
+                : 'bg-white'
+            }`}
           />
           <motion.span
             animate={
               menuAberto ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }
             }
-            className="block h-0.5 w-6 bg-[var(--color-gk-green-dark)]"
+            className={`block h-0.5 w-6 transition-colors duration-500 ${
+              scrolled || menuAberto
+                ? 'bg-[var(--color-gk-green-dark)]'
+                : 'bg-white'
+            }`}
           />
         </button>
       </div>

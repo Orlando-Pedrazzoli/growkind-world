@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import type { ContentBlock } from '@/types';
@@ -8,20 +9,31 @@ interface SeccaoRDFProps {
 
 export default function SeccaoRDF({ block }: SeccaoRDFProps) {
   return (
-    <AnimatedSection bg="white">
-      <div className="content-width text-center">
+    <AnimatedSection bg='white'>
+      <div className='content-width text-center'>
+        {/* Badge RDF */}
+        <div className='mx-auto mb-8 w-20 md:w-24'>
+          <Image
+            src='/images/rdf-badge.jpg'
+            alt='RDF — Relational Development Framework'
+            width={800}
+            height={533}
+            className='w-full rounded-full'
+            sizes='96px'
+            quality={85}
+          />
+        </div>
+
         {block.titulo && (
-          <h2 className="text-[var(--color-gk-green-dark)]">
-            {block.titulo}
-          </h2>
+          <h2 className='text-[var(--color-gk-green-dark)]'>{block.titulo}</h2>
         )}
         {block.subtitulo && (
-          <p className="mx-auto mt-4 max-w-lg text-base italic text-[var(--color-gk-ocre)]">
+          <p className='mx-auto mt-4 max-w-lg text-base italic text-[var(--color-gk-ocre)]'>
             {block.subtitulo}
           </p>
         )}
         {block.corpo && (
-          <div className="mx-auto mt-8 max-w-2xl space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/80 md:text-lg">
+          <div className='mx-auto mt-8 max-w-2xl space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/80 md:text-lg'>
             {block.corpo.split('\n\n').map((paragrafo, i) => (
               <p key={i}>{paragrafo}</p>
             ))}
@@ -30,7 +42,7 @@ export default function SeccaoRDF({ block }: SeccaoRDFProps) {
         {block.ctaTexto && block.ctaLink && (
           <Link
             href={block.ctaLink}
-            className="mt-10 inline-block rounded-lg border-2 border-[var(--color-gk-green-dark)] px-8 py-3.5 text-sm font-semibold text-[var(--color-gk-green-dark)] transition-all duration-300 hover:bg-[var(--color-gk-green-dark)] hover:text-white"
+            className='mt-10 inline-block rounded-lg border-2 border-[var(--color-gk-green-dark)] px-8 py-3.5 text-sm font-semibold text-[var(--color-gk-green-dark)] transition-all duration-300 hover:bg-[var(--color-gk-green-dark)] hover:text-white'
           >
             {block.ctaTexto}
           </Link>

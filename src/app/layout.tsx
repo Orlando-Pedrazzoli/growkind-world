@@ -52,7 +52,7 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pt-16 md:pt-20">{children}</main>
           <Footer />
           <CookieBanner />
         </NextIntlClientProvider>
