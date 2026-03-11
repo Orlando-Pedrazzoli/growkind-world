@@ -1,36 +1,38 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* ============================================
    GROWKIND WORLD — DESIGN TOKENS
    Tailwind v4 CSS-first configuration
+   Alinhado com mockup RDF do João Pereira
    ============================================ */
 
 @theme {
   /* ---- Paleta oficial GrowKind ---- */
-  --color-gk-green-dark: #1A5C2A;
-  --color-gk-green-light: #C8DCC0;
-  --color-gk-ocre: #C17F3A;
-  --color-gk-creme: #F8F4ED;
-  --color-gk-black: #1E1E1E;
-  --color-gk-white: #FFFFFF;
+  --color-gk-green-dark: #1a5c2a;
+  --color-gk-green-light: #c8dcc0;
+  --color-gk-ocre: #c17f3a;
+  --color-gk-creme: #f8f4ed;
+  --color-gk-black: #1e1e1e;
+  --color-gk-white: #ffffff;
+  --color-gk-cinza: #6b6b6b;
 
   /* ---- Cores dos movimentos RDF ---- */
-  --color-rdf-m1: #7BAA5D;
-  --color-rdf-m2: #4E7EA7;
-  --color-rdf-m3: #E09A3E;
-  --color-rdf-eixo: #C17F3A;
+  --color-rdf-m1: #7baa5d;
+  --color-rdf-m2: #4e7ea7;
+  --color-rdf-m3: #c8844a;
+  --color-rdf-mt: #c17f3a;
 
   /* ---- Tipografia ---- */
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
 
-  /* ---- Espaçamento editorial ---- */
-  --spacing-section: 6rem;
+  /* ---- Espaçamento editorial (mockup: 120px 60px) ---- */
+  --spacing-section: 7.5rem;
   --spacing-section-mobile: 3.5rem;
 
   /* ---- Larguras de conteúdo ---- */
   --width-content: 720px;
-  --width-content-wide: 1080px;
+  --width-content-wide: 960px;
   --width-page: 1280px;
 
   /* ---- Transições ---- */
@@ -39,6 +41,7 @@
   /* ---- Animações ---- */
   --animate-fade-in: fade-in 0.8s var(--ease-editorial) forwards;
   --animate-slide-up: slide-up 0.8s var(--ease-editorial) forwards;
+  --animate-fade-slide: fade-slide 0.35s ease forwards;
 }
 
 @keyframes fade-in {
@@ -61,6 +64,17 @@
   }
 }
 
+@keyframes fade-slide {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 /* ============================================
    BASE STYLES
    ============================================ */
@@ -76,21 +90,25 @@ body {
   color: var(--color-gk-black);
   background-color: var(--color-gk-white);
   line-height: 1.7;
+  overflow-x: hidden;
 }
 
 /* Títulos com Playfair Display */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 h1 {
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: clamp(2.25rem, 4vw, 3.375rem);
 }
 
 h2 {
-  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-size: clamp(1.75rem, 3vw, 2.625rem);
 }
 
 h3 {
@@ -121,33 +139,158 @@ a:hover {
 }
 
 /* ============================================
-   UTILITY CLASSES (custom, não Tailwind)
+   EDITORIAL BUTTON SYSTEM
+   Mockup: zero border-radius em tudo
+   ============================================ */
+
+.btn-primary {
+  display: inline-block;
+  padding: 16px 36px;
+  background: var(--color-gk-green-dark);
+  color: var(--color-gk-white);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  border-radius: 0;
+  transition:
+    background 0.25s,
+    transform 0.2s;
+}
+
+.btn-primary:hover {
+  background: #0f3a19;
+  color: var(--color-gk-white);
+  transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-ghost {
+  display: inline-block;
+  padding: 15px 36px;
+  border: 1.5px solid var(--color-gk-green-dark);
+  color: var(--color-gk-green-dark);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border-radius: 0;
+  transition: all 0.25s;
+}
+
+.btn-ghost:hover {
+  background: var(--color-gk-green-dark);
+  color: var(--color-gk-white);
+}
+
+/* ============================================
+   EDITORIAL FORM SYSTEM
+   Mockup: inputs sem border-radius
+   ============================================ */
+
+.input-editorial {
+  padding: 16px 20px;
+  border: 1.5px solid rgba(26, 92, 42, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-gk-black);
+  outline: none;
+  border-radius: 0;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.input-editorial:focus {
+  border-color: var(--color-gk-green-dark);
+}
+
+.input-editorial::placeholder {
+  color: rgba(30, 30, 30, 0.4);
+}
+
+/* ============================================
+   EDITORIAL LABELS
+   ============================================ */
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gk-ocre);
+  font-weight: 500;
+}
+
+.section-label {
+  font-family: var(--font-body);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gk-ocre);
+  font-weight: 500;
+  display: block;
+  margin-bottom: 24px;
+}
+
+/* ============================================
+   UTILITY CLASSES
    ============================================ */
 
 .section-padding {
   padding-block: var(--spacing-section);
+  padding-inline: 60px;
 }
 
 @media (max-width: 768px) {
   .section-padding {
     padding-block: var(--spacing-section-mobile);
+    padding-inline: 1.5rem;
   }
 }
 
 .content-width {
   max-width: var(--width-content);
   margin-inline: auto;
-  padding-inline: 1.5rem;
 }
 
 .content-width-wide {
   max-width: var(--width-content-wide);
   margin-inline: auto;
-  padding-inline: 1.5rem;
 }
 
 .page-width {
   max-width: var(--width-page);
   margin-inline: auto;
   padding-inline: 1.5rem;
+}
+
+/* ============================================
+   RDF DIAGRAM — NODE INTERACTIVITY
+   ============================================ */
+
+.node-circle {
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.node-circle:hover .node-bg {
+  filter: brightness(1.1);
+}
+
+.node-circle.active .node-bg {
+  filter: brightness(1.15);
 }

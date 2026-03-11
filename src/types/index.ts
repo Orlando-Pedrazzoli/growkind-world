@@ -1,30 +1,39 @@
 /* ============================================
    GROWKIND WORLD — TIPOS GLOBAIS
    Fonte de verdade para toda a aplicação
+   Alinhado com mockup RDF do João Pereira
    ============================================ */
 
 // ---- Blocos de conteúdo (páginas dinâmicas) ----
 
 export interface ContentBlock {
   _id?: string;
-  pageSlug: string;         // ex: "home", "o-livro", "sobre"
-  blockId: string;          // ex: "hero", "aterrissagem", "seccao-livro"
+  pageSlug: string;
+  blockId: string;
   lang: 'pt' | 'en';
   titulo?: string;
   subtitulo?: string;
-  corpo?: string;           // Markdown/MDX
+  corpo?: string;
   ctaTexto?: string;
   ctaLink?: string;
-  imagemId?: string;        // Cloudinary public ID
+  imagemId?: string;
   ordem: number;
   activo: boolean;
 }
 
 // ---- Cursos RDF ----
 
-export type MovimentoRDF = 'M1' | 'M2' | 'M3' | 'eixo';
-export type EstadoCurso = 'em-breve' | 'inscricoes-abertas' | 'a-decorrer' | 'concluido';
-export type PublicoCurso = 'familias' | 'profissionais';
+export type MovimentoRDF = 'M1' | 'M2' | 'M3' | 'MT';
+export type EstadoCurso =
+  | 'em-breve'
+  | 'inscricoes-abertas'
+  | 'a-decorrer'
+  | 'concluido';
+export type PublicoCurso =
+  | 'familias'
+  | 'teaching-assistants'
+  | 'professores'
+  | 'terapeutas';
 
 export interface Course {
   _id?: string;
@@ -69,9 +78,9 @@ export interface Product {
   descricao: string;
   categoria: CategoriaLoja;
   variantes: ProductVariant[];
-  imagens: string[];          // Cloudinary public IDs
+  imagens: string[];
   printfulProductId: string;
-  preco: number;              // Preço base
+  preco: number;
   moeda: string;
   estado: EstadoProduto;
   destaque: boolean;
@@ -82,7 +91,13 @@ export interface Product {
 
 // ---- Ordens ----
 
-export type EstadoOrdem = 'pendente' | 'pago' | 'em-producao' | 'enviado' | 'entregue' | 'cancelado';
+export type EstadoOrdem =
+  | 'pendente'
+  | 'pago'
+  | 'em-producao'
+  | 'enviado'
+  | 'entregue'
+  | 'cancelado';
 
 export interface OrderItem {
   productId: string;
@@ -124,12 +139,12 @@ export interface BlogPost {
   slug: string;
   titulo: string;
   resumo: string;
-  corpo: string;              // MDX
+  corpo: string;
   autor: string;
   dataPublicacao: Date;
   categoria?: string;
   tags: string[];
-  imagemDestaque?: string;    // Cloudinary public ID
+  imagemDestaque?: string;
   estado: EstadoArtigo;
   lang: 'pt' | 'en';
   seoTitle?: string;
@@ -140,14 +155,19 @@ export interface BlogPost {
 
 // ---- Leads (Email) ----
 
-export type PerfilLead = 'pai-mae' | 'educador' | 'psicologo' | 'terapeuta' | 'outro-profissional';
+export type PerfilLead =
+  | 'pai-mae'
+  | 'teaching-assistant'
+  | 'professor'
+  | 'psicologo-terapeuta'
+  | 'outro-profissional';
 
 export interface Lead {
   _id?: string;
   nome: string;
   email: string;
   perfil?: PerfilLead;
-  origem: string;             // ex: "home-formulario", "rdf-lista-espera"
+  origem: string;
   brevoContactId?: string;
   consentimento: boolean;
   createdAt?: Date;
@@ -161,11 +181,23 @@ export interface User {
   _id?: string;
   email: string;
   nome: string;
-  cursosInscritos: string[];  // IDs dos cursos
+  cursosInscritos: string[];
   plano: PlanoUtilizador;
   authProvider?: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+// ---- RDF Movimentos (para diagrama interactivo) ----
+
+export interface MovimentoRDFData {
+  key: 'm1' | 'm2' | 'm3' | 'mt';
+  codigo: string;
+  titulo: string;
+  subtitulo: string;
+  cor: string;
+  descricao: string[];
+  publico: string[];
 }
 
 // ---- Navegação ----

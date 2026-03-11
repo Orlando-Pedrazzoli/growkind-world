@@ -6,11 +6,17 @@ import type { ContentBlock } from '@/types';
 
 interface CapturaEmailProps {
   block: ContentBlock;
+  origem?: string;
 }
 
-export default function CapturaEmail({ block }: CapturaEmailProps) {
+export default function CapturaEmail({
+  block,
+  origem = 'home-formulario',
+}: CapturaEmailProps) {
   const t = useTranslations('formulario');
-  const [estado, setEstado] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [estado, setEstado] = useState<
+    'idle' | 'loading' | 'success' | 'error'
+  >('idle');
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -27,7 +33,7 @@ export default function CapturaEmail({ block }: CapturaEmailProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...formData,
-          origem: 'home-formulario',
+          origem,
           consentimento: true,
         }),
       });
@@ -43,88 +49,119 @@ export default function CapturaEmail({ block }: CapturaEmailProps) {
 
   return (
     <section
-      id="newsletter"
-      className="section-padding bg-[var(--color-gk-green-light)]"
+      id='newsletter'
+      className='bg-[var(--color-gk-green-light)]'
+      style={{ padding: '120px 60px' }}
     >
-      <div className="content-width text-center">
+      <div style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}>
+        {/* Eyebrow */}
+        <span className='eyebrow mb-6 block'>
+          {block.titulo ? '' : 'Formação GrowKind · Em breve'}
+        </span>
+
         {block.titulo && (
-          <h2 className="text-[var(--color-gk-green-dark)]">
-            {block.titulo}
-          </h2>
+          <h2 className='text-[var(--color-gk-green-dark)]'>{block.titulo}</h2>
         )}
+
         {block.subtitulo && (
-          <p className="mx-auto mt-4 max-w-lg text-base text-[var(--color-gk-black)]/70">
+          <p
+            className='mx-auto mt-4 text-[var(--color-gk-green-dark)]'
+            style={{
+              fontSize: '15px',
+              lineHeight: '1.8',
+              opacity: 0.7,
+              maxWidth: '480px',
+            }}
+          >
             {block.subtitulo}
           </p>
         )}
 
         {estado === 'success' ? (
-          <div className="mx-auto mt-10 max-w-md rounded-xl bg-white/60 p-8">
-            <p className="text-lg font-medium text-[var(--color-gk-green-dark)]">
+          <div
+            className='mx-auto mt-10 bg-white/60 p-8'
+            style={{ maxWidth: '460px' }}
+          >
+            <p className='text-lg font-medium text-[var(--color-gk-green-dark)]'>
               {t('sucesso')}
             </p>
           </div>
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="mx-auto mt-10 flex max-w-md flex-col gap-4"
+            className='mx-auto mt-12 flex flex-col gap-3'
+            style={{ maxWidth: '460px' }}
           >
             {/* Nome */}
             <input
-              type="text"
+              type='text'
               required
               placeholder={t('nome')}
               value={formData.nome}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, nome: e.target.value }))
+              onChange={e =>
+                setFormData(prev => ({ ...prev, nome: e.target.value }))
               }
-              className="rounded-lg border border-[var(--color-gk-green-dark)]/20 bg-white px-4 py-3 text-sm text-[var(--color-gk-black)] outline-none transition-colors placeholder:text-[var(--color-gk-black)]/40 focus:border-[var(--color-gk-green-dark)]"
+              className='input-editorial'
             />
 
             {/* Email */}
             <input
-              type="email"
+              type='email'
               required
               placeholder={t('email')}
               value={formData.email}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              onChange={e =>
+                setFormData(prev => ({ ...prev, email: e.target.value }))
               }
-              className="rounded-lg border border-[var(--color-gk-green-dark)]/20 bg-white px-4 py-3 text-sm text-[var(--color-gk-black)] outline-none transition-colors placeholder:text-[var(--color-gk-black)]/40 focus:border-[var(--color-gk-green-dark)]"
+              className='input-editorial'
             />
 
-            {/* Perfil (opcional) */}
+            {/* Perfil — opções conforme mockup do João */}
             <select
               value={formData.perfil}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, perfil: e.target.value }))
+              onChange={e =>
+                setFormData(prev => ({ ...prev, perfil: e.target.value }))
               }
-              className="rounded-lg border border-[var(--color-gk-green-dark)]/20 bg-white px-4 py-3 text-sm text-[var(--color-gk-black)]/70 outline-none transition-colors focus:border-[var(--color-gk-green-dark)]"
+              className='input-editorial'
             >
-              <option value="">{t('perfil')}</option>
-              <option value="pai-mae">{t('perfilOpcoes.paiMae')}</option>
-              <option value="educador">{t('perfilOpcoes.educador')}</option>
-              <option value="psicologo">{t('perfilOpcoes.psicologo')}</option>
-              <option value="terapeuta">{t('perfilOpcoes.terapeuta')}</option>
-              <option value="outro-profissional">
+              <option value='' disabled>
+                {t('perfil')}
+              </option>
+              <option value='pai-mae'>{t('perfilOpcoes.paiMae')}</option>
+              <option value='teaching-assistant'>
+                {t('perfilOpcoes.teachingAssistant')}
+              </option>
+              <option value='professor'>{t('perfilOpcoes.professor')}</option>
+              <option value='psicologo-terapeuta'>
+                {t('perfilOpcoes.psicologoTerapeuta')}
+              </option>
+              <option value='outro-profissional'>
                 {t('perfilOpcoes.outroProfissional')}
               </option>
             </select>
 
             {/* Botão */}
             <button
-              type="submit"
+              type='submit'
               disabled={estado === 'loading'}
-              className="rounded-lg bg-[var(--color-gk-green-dark)] px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[var(--color-gk-green-dark)]/90 hover:shadow-lg disabled:opacity-60"
+              className='btn-primary w-full text-center'
+              style={{ padding: '18px' }}
             >
-              {estado === 'loading' ? '...' : (block.ctaTexto || t('subscrever'))}
+              {estado === 'loading' ? '...' : block.ctaTexto || t('subscrever')}
             </button>
 
             {estado === 'error' && (
-              <p className="text-sm text-red-600">{t('erro')}</p>
+              <p className='text-sm text-red-600'>{t('erro')}</p>
             )}
           </form>
         )}
+
+        <p
+          className='mt-4 text-[var(--color-gk-green-dark)]'
+          style={{ fontSize: '12px', opacity: 0.5 }}
+        >
+          Sem pressao. So o que importa — quando importar.
+        </p>
       </div>
     </section>
   );

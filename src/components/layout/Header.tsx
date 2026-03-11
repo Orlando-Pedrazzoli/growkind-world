@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
   { key: 'home', href: '/' },
-  { key: 'livro', href: '/o-livro' },
   { key: 'rdf', href: '/rdf' },
+  { key: 'livro', href: '/o-livro' },
   { key: 'loja', href: '/loja' },
   { key: 'blog', href: '/blog' },
   { key: 'sobre', href: '/sobre' },
@@ -36,15 +36,16 @@ export default function Header() {
       style={{
         backgroundColor: isTransparent
           ? 'transparent'
-          : 'rgba(255,255,255,0.97)',
-        borderBottom: isTransparent
-          ? 'none'
-          : '1px solid rgba(200,220,192,0.3)',
+          : 'rgba(255,255,255,0.95)',
+        borderBottom: isTransparent ? 'none' : '1px solid rgba(26,92,42,0.08)',
         backdropFilter: isTransparent ? 'none' : 'blur(8px)',
       }}
       className='fixed top-0 left-0 right-0 z-50 transition-all duration-500'
     >
-      <div className='page-width flex h-20 items-center justify-between md:h-24'>
+      <div
+        className='flex items-center justify-between'
+        style={{ padding: '24px 60px' }}
+      >
         {/* Logo */}
         <Link
           href='/'
@@ -52,7 +53,7 @@ export default function Header() {
             color: isTransparent ? '#FFFFFF' : '#1A5C2A',
             textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
           }}
-          className='font-[family-name:var(--font-display)] text-xl font-bold tracking-tight transition-all duration-500 md:text-2xl'
+          className='font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight transition-all duration-500'
         >
           GrowKind
           <span
@@ -76,12 +77,15 @@ export default function Header() {
               key={item.key}
               href={item.href}
               style={{
-                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.7)',
+                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
                 textShadow: isTransparent
                   ? '0 1px 4px rgba(0,0,0,0.6)'
                   : 'none',
+                fontSize: '13px',
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
               }}
-              className='text-[15px] font-medium transition-all duration-500 hover:opacity-80'
+              className='font-normal transition-all duration-500 hover:opacity-100'
             >
               {t(item.key)}
             </Link>
@@ -116,7 +120,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Menu mobile */}
+      {/* Menu mobile — sem border-radius, editorial */}
       <AnimatePresence>
         {menuAberto && (
           <motion.nav
@@ -124,16 +128,19 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className='overflow-hidden border-t border-[var(--color-gk-green-light)]/30 bg-white md:hidden'
+            className='overflow-hidden border-t border-[var(--color-gk-green-dark)]/8 bg-white md:hidden'
             aria-label='Navegação mobile'
           >
-            <div className='page-width flex flex-col gap-1 py-4'>
+            <div
+              className='flex flex-col gap-0 py-4'
+              style={{ padding: '16px 60px' }}
+            >
               {navItems.map(item => (
                 <Link
                   key={item.key}
                   href={item.href}
                   onClick={() => setMenuAberto(false)}
-                  className='rounded-lg px-4 py-3 text-base font-medium text-[var(--color-gk-black)]/70 transition-colors duration-200 hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
+                  className='border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[13px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
                 >
                   {t(item.key)}
                 </Link>
