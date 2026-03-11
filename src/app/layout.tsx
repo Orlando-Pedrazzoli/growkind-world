@@ -9,7 +9,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || 'https://growkindworld.com'
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://growkindworld.com',
   ),
   title: {
     default: 'GrowKind World — Educação que cresce com a criança',
@@ -49,10 +49,10 @@ export default async function RootLayout({
       lang={locale}
       className={`${playfairDisplay.variable} ${dmSans.variable}`}
     >
-      <body className="flex min-h-screen flex-col">
+      <body className='flex min-h-screen flex-col'>
         <NextIntlClientProvider messages={messages}>
           <Header />
-          <main className="flex-1 pt-16 md:pt-20">{children}</main>
+          <main className='flex-1 pt-20 md:pt-24'>{children}</main>
           <Footer />
           <CookieBanner />
         </NextIntlClientProvider>

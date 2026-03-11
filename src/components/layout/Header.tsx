@@ -29,31 +29,37 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isTransparent = !scrolled && !menuAberto;
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled || menuAberto
-          ? 'border-b border-[var(--color-gk-green-light)]/30 bg-[var(--color-gk-white)]/95 backdrop-blur-sm'
-          : 'bg-transparent'
-      }`}
+      style={{
+        backgroundColor: isTransparent
+          ? 'transparent'
+          : 'rgba(255,255,255,0.97)',
+        borderBottom: isTransparent
+          ? 'none'
+          : '1px solid rgba(200,220,192,0.3)',
+        backdropFilter: isTransparent ? 'none' : 'blur(8px)',
+      }}
+      className='fixed top-0 left-0 right-0 z-50 transition-all duration-500'
     >
-      <div className="page-width flex h-16 items-center justify-between md:h-20">
+      <div className='page-width flex h-20 items-center justify-between md:h-24'>
         {/* Logo */}
         <Link
-          href="/"
-          className={`font-[family-name:var(--font-display)] text-lg font-bold tracking-tight transition-all duration-500 md:text-xl ${
-            scrolled || menuAberto
-              ? 'text-[var(--color-gk-green-dark)]'
-              : 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
-          }`}
+          href='/'
+          style={{
+            color: isTransparent ? '#FFFFFF' : '#1A5C2A',
+            textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
+          }}
+          className='font-[family-name:var(--font-display)] text-xl font-bold tracking-tight transition-all duration-500 md:text-2xl'
         >
           GrowKind
           <span
-            className={`font-light transition-colors duration-500 ${
-              scrolled || menuAberto
-                ? 'text-[var(--color-gk-ocre)]'
-                : 'text-white/90'
-            }`}
+            style={{
+              color: isTransparent ? 'rgba(255,255,255,0.9)' : '#C17F3A',
+            }}
+            className='font-light transition-all duration-500'
           >
             {' '}
             World
@@ -61,16 +67,21 @@ export default function Header() {
         </Link>
 
         {/* Navegação desktop */}
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Navegação principal">
-          {navItems.map((item) => (
+        <nav
+          className='hidden items-center gap-10 md:flex'
+          aria-label='Navegação principal'
+        >
+          {navItems.map(item => (
             <Link
               key={item.key}
               href={item.href}
-              className={`relative text-sm font-medium transition-colors duration-500 ${
-                scrolled
-                  ? 'text-[var(--color-gk-black)]/70 hover:text-[var(--color-gk-green-dark)]'
-                  : 'text-white hover:text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
-              }`}
+              style={{
+                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.7)',
+                textShadow: isTransparent
+                  ? '0 1px 4px rgba(0,0,0,0.6)'
+                  : 'none',
+              }}
+              className='text-[15px] font-medium transition-all duration-500 hover:opacity-80'
             >
               {t(item.key)}
             </Link>
@@ -80,36 +91,28 @@ export default function Header() {
         {/* Botão menu mobile */}
         <button
           onClick={() => setMenuAberto(!menuAberto)}
-          className="flex flex-col items-center justify-center gap-1.5 p-2 md:hidden"
+          className='flex flex-col items-center justify-center gap-1.5 p-2 md:hidden'
           aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
           aria-expanded={menuAberto}
         >
-          <motion.span
-            animate={menuAberto ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
-            className={`block h-0.5 w-6 transition-colors duration-500 ${
-              scrolled || menuAberto
-                ? 'bg-[var(--color-gk-green-dark)]'
-                : 'bg-white'
-            }`}
-          />
-          <motion.span
-            animate={menuAberto ? { opacity: 0 } : { opacity: 1 }}
-            className={`block h-0.5 w-6 transition-colors duration-500 ${
-              scrolled || menuAberto
-                ? 'bg-[var(--color-gk-green-dark)]'
-                : 'bg-white'
-            }`}
-          />
-          <motion.span
-            animate={
-              menuAberto ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }
-            }
-            className={`block h-0.5 w-6 transition-colors duration-500 ${
-              scrolled || menuAberto
-                ? 'bg-[var(--color-gk-green-dark)]'
-                : 'bg-white'
-            }`}
-          />
+          {[0, 1, 2].map(i => (
+            <motion.span
+              key={i}
+              animate={
+                menuAberto
+                  ? i === 0
+                    ? { rotate: 45, y: 6 }
+                    : i === 1
+                      ? { opacity: 0 }
+                      : { rotate: -45, y: -6 }
+                  : { rotate: 0, y: 0, opacity: 1 }
+              }
+              style={{
+                backgroundColor: isTransparent ? '#FFFFFF' : '#1A5C2A',
+              }}
+              className='block h-0.5 w-6 transition-colors duration-500'
+            />
+          ))}
         </button>
       </div>
 
@@ -121,16 +124,16 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-            className="overflow-hidden border-t border-[var(--color-gk-green-light)]/30 bg-[var(--color-gk-white)] md:hidden"
-            aria-label="Navegação mobile"
+            className='overflow-hidden border-t border-[var(--color-gk-green-light)]/30 bg-white md:hidden'
+            aria-label='Navegação mobile'
           >
-            <div className="page-width flex flex-col gap-1 py-4">
-              {navItems.map((item) => (
+            <div className='page-width flex flex-col gap-1 py-4'>
+              {navItems.map(item => (
                 <Link
                   key={item.key}
                   href={item.href}
                   onClick={() => setMenuAberto(false)}
-                  className="rounded-lg px-4 py-3 text-base font-medium text-[var(--color-gk-black)]/70 transition-colors duration-200 hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]"
+                  className='rounded-lg px-4 py-3 text-base font-medium text-[var(--color-gk-black)]/70 transition-colors duration-200 hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
                 >
                   {t(item.key)}
                 </Link>
