@@ -1,55 +1,77 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import AnimatedSection from '@/components/ui/AnimatedSection';
-import type { ContentBlock } from '@/types';
+'use client';
 
-interface SeccaoLivroProps {
-  block: ContentBlock;
-}
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-export default function SeccaoLivro({ block }: SeccaoLivroProps) {
+export default function SeccaoLivro() {
+  const ref = useRef<HTMLElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+
   return (
-    <AnimatedSection bg='creme'>
-      <div className='content-width-wide'>
-        <div className='flex flex-col items-center gap-12 md:flex-row md:gap-16'>
-          {/* Imagem do livro */}
-          <div className='relative w-full max-w-xs shrink-0 md:w-2/5'>
-            <Image
-              src='/images/book-mockup-grass.jpg'
-              alt='Livro Onde o Mundo Nasce Entre Nós — João Pereira'
-              width={1000}
-              height={1502}
-              className='w-full rounded-sm shadow-2xl'
-              sizes='(max-width: 768px) 280px, 400px'
-              quality={85}
-            />
-          </div>
+    <section
+      ref={ref}
+      id='livro'
+      className='w-full'
+      style={{ backgroundColor: '#0d1f13' }}
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{
+          maxWidth: 'var(--width-content-wide)',
+          paddingBlock: 'var(--spacing-section)',
+          paddingInline: '60px',
+        }}
+        className='mx-auto'
+      >
+        {/* Eyebrow */}
+        <span className='eyebrow'>Onde tudo começa</span>
 
-          {/* Texto */}
-          <div className='flex-1'>
-            {block.titulo && (
-              <h2 className='text-[var(--color-gk-green-dark)]'>
-                {block.titulo}
-              </h2>
-            )}
-            {block.corpo && (
-              <div className='mt-6 space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/80 md:text-lg'>
-                {block.corpo.split('\n\n').map((paragrafo, i) => (
-                  <p key={i}>{paragrafo}</p>
-                ))}
-              </div>
-            )}
-            {block.ctaTexto && block.ctaLink && (
-              <Link
-                href={block.ctaLink}
-                className='mt-8 inline-block rounded-lg bg-[var(--color-gk-green-dark)] px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[var(--color-gk-green-dark)]/90 hover:shadow-lg'
-              >
-                {block.ctaTexto}
-              </Link>
-            )}
-          </div>
+        {/* Separador */}
+        <div
+          className='mx-auto mt-8'
+          style={{
+            width: '40px',
+            height: '2px',
+            backgroundColor: 'rgba(255,255,255,0.3)',
+          }}
+        />
+
+        {/* Conteúdo */}
+        <div className='mt-16 max-w-2xl'>
+          {/* Primeiro parágrafo — itálico, creme */}
+          <p
+            className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
+            style={{ color: 'var(--color-gk-creme)' }}
+          >
+            Durante muito tempo, a pergunta foi sempre a mesma:
+            <br />
+            como ensinamos a criança a adaptar-se ao mundo?
+          </p>
+
+          {/* Segundo parágrafo — normal, branco suave */}
+          <p
+            className='mt-10 text-xl leading-relaxed md:text-2xl'
+            style={{ color: 'rgba(255,255,255,0.75)' }}
+          >
+            O GrowKind nasce de outra pergunta:
+            <br />
+            como organizamos o mundo para que ele faça sentido
+            <br />
+            para diferentes formas de existir?
+          </p>
+
+          {/* Terceiro parágrafo — itálico, ocre */}
+          <p
+            className='mt-10 font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
+            style={{ color: 'var(--color-gk-ocre)' }}
+          >
+            Não é uma pergunta pequena.
+            <br />É uma pergunta que muda tudo.
+          </p>
         </div>
-      </div>
-    </AnimatedSection>
+      </motion.div>
+    </section>
   );
 }

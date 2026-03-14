@@ -2,20 +2,17 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { key: 'home', href: '/' },
-  { key: 'rdf', href: '/rdf' },
-  { key: 'livro', href: '/o-livro' },
-  { key: 'loja', href: '/loja' },
-  { key: 'blog', href: '/blog' },
-  { key: 'sobre', href: '/sobre' },
-] as const;
+  { label: 'O PROJECTO', href: '#sobre' },
+  { label: 'O LIVRO', href: '#livro' },
+  { label: 'FRAMEWORK', href: '#rdf' },
+  { label: 'ENTRAR NA LISTA', href: '#lista' },
+];
 
 export default function Header() {
-  const t = useTranslations('nav');
   const [menuAberto, setMenuAberto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -31,6 +28,20 @@ export default function Header() {
 
   const isTransparent = !scrolled && !menuAberto;
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    e.preventDefault();
+    setMenuAberto(false);
+
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header
       style={{
@@ -44,26 +55,34 @@ export default function Header() {
     >
       <div
         className='flex items-center justify-between'
-        style={{ padding: '24px 60px' }}
+        style={{ padding: '20px 60px' }}
       >
-        {/* Logo */}
-        <Link
-          href='/'
-          style={{
-            color: isTransparent ? '#FFFFFF' : '#1A5C2A',
-            textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
-          }}
-          className='font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight transition-all duration-500'
-        >
-          GrowKind
+        {/* Logo + Nome */}
+        <Link href='/' className='flex items-center gap-3'>
+          <Image
+            src='/images/logo-growkind.jpg'
+            alt='GrowKind World Logo'
+            width={40}
+            height={40}
+            className='rounded-full'
+          />
           <span
             style={{
-              color: isTransparent ? 'rgba(255,255,255,0.9)' : '#C17F3A',
+              color: isTransparent ? '#FFFFFF' : '#1A5C2A',
+              textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
             }}
-            className='font-light transition-all duration-500'
+            className='font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight transition-all duration-500'
           >
-            {' '}
-            World
+            GrowKind
+            <span
+              style={{
+                color: isTransparent ? 'rgba(255,255,255,0.9)' : '#C17F3A',
+              }}
+              className='font-light transition-all duration-500'
+            >
+              {' '}
+              World
+            </span>
           </span>
         </Link>
 
@@ -73,9 +92,10 @@ export default function Header() {
           aria-label='Navegação principal'
         >
           {navItems.map(item => (
-            <Link
-              key={item.key}
+            <a
+              key={item.href}
               href={item.href}
+              onClick={e => handleNavClick(e, item.href)}
               style={{
                 color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
                 textShadow: isTransparent
@@ -83,12 +103,11 @@ export default function Header() {
                   : 'none',
                 fontSize: '13px',
                 letterSpacing: '0.06em',
-                textTransform: 'uppercase',
               }}
-              className='font-normal transition-all duration-500 hover:opacity-100'
+              className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
             >
-              {t(item.key)}
-            </Link>
+              {item.label}
+            </a>
           ))}
         </nav>
 
@@ -120,7 +139,7 @@ export default function Header() {
         </button>
       </div>
 
-      {/* Menu mobile — sem border-radius, editorial */}
+      {/* Menu mobile */}
       <AnimatePresence>
         {menuAberto && (
           <motion.nav
@@ -136,14 +155,14 @@ export default function Header() {
               style={{ padding: '16px 60px' }}
             >
               {navItems.map(item => (
-                <Link
-                  key={item.key}
+                <a
+                  key={item.href}
                   href={item.href}
-                  onClick={() => setMenuAberto(false)}
-                  className='border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[13px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
+                  onClick={e => handleNavClick(e, item.href)}
+                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[13px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
                 >
-                  {t(item.key)}
-                </Link>
+                  {item.label}
+                </a>
               ))}
             </div>
           </motion.nav>

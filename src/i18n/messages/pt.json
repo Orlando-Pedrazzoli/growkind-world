@@ -32,7 +32,10 @@
     "perfilOpcoes": {
       "paiMae": "Pai/Mãe",
       "educador": "Educador(a)",
+      "teachingAssistant": "Assistente Educativo(a)",
+      "professor": "Professor(a)",
       "psicologo": "Psicólogo(a)",
+      "psicologoTerapeuta": "Psicólogo(a) / Terapeuta",
       "terapeuta": "Terapeuta",
       "outroProfissional": "Outro profissional"
     },

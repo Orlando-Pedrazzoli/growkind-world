@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function Hero() {
   return (
-    <section className='relative -mt-20 md:-mt-24'>
+    <section id='hero' className='relative -mt-20 md:-mt-24'>
       <Image
         src='/images/hero-home.jpg'
         alt='GrowKind World — Um mundo criado a partir da experiência neurodivergente'

@@ -3,10 +3,12 @@ import { getPageBlocks, blocksToMap } from '@/lib/content';
 import Hero from '@/components/home/Hero';
 import Aterrissagem from '@/components/home/Aterrissagem';
 import SeccaoLivro from '@/components/home/SeccaoLivro';
-import SeccaoRDF from '@/components/home/SeccaoRDF';
-import SeccaoLoja from '@/components/home/SeccaoLoja';
-import CapturaEmail from '@/components/home/CapturaEmail';
-import Fechamento from '@/components/home/Fechamento';
+import OQueVimos from '@/components/home/OQueVimos';
+import OQueAcreditamos from '@/components/home/OQueAcreditamos';
+import OQueFazemos from '@/components/home/OQueFazemos';
+import ParaQuem from '@/components/home/ParaQuem';
+import QuandoAdulto from '@/components/home/QuandoAdulto';
+import OLivro from '@/components/home/OLivro';
 
 export const metadata: Metadata = {
   title: 'GrowKind World — Educação que cresce com a criança',
@@ -97,12 +99,14 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
-      <Aterrissagem block={b('aterrissagem')} />
-      <SeccaoLivro block={b('seccao-livro')} />
-      <SeccaoRDF block={b('seccao-rdf')} />
-      <SeccaoLoja block={b('seccao-loja')} />
-      <CapturaEmail block={b('captura-email')} />
-      <Fechamento block={b('fechamento')} />
+      <Aterrissagem />
+      <SeccaoLivro />
+      <OQueVimos />
+      <OQueAcreditamos />
+      <OQueFazemos />
+      <ParaQuem />
+      <QuandoAdulto />
+      <OLivro />
     </>
   );
 }
