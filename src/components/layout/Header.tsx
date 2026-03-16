@@ -47,15 +47,15 @@ export default function Header() {
       style={{
         backgroundColor: isTransparent
           ? 'transparent'
-          : 'rgba(255,255,255,0.95)',
+          : 'rgba(255,255,255,0.4)',
         borderBottom: isTransparent ? 'none' : '1px solid rgba(26,92,42,0.08)',
         backdropFilter: isTransparent ? 'none' : 'blur(8px)',
       }}
       className='fixed top-0 left-0 right-0 z-50 transition-all duration-500'
     >
       <div
-        className='flex items-center justify-between'
-        style={{ padding: '20px 60px' }}
+        style={{ padding: '20px 24px' }}
+        className='flex items-center justify-between md:px-[60px]'
       >
         {/* Logo + Nome */}
         <Link href='/' className='flex items-center gap-3'>
@@ -152,7 +152,7 @@ export default function Header() {
           >
             <div
               className='flex flex-col gap-0 py-4'
-              style={{ padding: '16px 60px' }}
+              style={{ padding: '16px 24px' }}
             >
               {navItems.map(item => (
                 <a
