@@ -9,6 +9,8 @@ import OQueFazemos from '@/components/home/OQueFazemos';
 import ParaQuem from '@/components/home/ParaQuem';
 import QuandoAdulto from '@/components/home/QuandoAdulto';
 import OLivro from '@/components/home/OLivro';
+import FrameworkRDF from '@/components/home/FrameworkRDF';
+import CapturaLista from '@/components/home/CapturaLista';
 
 export const metadata: Metadata = {
   title: 'GrowKind World — Educação que cresce com a criança',
@@ -107,6 +109,8 @@ export default async function HomePage() {
       <ParaQuem />
       <QuandoAdulto />
       <OLivro />
+      <FrameworkRDF />
+      <CapturaLista />
     </>
   );
 }
