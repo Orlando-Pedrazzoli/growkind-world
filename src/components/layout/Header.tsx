@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { label: 'O PROJECTO', href: '#sobre' },
+  { label: 'O PROJECTO', href: '#onde-comeca' },
   { label: 'O LIVRO', href: '#livro' },
   { label: 'FRAMEWORK', href: '#rdf' },
   { label: 'ENTRAR NA LISTA', href: '#lista' },

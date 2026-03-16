@@ -21,12 +21,16 @@ export default function Aterrissagem() {
         className='mx-auto flex flex-col items-center text-center'
         style={{
           maxWidth: 'var(--width-content-wide)',
-          paddingBlock: 'var(--spacing-section)',
+          paddingTop: '5rem',
+          paddingBottom: 'var(--spacing-section)',
           paddingInline: '60px',
         }}
       >
         {/* Título */}
-        <h2 className='text-[var(--color-gk-white)]'>
+        <h2
+          className='text-[var(--color-gk-white)]'
+          style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}
+        >
           Desenvolvimento não se resolve.
           <br />
           <em className='text-[var(--color-gk-ocre)]'>

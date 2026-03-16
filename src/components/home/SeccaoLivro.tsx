@@ -10,7 +10,7 @@ export default function SeccaoLivro() {
   return (
     <section
       ref={ref}
-      id='livro'
+      id='onde-comeca'
       className='w-full'
       style={{ backgroundColor: '#0d1f13' }}
     >
