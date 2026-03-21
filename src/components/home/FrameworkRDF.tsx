@@ -23,31 +23,19 @@ export default function FrameworkRDF() {
         className='flex flex-col md:flex-row'
       >
         {/* Lado esquerdo — imagem */}
-        <div
-          className='flex items-center justify-center md:w-1/2'
-          style={{
-            paddingBlock: 'var(--spacing-section)',
-            paddingInline: '60px',
-          }}
-        >
+        <div className='flex items-center justify-center px-6 pt-12 pb-6 md:w-1/2 md:px-[60px] md:py-[var(--spacing-section)]'>
           <Image
             src='/images/rdf-principal.jpg'
             alt='Relational Development Framework'
             width={1200}
             height={1600}
-            className='w-full'
+            className='w-full max-w-sm md:max-w-none'
             sizes='(max-width: 768px) 100vw, 50vw'
           />
         </div>
 
         {/* Lado direito — conteudo */}
-        <div
-          className='flex flex-col justify-center md:w-1/2'
-          style={{
-            paddingBlock: 'var(--spacing-section)',
-            paddingInline: '60px',
-          }}
-        >
+        <div className='flex flex-col justify-center px-6 pt-6 pb-12 md:w-1/2 md:px-[60px] md:py-[var(--spacing-section)]'>
           {/* Eyebrow */}
           <span className='eyebrow'>Framework · GrowKind World</span>
 
