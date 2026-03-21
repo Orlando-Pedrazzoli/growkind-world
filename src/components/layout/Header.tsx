@@ -113,10 +113,10 @@ export default function Header() {
 
         {/* Icone user (direita) + Hamburger mobile */}
         <div className='flex items-center gap-4'>
-          {/* Icone user — visivel sempre */}
+          {/* Icone user — visivel apenas em desktop */}
           <button
             aria-label='Conta de utilizador'
-            className='cursor-pointer p-1'
+            className='hidden cursor-pointer p-1 md:block'
           >
             <User
               size={22}
@@ -180,11 +180,19 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={e => handleNavClick(e, item.href)}
-                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
+                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
                 >
                   {item.label}
                 </a>
               ))}
+              {/* Icone user no menu mobile */}
+              <button
+                aria-label='Conta de utilizador'
+                className='flex cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+              >
+                <User size={18} strokeWidth={1.8} />
+                Conta
+              </button>
             </div>
           </motion.nav>
         )}
