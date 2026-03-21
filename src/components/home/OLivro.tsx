@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 
 export default function OLivro() {
@@ -54,7 +55,7 @@ export default function OLivro() {
               }}
             />
 
-            {/* Título */}
+            {/* Titulo */}
             <h2
               className='mt-8 italic'
               style={{ color: 'var(--color-gk-creme)' }}
@@ -64,17 +65,17 @@ export default function OLivro() {
               Nasce Entre Nós
             </h2>
 
-            {/* Parágrafos */}
+            {/* Paragrafos */}
             <div className='mt-8 space-y-6'>
               <p
-                className='text-base leading-relaxed'
+                className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
                 Não é um manual. É um deslocamento de olhar.
               </p>
 
               <p
-                className='text-base leading-relaxed'
+                className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
                 Em vez de explicar o autismo como diagnóstico, este livro
@@ -83,7 +84,7 @@ export default function OLivro() {
               </p>
 
               <p
-                className='text-base leading-relaxed'
+                className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
                 Cada gesto, repetição ou pausa é lido como tentativa de manter
@@ -92,14 +93,17 @@ export default function OLivro() {
               </p>
             </div>
 
-            {/* Botão CTA */}
-            <button
-              disabled
-              className='mt-10 inline-block w-full px-10 py-4 text-center text-[13px] font-medium uppercase tracking-widest text-white sm:w-auto'
-              style={{ backgroundColor: 'var(--color-gk-ocre)' }}
+            {/* Botao CTA */}
+            <Link
+              href='/o-livro'
+              className='mt-10 inline-block w-full cursor-pointer px-10 py-4 text-center text-[14px] font-medium uppercase tracking-widest sm:w-auto'
+              style={{
+                backgroundColor: 'var(--color-gk-ocre)',
+                color: '#ffffff',
+              }}
             >
-              Entra na lista · Recebe em primeira mão
-            </button>
+              Descobrir o Livro
+            </Link>
           </div>
         </div>
       </motion.div>

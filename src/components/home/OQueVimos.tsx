@@ -37,7 +37,7 @@ export default function OQueVimos() {
           }}
         />
 
-        {/* Conteúdo */}
+        {/* Conteudo */}
         <div className='mt-16 max-w-3xl space-y-8'>
           <p
             className='text-lg leading-relaxed'

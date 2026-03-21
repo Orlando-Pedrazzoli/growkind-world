@@ -7,6 +7,13 @@ export default function Aterrissagem() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section
       ref={ref}
@@ -26,7 +33,7 @@ export default function Aterrissagem() {
           paddingInline: '60px',
         }}
       >
-        {/* Título */}
+        {/* Titulo */}
         <h2
           className='text-[var(--color-gk-white)]'
           style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}
@@ -38,7 +45,7 @@ export default function Aterrissagem() {
           </em>
         </h2>
 
-        {/* Subtítulo */}
+        {/* Subtitulo */}
         <p
           className='mx-auto mt-10 max-w-md text-base leading-relaxed'
           style={{ color: 'rgba(255,255,255,0.65)' }}
@@ -50,18 +57,22 @@ export default function Aterrissagem() {
           antes de intervir.
         </p>
 
-        {/* Botões */}
+        {/* Botoes */}
         <div className='mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6'>
           <button
-            disabled
-            className='inline-block px-10 py-4 text-[13px] font-medium uppercase tracking-widest text-white'
-            style={{ backgroundColor: 'var(--color-gk-ocre)' }}
+            onClick={() => scrollTo('onde-comeca')}
+            className='inline-block cursor-pointer px-10 py-4 text-[13px] font-medium uppercase tracking-widest'
+            style={{
+              backgroundColor: 'var(--color-gk-ocre)',
+              color: '#ffffff',
+            }}
           >
             Onde tudo começa
           </button>
           <button
-            disabled
-            className='inline-block border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[13px] font-medium uppercase tracking-widest text-white'
+            onClick={() => scrollTo('oque-acreditamos')}
+            className='inline-block cursor-pointer border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[13px] font-medium uppercase tracking-widest'
+            style={{ color: '#ffffff' }}
           >
             O que acreditamos
           </button>

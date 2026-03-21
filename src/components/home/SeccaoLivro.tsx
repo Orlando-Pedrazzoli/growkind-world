@@ -38,9 +38,9 @@ export default function SeccaoLivro() {
           }}
         />
 
-        {/* Conteúdo */}
+        {/* Conteudo */}
         <div className='mt-16 max-w-2xl'>
-          {/* Primeiro parágrafo — itálico, creme */}
+          {/* Primeiro paragrafo — italico, creme */}
           <p
             className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
@@ -50,7 +50,7 @@ export default function SeccaoLivro() {
             como ensinamos a criança a adaptar-se ao mundo?
           </p>
 
-          {/* Segundo parágrafo — normal, branco suave */}
+          {/* Segundo paragrafo — normal, branco suave */}
           <p
             className='mt-10 text-xl leading-relaxed md:text-2xl'
             style={{ color: 'rgba(255,255,255,0.75)' }}
@@ -62,7 +62,7 @@ export default function SeccaoLivro() {
             para diferentes formas de existir?
           </p>
 
-          {/* Terceiro parágrafo — itálico, ocre */}
+          {/* Terceiro paragrafo — italico, ocre */}
           <p
             className='mt-10 font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-ocre)' }}

@@ -27,7 +27,7 @@ export default function OQueFazemos() {
         {/* Eyebrow */}
         <span className='eyebrow'>O que fazemos</span>
 
-        {/* Separador alinhado à esquerda */}
+        {/* Separador alinhado a esquerda */}
         <div
           className='mt-8'
           style={{
@@ -37,7 +37,7 @@ export default function OQueFazemos() {
           }}
         />
 
-        {/* Conteúdo */}
+        {/* Conteudo */}
         <div className='mt-16 max-w-3xl space-y-8'>
           <p
             className='text-lg leading-relaxed'
@@ -79,7 +79,7 @@ export default function OQueFazemos() {
           </p>
         </blockquote>
 
-        {/* Parágrafo final */}
+        {/* Paragrafo final */}
         <div className='mt-10 max-w-3xl'>
           <p
             className='text-lg leading-relaxed'

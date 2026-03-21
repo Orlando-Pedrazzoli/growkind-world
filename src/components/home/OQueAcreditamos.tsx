@@ -52,6 +52,7 @@ export default function OQueAcreditamos() {
   return (
     <section
       ref={ref}
+      id='oque-acreditamos'
       className='w-full'
       style={{ backgroundColor: '#0d1f13' }}
     >
@@ -92,17 +93,17 @@ export default function OQueAcreditamos() {
                 backgroundColor: 'rgba(255,255,255,0.03)',
               }}
             >
-              {/* Número */}
+              {/* Numero */}
               <span
-                className='text-sm font-medium'
+                className='text-[14px] font-medium'
                 style={{ color: 'var(--color-gk-ocre)' }}
               >
                 {card.num}
               </span>
 
-              {/* Título */}
+              {/* Titulo */}
               <h3
-                className='mt-6 text-lg font-semibold'
+                className='mt-6 text-xl font-semibold'
                 style={{ color: 'var(--color-gk-white)' }}
               >
                 {card.titulo}
@@ -110,7 +111,7 @@ export default function OQueAcreditamos() {
 
               {/* Corpo */}
               <div
-                className='mt-4 space-y-2 text-base leading-relaxed'
+                className='mt-4 space-y-2 text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.6)' }}
               >
                 {card.corpo}

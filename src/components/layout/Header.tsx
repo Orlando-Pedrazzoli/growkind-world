@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { User } from 'lucide-react';
 
 const navItems = [
   { label: 'O PROJECTO', href: '#onde-comeca' },
   { label: 'O LIVRO', href: '#livro' },
-  { label: 'FRAMEWORK', href: '#rdf' },
-  { label: 'ENTRAR NA LISTA', href: '#lista' },
+  { label: 'RDF', href: '#rdf' },
 ];
 
 export default function Header() {
@@ -57,13 +57,13 @@ export default function Header() {
         style={{ padding: '20px 24px' }}
         className='flex items-center justify-between md:px-[60px]'
       >
-        {/* Logo + Nome */}
+        {/* Logo + Nome (esquerda) */}
         <Link href='/' className='flex items-center gap-3'>
           <Image
             src='/images/logo-growkind.jpg'
             alt='GrowKind World Logo'
-            width={40}
-            height={40}
+            width={48}
+            height={48}
             className='rounded-full'
           />
           <span
@@ -71,7 +71,7 @@ export default function Header() {
               color: isTransparent ? '#FFFFFF' : '#1A5C2A',
               textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
             }}
-            className='font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight transition-all duration-500'
+            className='font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight transition-all duration-500'
           >
             GrowKind
             <span
@@ -86,9 +86,9 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Navegação desktop */}
+        {/* Navegacao desktop (centro) */}
         <nav
-          className='hidden items-center gap-10 md:flex'
+          className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-12 md:flex'
           aria-label='Navegação principal'
         >
           {navItems.map(item => (
@@ -101,8 +101,8 @@ export default function Header() {
                 textShadow: isTransparent
                   ? '0 1px 4px rgba(0,0,0,0.6)'
                   : 'none',
-                fontSize: '13px',
-                letterSpacing: '0.06em',
+                fontSize: '14px',
+                letterSpacing: '0.08em',
               }}
               className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
             >
@@ -111,32 +111,53 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Botão menu mobile */}
-        <button
-          onClick={() => setMenuAberto(!menuAberto)}
-          className='flex flex-col items-center justify-center gap-1.5 p-2 md:hidden'
-          aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
-          aria-expanded={menuAberto}
-        >
-          {[0, 1, 2].map(i => (
-            <motion.span
-              key={i}
-              animate={
-                menuAberto
-                  ? i === 0
-                    ? { rotate: 45, y: 6 }
-                    : i === 1
-                      ? { opacity: 0 }
-                      : { rotate: -45, y: -6 }
-                  : { rotate: 0, y: 0, opacity: 1 }
-              }
+        {/* Icone user (direita) + Hamburger mobile */}
+        <div className='flex items-center gap-4'>
+          {/* Icone user — visivel sempre */}
+          <button
+            aria-label='Conta de utilizador'
+            className='cursor-pointer p-1'
+          >
+            <User
+              size={22}
               style={{
-                backgroundColor: isTransparent ? '#FFFFFF' : '#1A5C2A',
+                color: isTransparent ? '#FFFFFF' : '#1A5C2A',
+                filter: isTransparent
+                  ? 'drop-shadow(0 1px 4px rgba(0,0,0,0.6))'
+                  : 'none',
               }}
-              className='block h-0.5 w-6 transition-colors duration-500'
+              className='transition-all duration-500'
+              strokeWidth={1.8}
             />
-          ))}
-        </button>
+          </button>
+
+          {/* Botao menu mobile */}
+          <button
+            onClick={() => setMenuAberto(!menuAberto)}
+            className='flex flex-col items-center justify-center gap-1.5 p-2 md:hidden'
+            aria-label={menuAberto ? 'Fechar menu' : 'Abrir menu'}
+            aria-expanded={menuAberto}
+          >
+            {[0, 1, 2].map(i => (
+              <motion.span
+                key={i}
+                animate={
+                  menuAberto
+                    ? i === 0
+                      ? { rotate: 45, y: 6 }
+                      : i === 1
+                        ? { opacity: 0 }
+                        : { rotate: -45, y: -6 }
+                    : { rotate: 0, y: 0, opacity: 1 }
+                }
+                style={{
+                  backgroundColor: isTransparent ? '#FFFFFF' : '#1A5C2A',
+                }}
+                className='block h-0.5 w-6 transition-colors duration-500'
+              />
+            ))}
+          </button>
+        </div>
       </div>
 
       {/* Menu mobile */}
@@ -159,7 +180,7 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={e => handleNavClick(e, item.href)}
-                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[13px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
+                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 last:border-b-0 hover:text-[var(--color-gk-green-dark)]'
                 >
                   {item.label}
                 </a>
