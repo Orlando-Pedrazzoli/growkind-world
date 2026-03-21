@@ -17,19 +17,15 @@ export default function OQueVimos() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{
-          maxWidth: 'var(--width-content-wide)',
-          paddingBlock: 'var(--spacing-section)',
-          paddingInline: '60px',
-        }}
-        className='mx-auto'
+        className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
+        style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
         <span className='eyebrow'>O que vimos</span>
 
         {/* Separador */}
         <div
-          className='mx-auto mt-8'
+          className='mx-auto mt-6 md:mt-8'
           style={{
             width: '40px',
             height: '2px',
@@ -38,7 +34,7 @@ export default function OQueVimos() {
         />
 
         {/* Conteudo */}
-        <div className='mt-16 max-w-3xl space-y-8'>
+        <div className='mt-10 max-w-3xl space-y-6 md:mt-16 md:space-y-8'>
           <p
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
@@ -74,7 +70,7 @@ export default function OQueVimos() {
 
         {/* Blockquote */}
         <blockquote
-          className='mt-12 max-w-3xl border-l-2 pl-8'
+          className='mt-10 max-w-3xl border-l-2 pl-6 md:mt-12 md:pl-8'
           style={{ borderColor: 'var(--color-gk-ocre)' }}
         >
           <p
@@ -87,7 +83,7 @@ export default function OQueVimos() {
             explicar.
           </p>
           <p
-            className='mt-6 font-[family-name:var(--font-display)] text-xl font-semibold italic md:text-2xl'
+            className='mt-4 font-[family-name:var(--font-display)] text-xl font-semibold italic md:mt-6 md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
             Faltava tradução.

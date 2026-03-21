@@ -36,21 +36,22 @@ export default function Footer() {
 
   return (
     <footer
-      style={{ backgroundColor: 'var(--color-gk-ocre)', padding: '60px' }}
+      className='px-6 py-8 md:px-[60px] md:py-10'
+      style={{ backgroundColor: 'var(--color-gk-ocre)' }}
     >
       {/* Linha principal — logo + redes sociais */}
-      <div className='flex flex-col items-start justify-between gap-6 md:flex-row md:items-center'>
+      <div className='flex flex-col items-start justify-between gap-4 md:flex-row md:items-center'>
         {/* Logo + Nome */}
         <Link href='/' className='flex items-center gap-3'>
           <Image
             src='/images/logo-growkind.jpg'
             alt='GrowKind World Logo'
-            width={40}
-            height={40}
+            width={36}
+            height={36}
             className='rounded-full'
           />
           <span
-            className='font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight'
+            className='font-[family-name:var(--font-display)] text-base font-semibold tracking-tight'
             style={{ color: '#ffffff' }}
           >
             GrowKind
@@ -76,25 +77,23 @@ export default function Footer() {
               className='transition-opacity duration-300 hover:opacity-100'
               style={{ color: 'var(--color-gk-green-dark)', opacity: 0.7 }}
             >
-              <social.icon size={22} strokeWidth={1.5} />
+              <social.icon size={20} strokeWidth={1.5} />
             </a>
           ))}
         </div>
       </div>
 
       {/* Info */}
-      <div className='mt-6'>
-        <p
-          className='text-xs tracking-wider'
-          style={{ color: 'rgba(255,255,255,0.6)' }}
-        >
-          @growkindworld · growkindworld.com · © {ano}
-        </p>
-      </div>
+      <p
+        className='mt-3 text-xs tracking-wider'
+        style={{ color: 'rgba(255,255,255,0.6)' }}
+      >
+        @growkindworld · growkindworld.com · © {ano}
+      </p>
 
       {/* Links legais */}
       <div
-        className='mt-8 flex flex-wrap items-end gap-x-6 gap-y-2 border-t pt-6'
+        className='mt-5 flex flex-wrap items-end gap-x-6 gap-y-2 border-t pt-4'
         style={{ borderColor: 'rgba(255,255,255,0.25)' }}
       >
         <nav
@@ -121,23 +120,21 @@ export default function Footer() {
       </div>
 
       {/* Credito desenvolvimento */}
-      <div className='mt-6 text-center'>
-        <p
-          className='text-[11px] tracking-wide'
-          style={{ color: 'rgba(255,255,255,0.45)' }}
+      <p
+        className='mt-4 text-center text-[11px] tracking-wide'
+        style={{ color: 'rgba(255,255,255,0.45)' }}
+      >
+        Desenvolvido por{' '}
+        <a
+          href='https://pedrazzolidigital.com/'
+          target='_blank'
+          rel='noopener noreferrer'
+          className='underline transition-opacity duration-300 hover:opacity-100'
+          style={{ color: '#ffffff', opacity: 0.7 }}
         >
-          Desenvolvido por{' '}
-          <a
-            href='https://pedrazzolidigital.com/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='underline transition-opacity duration-300 hover:opacity-100'
-            style={{ color: '#ffffff', opacity: 0.7 }}
-          >
-            Pedrazzoli Digital
-          </a>
-        </p>
-      </div>
+          Pedrazzoli Digital
+        </a>
+      </p>
     </footer>
   );
 }

@@ -60,12 +60,8 @@ export default function OQueAcreditamos() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{
-          maxWidth: 'var(--width-page)',
-          paddingBlock: 'var(--spacing-section)',
-          paddingInline: '60px',
-        }}
-        className='mx-auto'
+        className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
+        style={{ maxWidth: 'var(--width-page)' }}
       >
         {/* Eyebrow centrado */}
         <div className='text-center'>
@@ -74,7 +70,7 @@ export default function OQueAcreditamos() {
 
         {/* Separador */}
         <div
-          className='mx-auto mt-8'
+          className='mx-auto mt-6 md:mt-8'
           style={{
             width: '40px',
             height: '2px',
@@ -83,11 +79,11 @@ export default function OQueAcreditamos() {
         />
 
         {/* Cards */}
-        <div className='mt-16 grid grid-cols-1 gap-6 md:grid-cols-3'>
+        <div className='mt-10 grid grid-cols-1 gap-4 md:mt-16 md:grid-cols-3 md:gap-6'>
           {cards.map(card => (
             <div
               key={card.num}
-              className='border-t p-8'
+              className='border-t p-6 md:p-8'
               style={{
                 borderColor: 'rgba(255,255,255,0.12)',
                 backgroundColor: 'rgba(255,255,255,0.03)',
@@ -103,7 +99,7 @@ export default function OQueAcreditamos() {
 
               {/* Titulo */}
               <h3
-                className='mt-6 text-xl font-semibold'
+                className='mt-4 text-xl font-semibold md:mt-6'
                 style={{ color: 'var(--color-gk-white)' }}
               >
                 {card.titulo}
@@ -111,7 +107,7 @@ export default function OQueAcreditamos() {
 
               {/* Corpo */}
               <div
-                className='mt-4 space-y-2 text-lg leading-relaxed'
+                className='mt-3 space-y-2 text-lg leading-relaxed md:mt-4'
                 style={{ color: 'rgba(255,255,255,0.6)' }}
               >
                 {card.corpo}

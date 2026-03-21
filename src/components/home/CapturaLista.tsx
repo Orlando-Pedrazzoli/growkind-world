@@ -19,19 +19,15 @@ export default function CapturaLista() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className='mx-auto flex flex-col items-center text-center'
-        style={{
-          maxWidth: 'var(--width-content-wide)',
-          paddingBlock: 'var(--spacing-section)',
-          paddingInline: '60px',
-        }}
+        className='mx-auto flex flex-col items-center px-6 py-12 text-center md:px-[60px] md:py-[var(--spacing-section)]'
+        style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
         <span className='eyebrow'>Acompanha o processo</span>
 
         {/* Separador */}
         <div
-          className='mx-auto mt-8'
+          className='mx-auto mt-6 md:mt-8'
           style={{
             width: '40px',
             height: '2px',
@@ -39,16 +35,16 @@ export default function CapturaLista() {
           }}
         />
 
-        {/* Título */}
-        <h2 className='mt-12 text-[var(--color-gk-white)]'>
+        {/* Titulo */}
+        <h2 className='mt-8 text-[var(--color-gk-white)] md:mt-12'>
           Entra na lista.
           <br />
           Recebe em primeira mão.
         </h2>
 
-        {/* Subtítulo */}
+        {/* Subtitulo */}
         <p
-          className='mx-auto mt-6 max-w-lg text-base leading-relaxed'
+          className='mx-auto mt-4 max-w-lg text-lg leading-relaxed md:mt-6'
           style={{ color: 'rgba(255,255,255,0.6)' }}
         >
           O lançamento do livro e dos cursos acontece primeiro para quem está na
@@ -57,9 +53,9 @@ export default function CapturaLista() {
           Sem pressão. Só o que importa.
         </p>
 
-        {/* Formulário */}
+        {/* Formulario */}
         <div
-          className='mt-10 flex w-full max-w-lg flex-col overflow-hidden sm:flex-row'
+          className='mt-8 flex w-full max-w-lg flex-col overflow-hidden sm:flex-row md:mt-10'
           style={{
             border: '1px solid rgba(255,255,255,0.15)',
           }}
@@ -74,7 +70,7 @@ export default function CapturaLista() {
           />
           <button
             disabled
-            className='px-8 py-4 text-[13px] font-medium uppercase tracking-widest text-white'
+            className='cursor-pointer px-8 py-4 text-[14px] font-medium uppercase tracking-widest text-white'
             style={{ backgroundColor: 'var(--color-gk-ocre)' }}
           >
             Entrar

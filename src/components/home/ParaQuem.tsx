@@ -37,19 +37,15 @@ export default function ParaQuem() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{
-          maxWidth: 'var(--width-content-wide)',
-          paddingBlock: 'var(--spacing-section)',
-          paddingInline: '60px',
-        }}
-        className='mx-auto'
+        className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
+        style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
         <span className='eyebrow'>Para quem é</span>
 
         {/* Separador */}
         <div
-          className='mt-8'
+          className='mt-6 md:mt-8'
           style={{
             width: '40px',
             height: '2px',
@@ -58,11 +54,11 @@ export default function ParaQuem() {
         />
 
         {/* Lista */}
-        <div className='mt-16'>
+        <div className='mt-10 md:mt-16'>
           {items.map((item, i) => (
             <div
               key={i}
-              className='flex flex-col gap-2 py-8 sm:flex-row sm:items-baseline sm:gap-12'
+              className='flex flex-col gap-2 py-6 sm:flex-row sm:items-baseline sm:gap-12 md:py-8'
               style={{
                 borderBottom:
                   i < items.length - 1
@@ -71,13 +67,13 @@ export default function ParaQuem() {
               }}
             >
               <h3
-                className='shrink-0 font-[family-name:var(--font-display)] text-2xl font-bold italic md:text-3xl sm:w-64'
+                className='shrink-0 font-[family-name:var(--font-display)] text-2xl font-bold italic sm:w-64 md:text-3xl'
                 style={{ color: 'var(--color-gk-creme)' }}
               >
                 {item.titulo}
               </h3>
               <p
-                className='text-base leading-relaxed'
+                className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.55)' }}
               >
                 {item.descricao}

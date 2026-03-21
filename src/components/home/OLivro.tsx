@@ -20,16 +20,12 @@ export default function OLivro() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{
-          maxWidth: 'var(--width-page)',
-          paddingBlock: 'var(--spacing-section)',
-          paddingInline: '60px',
-        }}
-        className='mx-auto'
+        className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
+        style={{ maxWidth: 'var(--width-page)' }}
       >
-        <div className='flex flex-col items-center gap-16 md:flex-row'>
+        <div className='flex flex-col items-center gap-10 md:flex-row md:gap-16'>
           {/* Imagem do livro */}
-          <div className='w-full max-w-sm shrink-0 md:w-2/5'>
+          <div className='w-full max-w-xs shrink-0 md:w-2/5 md:max-w-sm'>
             <Image
               src='/images/book-cover.jpg'
               alt='Onde o Mundo Nasce Entre Nós — João Pereira'
@@ -47,7 +43,7 @@ export default function OLivro() {
 
             {/* Separador */}
             <div
-              className='mt-6'
+              className='mt-4 md:mt-6'
               style={{
                 width: '40px',
                 height: '2px',
@@ -57,7 +53,7 @@ export default function OLivro() {
 
             {/* Titulo */}
             <h2
-              className='mt-8 italic'
+              className='mt-6 italic md:mt-8'
               style={{ color: 'var(--color-gk-creme)' }}
             >
               Onde o Mundo
@@ -66,7 +62,7 @@ export default function OLivro() {
             </h2>
 
             {/* Paragrafos */}
-            <div className='mt-8 space-y-6'>
+            <div className='mt-6 space-y-4 md:mt-8 md:space-y-6'>
               <p
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
@@ -96,7 +92,7 @@ export default function OLivro() {
             {/* Botao CTA */}
             <Link
               href='/o-livro'
-              className='mt-10 inline-block w-full cursor-pointer px-10 py-4 text-center text-[14px] font-medium uppercase tracking-widest sm:w-auto'
+              className='mt-8 inline-block w-full cursor-pointer px-10 py-4 text-center text-[14px] font-medium uppercase tracking-widest sm:w-auto md:mt-10'
               style={{
                 backgroundColor: 'var(--color-gk-ocre)',
                 color: '#ffffff',
