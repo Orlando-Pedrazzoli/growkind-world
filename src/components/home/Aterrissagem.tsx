@@ -19,7 +19,7 @@ export default function Aterrissagem() {
       ref={ref}
       id='sobre'
       className='w-full'
-      style={{ backgroundColor: '#091208' }}
+      style={{ backgroundColor: '#1b140c' }}
     >
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -36,45 +36,52 @@ export default function Aterrissagem() {
         {/* Titulo */}
         <h2
           className='text-[var(--color-gk-white)]'
-          style={{ fontSize: 'clamp(2rem, 4.5vw, 3.5rem)' }}
+          style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)' }}
         >
-          Desenvolvimento não se resolve.
+          Desenvolvimento não é sobre corrigir.
           <br />
           <em className='text-[var(--color-gk-ocre)]'>
-            Desenvolvimento se acompanha.
+            É sobre compreender e acompanhar.
           </em>
         </h2>
 
+        {/* Separador */}
+        <div
+          className='mx-auto mt-10'
+          style={{
+            width: '40px',
+            height: '2px',
+            backgroundColor: 'rgba(255,255,255,0.3)',
+          }}
+        />
+
         {/* Subtitulo */}
         <p
-          className='mx-auto mt-10 max-w-md text-base leading-relaxed'
+          className='mx-auto mt-8 max-w-2xl text-lg leading-relaxed'
           style={{ color: 'rgba(255,255,255,0.65)' }}
         >
-          Para pais e profissionais
-          <br />
-          que querem compreender
-          <br />
-          antes de intervir.
+          Para pais e profissionais que valorizam compreensão antes da
+          intervenção.
         </p>
 
         {/* Botoes */}
         <div className='mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6'>
           <button
             onClick={() => scrollTo('onde-comeca')}
-            className='inline-block cursor-pointer px-10 py-4 text-[13px] font-medium uppercase tracking-widest'
+            className='inline-block cursor-pointer px-10 py-4 text-[14px] font-medium uppercase tracking-widest'
             style={{
               backgroundColor: 'var(--color-gk-ocre)',
               color: '#ffffff',
             }}
           >
-            Onde tudo começa
+            Por onde começar
           </button>
           <button
             onClick={() => scrollTo('oque-acreditamos')}
-            className='inline-block cursor-pointer border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[13px] font-medium uppercase tracking-widest'
+            className='inline-block cursor-pointer border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[14px] font-medium uppercase tracking-widest'
             style={{ color: '#ffffff' }}
           >
-            O que acreditamos
+            Nossa metodologia
           </button>
         </div>
       </motion.div>
