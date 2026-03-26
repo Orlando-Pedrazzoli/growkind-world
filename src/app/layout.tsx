@@ -1,6 +1,4 @@
 import type { Metadata } from 'next';
-import { NextIntlClientProvider } from 'next-intl';
-import { getLocale, getMessages } from 'next-intl/server';
 import { playfairDisplay, dmSans } from '@/lib/fonts';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -44,26 +42,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-
   return (
     <html
-      lang={locale}
+      lang='pt'
       className={`${playfairDisplay.variable} ${dmSans.variable}`}
     >
       <body className='flex min-h-screen flex-col'>
-        <NextIntlClientProvider messages={messages}>
-          <Header />
-          <main className='flex-1 pt-20 md:pt-24'>{children}</main>
-          <Footer />
-          <CookieBanner />
-        </NextIntlClientProvider>
+        <Header />
+        <main className='flex-1 pt-20 md:pt-24'>{children}</main>
+        <Footer />
+        <CookieBanner />
       </body>
     </html>
   );

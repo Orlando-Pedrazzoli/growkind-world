@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 import { Instagram, Facebook, Linkedin } from 'lucide-react';
 
 const legalLinks = [
-  { key: 'privacidade', href: '/privacidade' },
-  { key: 'termos', href: '/termos' },
-  { key: 'cookies', href: '/cookies' },
-  { key: 'devolucoes', href: '/devolucoes' },
-] as const;
+  { label: 'Privacidade', href: '/privacidade' },
+  { label: 'Termos', href: '/termos' },
+  { label: 'Cookies', href: '/cookies' },
+  { label: 'Devoluções', href: '/devolucoes' },
+];
 
 const socialLinks = [
   {
@@ -31,7 +30,6 @@ const socialLinks = [
 ];
 
 export default function Footer() {
-  const t = useTranslations('footer');
   const ano = new Date().getFullYear();
 
   return (
@@ -102,12 +100,12 @@ export default function Footer() {
         >
           {legalLinks.map(link => (
             <Link
-              key={link.key}
+              key={link.href}
               href={link.href}
               className='text-[12px] font-medium uppercase tracking-wider transition-opacity duration-300 hover:opacity-100'
               style={{ color: 'var(--color-gk-green-dark)', opacity: 0.7 }}
             >
-              {t(link.key)}
+              {link.label}
             </Link>
           ))}
         </nav>
@@ -115,7 +113,7 @@ export default function Footer() {
           className='ml-auto text-[11px]'
           style={{ color: 'rgba(255,255,255,0.5)' }}
         >
-          {t('direitos')}
+          Todos os direitos reservados
         </p>
       </div>
 
