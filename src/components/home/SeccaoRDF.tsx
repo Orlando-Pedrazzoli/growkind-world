@@ -1,7 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import AnimatedSection from '@/components/ui/AnimatedSection';
-import type { ContentBlock } from '@/types';
+
+interface ContentBlock {
+  titulo?: string;
+  subtitulo?: string;
+  corpo?: string;
+  ctaTexto?: string;
+  ctaLink?: string;
+}
 
 interface SeccaoRDFProps {
   block: ContentBlock;
@@ -36,7 +43,7 @@ export default function SeccaoRDF({ block }: SeccaoRDFProps) {
 
         {block.corpo && (
           <div className='mx-auto mt-8 max-w-2xl space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/80 md:text-lg'>
-            {block.corpo.split('\n\n').map((paragrafo, i) => (
+            {block.corpo.split('\n\n').map((paragrafo: string, i: number) => (
               <p key={i}>{paragrafo}</p>
             ))}
           </div>
