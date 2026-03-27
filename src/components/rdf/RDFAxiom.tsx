@@ -4,98 +4,134 @@ import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-// ── Dados inline (específicos deste componente) ──
+// ── Dados completos dos pilares (Secção 2 do doc) ──
 
 const PILARES = [
   {
     label: 'Pilar 1',
-    title: 'Neurodiversidade',
-    refs: 'DSM-5-TR · Happé · Baron-Cohen',
-    desc: 'Diagnóstico como informação, não destino. O perfil informa a leitura — não a determina.',
+    title: 'Neurodiversidade e Diagnóstico',
+    refs: 'DSM-5-TR (APA, 2022) · Happé & Frith (2006) · Baron-Cohen (2002)',
+    desc: 'O RDF parte da premissa de que o diagnóstico é informação — não destino. As investigações de Happé e Baron-Cohen sobre coerência central e cognição autística mostram que as diferenças de processamento não são défices a corrigir, mas perfis distintos de organização neurológica. O DSM-5-TR é usado como referência nosológica, não como mapa de resposta. O RDF opera depois do diagnóstico — e antes da intervenção.',
   },
   {
     label: 'Pilar 2',
     title: 'Processamento Sensorial',
     refs: 'Winnie Dunn (1997, 2007)',
-    desc: 'Perfis sensoriais como determinantes do campo ambiental. Base da leitura do Ambiente.',
+    desc: 'O ambiente é um participante activo no campo relacional — não um pano de fundo. Os limiares sensoriais de cada criança (hiperresponsividade, hiporresponsividade, procura sensorial, evitamento) determinam o que o sistema nervoso processa antes de qualquer instrução verbal chegar. O trabalho de Winnie Dunn sobre perfis sensoriais fundamenta a leitura ambiental no RDF: ajustar o espaço é intervir.',
   },
   {
     label: 'Pilar 3',
-    title: 'Regulação do SNA',
-    refs: 'Porges — Polyvagal Theory (2011)',
-    desc: 'Segurança neurológica como pré-requisito de aprendizagem. Base do Movimento 1.',
+    title: 'Regulação do Sistema Nervoso Autónomo',
+    refs: 'Stephen W. Porges — The Polyvagal Theory (2011)',
+    desc: 'A Teoria Polyvagal de Porges descreve como o sistema nervoso autónomo organiza os estados fisiológicos em três níveis: segurança (sistema ventrovagal), mobilização (sistema simpático) e imobilização (dorsal vagal). A aprendizagem, a atenção e a relação social só são possíveis a partir de um estado de segurança neurológica. Esta é a base científica do Movimento 1 do RDF — regulação antes de instrução, sempre.',
   },
   {
     label: 'Pilar 4',
-    title: 'Vinculação e Relação',
-    refs: 'Bowlby · Ainsworth · Greenspan',
-    desc: 'Adulto como base segura. Base do Movimento 3 e da relação no campo.',
+    title: 'Vinculação e Desenvolvimento Relacional',
+    refs: 'Bowlby (1969, 1973) · Ainsworth et al. (1978) · Greenspan & Wieder (2006)',
+    desc: 'A teoria da vinculação de Bowlby e Ainsworth estabelece que o adulto funciona como base segura — condição do desenvolvimento relacional, não apenas apoio emocional. O adulto regulado regula o sistema nervoso da criança através da presença. Greenspan e Wieder (DIR/Floortime) aprofundam como os níveis de desenvolvimento relacional se constroem sequencialmente — base científica do Movimento 3 do RDF e dos três níveis de mediação.',
   },
   {
     label: 'Pilar 5',
-    title: 'Desenvolvimento Sociocognitivo',
-    refs: 'Vygotsky · Tomasello · Siegel',
-    desc: 'Adulto como condição do desenvolvimento. ZPD, atenção conjunta, co-regulação.',
+    title: 'Desenvolvimento Sociocognitivo e Co-regulação',
+    refs: 'Vygotsky (1978) · Tomasello (1999, 2014) · Siegel (1999, 2012) · Schore (2003)',
+    desc: 'Vygotsky demonstrou que o desenvolvimento ocorre na zona de desenvolvimento proximal — entre o que a criança consegue sozinha e o que consegue com presença adulta. Tomasello aprofundou o papel da atenção conjunta como fundação da cognição social. Siegel e Schore mostraram que a co-regulação é um processo neurobiológico: o sistema nervoso do adulto organiza o sistema nervoso da criança. O adulto não é um mediador externo — é uma condição do desenvolvimento.',
   },
 ];
+
+// ── Dados completos das abordagens (Secção 3 do doc) ──
 
 const ABORDAGENS = [
   {
     name: 'PBS / PBIS',
-    desc: 'Resposta comportamental. O RDF opera antes — ao nível da leitura que informa a resposta.',
-  },
-  {
-    name: 'DIR / Floortime',
-    desc: 'Partilha a premissa relacional. O RDF é a leitura; DIR é a intervenção que pode emergir dela.',
-  },
-  {
-    name: 'Teoria Polyvagal',
-    desc: 'Base científica do Movimento 1 — regulação do SNA como pré-condição.',
+    nivel: 'Resposta comportamental — suporte positivo ao comportamento',
+    relacao:
+      'O RDF opera antes: lê o campo que produz o comportamento antes de qualquer plano de suporte.',
   },
   {
     name: 'ABA',
-    desc: 'Modificação comportamental. O RDF não substitui — precede a leitura que informa qualquer resposta.',
+    nivel:
+      'Modificação comportamental — antecedente, comportamento, consequência',
+    relacao:
+      'O RDF não substitui nem compete: precede a leitura. Um campo bem lido informa melhores decisões de qualquer metodologia.',
+  },
+  {
+    name: 'DIR / Floortime',
+    nivel: 'Interacção afectiva — seguir a criança, construir relação',
+    relacao:
+      'Partilha a premissa relacional do RDF. O Movimento 3 (Ser Mediador) tem base directa na progressão DIR. Complementares.',
+  },
+  {
+    name: 'Teoria Polyvagal',
+    nivel: 'Regulação do sistema nervoso autónomo',
+    relacao:
+      'Base científica directa do Movimento 1. O RDF operacionaliza a Teoria Polyvagal em contexto educativo e familiar.',
+  },
+  {
+    name: 'Processamento Sensorial',
+    nivel: 'Perfis sensoriais e limiares de activação',
+    relacao:
+      'Base da leitura ambiental no RDF. Perfil sensorial informa o que o ambiente está a oferecer ao sistema nervoso.',
   },
   {
     name: 'Regulação Emocional',
-    desc: 'O RDF opera um nível antes — lê o campo que produz o estado emocional.',
+    nivel: 'Estado emocional — estratégias de autorregulação',
+    relacao:
+      'O RDF opera um nível antes: regulação do campo (adulto + ambiente) cria as condições para que a regulação emocional seja possível.',
   },
 ];
+
+// ── Glossário completo (Secção 4 do doc) ──
 
 const GLOSSARIO = [
   {
     term: 'Campo Relacional',
-    def: 'Espaço que emerge quando criança, ambiente e adulto estão em relação simultânea. Onde o desenvolvimento acontece.',
+    en: 'Relational Field',
+    def: 'O espaço que emerge quando criança, ambiente e adulto estão em relação simultânea. Não é um lugar físico — é onde o desenvolvimento acontece. O campo é lido, não diagnosticado.',
   },
   {
     term: 'Leitura do Campo',
-    def: 'Observar e interpretar o campo antes de qualquer decisão de resposta.',
+    en: 'Field Reading',
+    def: 'Observar e interpretar o que está a acontecer entre os três elementos — criança, ambiente, adulto — antes de qualquer decisão de resposta. É o acto profissional central do RDF.',
+  },
+  {
+    term: 'Movimentos do Campo',
+    en: 'Field Movements',
+    def: 'Tipos de necessidade que emergem no campo: regulação, estrutura, relação. São lentes de leitura — não etapas sequenciais, não categorias diagnósticas. A mesma criança pode precisar de movimentos diferentes ao longo do mesmo dia.',
   },
   {
     term: 'Ser Chão',
-    def: 'Papel do adulto no M1. Presença reguladora antes de qualquer instrução.',
+    en: 'Being Ground',
+    def: 'O papel do adulto no Movimento 1. Tornar-se presença reguladora antes de qualquer instrução verbal. Regulação do campo antes de qualquer tarefa.',
   },
   {
     term: 'Ser Estrutura',
-    def: 'Papel do adulto no M2. Enquadramento que permite a acção — contenção que liberta.',
+    en: 'Being Structure',
+    def: 'O papel do adulto no Movimento 2. Oferecer enquadramento que permite a acção — não controlo, mas contenção que liberta. Emprestar o começo sem fazer pela criança.',
   },
   {
     term: 'Ser Mediador',
-    def: 'Papel do adulto no M3. Mediar o encontro sem forçar nem substituir.',
+    en: 'Being Mediator',
+    def: 'O papel do adulto no Movimento 3. Mediar o encontro entre a criança e o outro sem forçar nem substituir. Entrar no campo sem tomar o espaço da criança.',
   },
   {
     term: 'Ser Eixo',
-    def: 'Papel do adulto no movimento transversal. Coerência entre adultos envolvidos.',
+    en: 'Being Axis',
+    def: 'O papel do adulto no Movimento Transversal. Garantir coerência de leitura entre todos os adultos envolvidos — educadores, família, terapeutas. Não é liderança. É coerência ao longo do tempo.',
   },
   {
     term: 'Co-regulação',
-    def: 'O sistema nervoso do adulto regula o da criança através da presença. Condição — não técnica.',
+    en: 'Co-regulation',
+    def: 'O sistema nervoso do adulto organiza o sistema nervoso da criança através da presença. Não é uma técnica — é uma condição neurobiológica. A regulação do adulto é a intervenção.',
   },
   {
-    term: 'Comportamento como efeito',
-    def: 'O comportamento é sempre efeito do campo — nunca ponto de partida da intervenção.',
+    term: 'Arquivo de Campo',
+    en: 'Field Archive',
+    def: 'Registo estruturado de observações feitas por pais e profissionais de apoio ao longo do tempo. Partilhável com terapeutas e equipas. O TA vê o dia real da criança que nenhum relatório clínico captura.',
   },
 ];
+
+// ── Accordion component ──
 
 interface AccordionItem {
   icon: string;
@@ -153,6 +189,8 @@ function AccordionSection({ item }: { item: AccordionItem }) {
   );
 }
 
+// ── Main component ──
+
 export default function RDFAxiom() {
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
@@ -162,43 +200,53 @@ export default function RDFAxiom() {
       icon: '🔬',
       title: 'Os cinco pilares científicos',
       content: (
-        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-5'>
-          {PILARES.map(pilar => (
-            <div
-              key={pilar.title}
-              className='p-5'
-              style={{
-                backgroundColor: 'rgba(200,220,192,0.15)',
-                borderRadius: '10px',
-                border: '1px solid rgba(200,220,192,0.3)',
-              }}
-            >
-              <span
-                className='text-[10px] font-semibold uppercase tracking-[0.12em]'
-                style={{ color: '#8b6914' }}
+        <div>
+          <p
+            className='mb-6 text-[15px] leading-relaxed'
+            style={{ color: 'var(--color-gk-cinza)' }}
+          >
+            O RDF não é uma intuição estruturada. Cada movimento do campo e cada
+            princípio operacional tem base em investigação publicada. Os cinco
+            pilares abaixo são as fundações científicas do framework.
+          </p>
+          <div className='flex flex-col gap-4'>
+            {PILARES.map(pilar => (
+              <div
+                key={pilar.title}
+                className='p-5 md:p-6'
+                style={{
+                  backgroundColor: 'rgba(200,220,192,0.15)',
+                  borderRadius: '10px',
+                  border: '1px solid rgba(200,220,192,0.3)',
+                }}
               >
-                {pilar.label}
-              </span>
-              <h4
-                className='mt-2 text-[15px] font-semibold'
-                style={{ color: 'var(--color-gk-black)' }}
-              >
-                {pilar.title}
-              </h4>
-              <p
-                className='mt-1 font-[family-name:var(--font-display)] text-[13px] italic'
-                style={{ color: 'var(--color-gk-cinza)' }}
-              >
-                {pilar.refs}
-              </p>
-              <p
-                className='mt-3 text-[13px] leading-relaxed'
-                style={{ color: 'rgba(30,30,30,0.6)' }}
-              >
-                {pilar.desc}
-              </p>
-            </div>
-          ))}
+                <span
+                  className='text-[10px] font-semibold uppercase tracking-[0.12em]'
+                  style={{ color: '#8b6914' }}
+                >
+                  {pilar.label}
+                </span>
+                <h4
+                  className='mt-2 text-[16px] font-semibold'
+                  style={{ color: 'var(--color-gk-black)' }}
+                >
+                  {pilar.title}
+                </h4>
+                <p
+                  className='mt-1 font-[family-name:var(--font-display)] text-[13px] italic'
+                  style={{ color: 'var(--color-gk-cinza)' }}
+                >
+                  {pilar.refs}
+                </p>
+                <p
+                  className='mt-3 text-[14px] leading-[1.8]'
+                  style={{ color: 'rgba(30,30,30,0.65)' }}
+                >
+                  {pilar.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       ),
     },
@@ -208,17 +256,94 @@ export default function RDFAxiom() {
       content: (
         <div>
           <p
-            className='mb-5 text-[15px] leading-relaxed'
+            className='mb-6 text-[15px] leading-relaxed'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            O RDF não compete com outras abordagens — opera um nível antes. A
-            leitura do campo precede qualquer decisão de intervenção.
+            O RDF não compete com as abordagens existentes. Opera um nível antes
+            — a leitura do campo que precede qualquer decisão de resposta. Esta
+            distinção elimina a necessidade de escolher entre frameworks.
           </p>
-          <div className='flex flex-col gap-2'>
+
+          {/* Desktop: tabela */}
+          <div className='hidden md:block'>
+            <table
+              className='w-full text-left text-[14px]'
+              style={{ borderCollapse: 'separate', borderSpacing: '0 4px' }}
+            >
+              <thead>
+                <tr>
+                  <th
+                    className='px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em]'
+                    style={{
+                      color: 'var(--color-gk-cinza)',
+                      borderBottom: '1px solid rgba(212,207,196,0.4)',
+                    }}
+                  >
+                    Abordagem
+                  </th>
+                  <th
+                    className='px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em]'
+                    style={{
+                      color: 'var(--color-gk-cinza)',
+                      borderBottom: '1px solid rgba(212,207,196,0.4)',
+                    }}
+                  >
+                    Nível de operação
+                  </th>
+                  <th
+                    className='px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.1em]'
+                    style={{
+                      color: 'var(--color-gk-cinza)',
+                      borderBottom: '1px solid rgba(212,207,196,0.4)',
+                    }}
+                  >
+                    Relação com o RDF
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {ABORDAGENS.map(ab => (
+                  <tr
+                    key={ab.name}
+                    style={{ backgroundColor: 'rgba(200,220,192,0.08)' }}
+                  >
+                    <td
+                      className='px-5 py-4 font-semibold'
+                      style={{
+                        color: 'var(--color-gk-black)',
+                        borderRadius: '8px 0 0 8px',
+                        minWidth: '140px',
+                      }}
+                    >
+                      {ab.name}
+                    </td>
+                    <td
+                      className='px-5 py-4 leading-relaxed'
+                      style={{ color: 'rgba(30,30,30,0.6)' }}
+                    >
+                      {ab.nivel}
+                    </td>
+                    <td
+                      className='px-5 py-4 leading-relaxed'
+                      style={{
+                        color: 'rgba(30,30,30,0.7)',
+                        borderRadius: '0 8px 8px 0',
+                      }}
+                    >
+                      {ab.relacao}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile: cards empilhados */}
+          <div className='flex flex-col gap-3 md:hidden'>
             {ABORDAGENS.map(ab => (
               <div
                 key={ab.name}
-                className='flex flex-col gap-1 px-5 py-4 sm:flex-row sm:items-baseline sm:gap-6'
+                className='p-5'
                 style={{
                   backgroundColor: 'rgba(200,220,192,0.1)',
                   borderRadius: '8px',
@@ -226,20 +351,38 @@ export default function RDFAxiom() {
                 }}
               >
                 <span
-                  className='shrink-0 text-[14px] font-semibold'
-                  style={{ color: 'var(--color-gk-black)', minWidth: '160px' }}
+                  className='text-[14px] font-semibold'
+                  style={{ color: 'var(--color-gk-black)' }}
                 >
                   {ab.name}
                 </span>
-                <span
-                  className='text-[14px] leading-relaxed'
-                  style={{ color: 'rgba(30,30,30,0.6)' }}
+                <p
+                  className='mt-1 text-[13px] leading-relaxed'
+                  style={{ color: 'rgba(30,30,30,0.5)' }}
                 >
-                  {ab.desc}
-                </span>
+                  {ab.nivel}
+                </p>
+                <p
+                  className='mt-3 text-[14px] leading-relaxed'
+                  style={{ color: 'rgba(30,30,30,0.7)' }}
+                >
+                  {ab.relacao}
+                </p>
               </div>
             ))}
           </div>
+
+          <p
+            className='mt-6 text-[15px] italic leading-relaxed'
+            style={{ color: 'var(--color-gk-cinza)' }}
+          >
+            A formulação canónica:{' '}
+            <strong style={{ fontStyle: 'normal' }}>
+              o RDF é o nível anterior à decisão de resposta.
+            </strong>{' '}
+            Não substitui o que o profissional já sabe. Organiza a leitura que
+            precede o que o profissional vai decidir fazer.
+          </p>
         </div>
       ),
     },
@@ -247,30 +390,46 @@ export default function RDFAxiom() {
       icon: '📋',
       title: 'Glossário RDF',
       content: (
-        <div className='grid gap-4 sm:grid-cols-2'>
-          {GLOSSARIO.map(item => (
-            <div
-              key={item.term}
-              className='p-5'
-              style={{
-                backgroundColor: 'rgba(245,240,232,0.7)',
-                borderRadius: '10px',
-              }}
-            >
-              <h4
-                className='text-[15px] font-semibold'
-                style={{ color: 'var(--color-gk-black)' }}
+        <div>
+          <p
+            className='mb-6 text-[15px] leading-relaxed'
+            style={{ color: 'var(--color-gk-cinza)' }}
+          >
+            O RDF tem uma linguagem própria — precisa e partilhável. Este
+            glossário é o ponto de entrada. Nos cursos, a linguagem é
+            aprofundada em contexto profissional e familiar.
+          </p>
+          <div className='grid gap-4 sm:grid-cols-2'>
+            {GLOSSARIO.map(item => (
+              <div
+                key={item.term}
+                className='p-5'
+                style={{
+                  backgroundColor: 'rgba(245,240,232,0.7)',
+                  borderRadius: '10px',
+                }}
               >
-                {item.term}
-              </h4>
-              <p
-                className='mt-2 text-[14px] leading-relaxed'
-                style={{ color: 'rgba(30,30,30,0.6)' }}
-              >
-                {item.def}
-              </p>
-            </div>
-          ))}
+                <h4
+                  className='text-[15px] font-semibold'
+                  style={{ color: 'var(--color-gk-black)' }}
+                >
+                  {item.term}
+                </h4>
+                <span
+                  className='text-[12px] italic'
+                  style={{ color: 'var(--color-gk-cinza)' }}
+                >
+                  {item.en}
+                </span>
+                <p
+                  className='mt-2 text-[14px] leading-relaxed'
+                  style={{ color: 'rgba(30,30,30,0.6)' }}
+                >
+                  {item.def}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       ),
     },

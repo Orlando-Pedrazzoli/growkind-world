@@ -48,7 +48,34 @@ export default function RDFHero() {
             <em style={{ color: '#c4a44a' }}>Framework</em>
           </h1>
 
-          {/* Descricao */}
+          {/* ── Entrada emocional (Secção 1 do doc de melhorias) ── */}
+          <div
+            className='mt-10 px-6 py-5 md:px-8 md:py-6'
+            style={{
+              backgroundColor: 'rgba(240,244,242,0.06)',
+              borderRadius: '4px',
+            }}
+          >
+            <p
+              className='font-[family-name:var(--font-display)] text-[17px] italic leading-relaxed md:text-[19px]'
+              style={{ color: 'rgba(240,232,208,0.7)' }}
+            >
+              &ldquo;O que se vê do lado de fora costuma ser chamado de
+              comportamento. O que não se vê é o esforço imenso para manter
+              alguma continuidade por dentro.&rdquo;
+            </p>
+          </div>
+
+          <p
+            className='mt-5 max-w-lg text-[15px] leading-relaxed md:text-[16px]'
+            style={{ color: 'rgba(240,232,208,0.55)' }}
+          >
+            A pergunta deixa de ser <em>&ldquo;como faço isso parar?&rdquo;</em>{' '}
+            e começa a transformar-se em{' '}
+            <em>&ldquo;o que isso está a contar?&rdquo;</em>
+          </p>
+
+          {/* Descricao tecnica (mantida) */}
           <p
             className='mt-8 max-w-lg text-[16px] leading-relaxed md:text-[17px]'
             style={{ color: 'rgba(240,232,208,0.65)' }}

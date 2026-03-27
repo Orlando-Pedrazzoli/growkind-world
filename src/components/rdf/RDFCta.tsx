@@ -42,74 +42,37 @@ export default function RDFCta() {
           &ldquo;{RDF_AXIOM}&rdquo;
         </h2>
 
-        {/* Subtitulo */}
+        {/* Frase de transição */}
         <p
-          className='mx-auto mt-6 max-w-lg text-[16px] leading-relaxed'
+          className='mx-auto mt-8 max-w-[560px] text-[16px] leading-relaxed'
           style={{ color: 'rgba(240,232,208,0.6)' }}
         >
-          A lente está disponível. Os cursos aprofundam a sua aplicação — em
-          contexto profissional e familiar.
+          A lente está disponível nesta página. O que os cursos aprofundam é a
+          aplicação — com ferramentas, casos reais e reflexão guiada. Para
+          profissionais e para famílias.
         </p>
 
-        {/* 2 Cards de cursos */}
-        <div className='mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row'>
-          {/* Card Profissionais */}
-          <Link
-            href='/cursos'
-            className='w-full max-w-[280px] px-8 py-6 text-center transition-all duration-300 hover:brightness-110'
-            style={{
-              backgroundColor: 'rgba(240,232,208,0.12)',
-              border: '1px solid rgba(240,232,208,0.2)',
-              borderRadius: '12px',
-            }}
-          >
-            <span
-              className='block text-[10px] font-semibold uppercase tracking-[0.14em]'
-              style={{ color: 'rgba(240,232,208,0.5)' }}
-            >
-              Para profissionais
-            </span>
-            <span
-              className='mt-2 block text-[16px] font-semibold'
-              style={{ color: '#f0e8d0' }}
-            >
-              Curso Zero RDF
-            </span>
-            <span
-              className='mt-1 block text-[13px]'
-              style={{ color: 'rgba(240,232,208,0.5)' }}
-            >
-              4 módulos · 6h CPD · €39
-            </span>
-          </Link>
+        {/* Frase secundária */}
+        <p
+          className='mt-3 text-[13px]'
+          style={{ color: 'rgba(240,232,208,0.4)' }}
+        >
+          4 cursos · do sentir ao agir · para profissionais e famílias
+        </p>
 
-          {/* Card Familias */}
+        {/* Botão único */}
+        <div className='mt-10'>
           <Link
             href='/cursos'
-            className='w-full max-w-[280px] px-8 py-6 text-center transition-all duration-300 hover:brightness-110'
+            className='inline-block px-8 py-4 text-[14px] font-medium transition-all duration-300 hover:brightness-110'
             style={{
-              backgroundColor: '#c4a44a',
-              borderRadius: '12px',
+              backgroundColor: '#3d5a4f',
+              color: '#ffffff',
+              border: '1.5px solid rgba(240,232,208,0.3)',
+              borderRadius: '8px',
             }}
           >
-            <span
-              className='block text-[10px] font-semibold uppercase tracking-[0.14em]'
-              style={{ color: 'rgba(26,31,24,0.5)' }}
-            >
-              Para famílias
-            </span>
-            <span
-              className='mt-2 block text-[16px] font-semibold'
-              style={{ color: '#1a1f18' }}
-            >
-              Curso Zero Famílias
-            </span>
-            <span
-              className='mt-1 block text-[13px]'
-              style={{ color: 'rgba(26,31,24,0.5)' }}
-            >
-              4 módulos · 4h · €29
-            </span>
+            Conhecer os cursos <span aria-hidden='true'>→</span>
           </Link>
         </div>
       </motion.div>
