@@ -47,7 +47,7 @@ export default function SobreCTA() {
 
       <style jsx>{`
         .sobre-cta {
-          background: var(--color-gk-green-dark);
+          background: #0d1f13;
           position: relative;
           overflow: hidden;
         }

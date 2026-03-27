@@ -147,7 +147,7 @@ export default function SobreRDF() {
         }
 
         .sobre-rdf__card {
-          background: var(--color-gk-green-dark);
+          background: #0d1f13;
           padding: 32px 26px;
           display: flex;
           flex-direction: column;
@@ -156,7 +156,7 @@ export default function SobreRDF() {
         }
 
         .sobre-rdf__card:hover {
-          background: #0f3a19;
+          background: #071209;
         }
 
         .sobre-rdf__card-num {

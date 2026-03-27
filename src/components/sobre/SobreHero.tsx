@@ -54,7 +54,7 @@ export default function SobreHero() {
 
       <style jsx>{`
         .sobre-hero {
-          background-color: var(--color-gk-green-dark);
+          background-color: #0d1f13;
           /* cancelar o pt-20/pt-24 do layout para o hero encostar no topo */
           margin-top: calc(-5rem); /* -mt-20 mobile */
           padding-top: calc(5rem + 80px); /* compensa o header + respiro */
