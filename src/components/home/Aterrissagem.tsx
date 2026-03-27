@@ -33,10 +33,10 @@ export default function Aterrissagem() {
           className='text-[var(--color-gk-white)]'
           style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)' }}
         >
-          Desenvolvimento não é sobre corrigir.
+          Um mundo criado a partir da
           <br />
           <em className='text-[var(--color-gk-ocre)]'>
-            É sobre compreender e acompanhar.
+            experiência neurodivergente.
           </em>
         </h2>
 

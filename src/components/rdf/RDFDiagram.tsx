@@ -16,6 +16,97 @@ const ELEMENT_LABELS: Record<string, string> = {
   adult: 'Elemento 3 · Lê e ajusta',
 };
 
+function PulseRing({
+  cx,
+  cy,
+  color,
+  delay,
+  isActive,
+}: {
+  cx: number;
+  cy: number;
+  color: string;
+  delay: number;
+  isActive: boolean;
+}) {
+  const maxR = isActive ? 66 : 56;
+  const opacity1 = isActive ? '1' : '0.6';
+  const opacity2 = isActive ? '0.8' : '0.4';
+  const sw1 = isActive ? '3.5' : '2.5';
+  const sw2 = isActive ? '3' : '2';
+
+  return (
+    <>
+      <circle
+        cx={cx}
+        cy={cy}
+        r='36'
+        fill='none'
+        stroke={color}
+        strokeWidth={sw1}
+      >
+        <animate
+          attributeName='r'
+          from='36'
+          to={String(maxR)}
+          dur='2s'
+          begin={`${delay}s`}
+          repeatCount='indefinite'
+        />
+        <animate
+          attributeName='stroke-opacity'
+          from={opacity1}
+          to='0'
+          dur='2s'
+          begin={`${delay}s`}
+          repeatCount='indefinite'
+        />
+        <animate
+          attributeName='stroke-width'
+          from={sw1}
+          to='1'
+          dur='2s'
+          begin={`${delay}s`}
+          repeatCount='indefinite'
+        />
+      </circle>
+      <circle
+        cx={cx}
+        cy={cy}
+        r='36'
+        fill='none'
+        stroke={color}
+        strokeWidth={sw2}
+      >
+        <animate
+          attributeName='r'
+          from='36'
+          to={String(maxR)}
+          dur='2s'
+          begin={`${delay + 1}s`}
+          repeatCount='indefinite'
+        />
+        <animate
+          attributeName='stroke-opacity'
+          from={opacity2}
+          to='0'
+          dur='2s'
+          begin={`${delay + 1}s`}
+          repeatCount='indefinite'
+        />
+        <animate
+          attributeName='stroke-width'
+          from={sw2}
+          to='1'
+          dur='2s'
+          begin={`${delay + 1}s`}
+          repeatCount='indefinite'
+        />
+      </circle>
+    </>
+  );
+}
+
 export default function RDFDiagram() {
   const [activeKey, setActiveKey] = useState<string>('child');
   const ref = useRef<HTMLElement>(null);
@@ -65,16 +156,21 @@ export default function RDFDiagram() {
           </p>
         </div>
 
-        {/* Grid: Diagrama (maior) + Painel */}
+        {/* Grid: Diagrama + Painel */}
         <div className='mt-16 grid items-center gap-8 md:grid-cols-[1.2fr_1fr] lg:gap-12'>
-          {/* Diagrama SVG — maior */}
+          {/* Diagrama SVG */}
           <div className='flex items-center justify-center'>
             <svg
               viewBox='0 0 500 500'
               xmlns='http://www.w3.org/2000/svg'
               className='w-full max-w-[560px]'
             >
-              {/* Arco exterior — Criança→Ambiente (verde) */}
+              <style>{`
+                .node-group { cursor: pointer; }
+                .node-group:hover .node-main { filter: brightness(1.12); }
+              `}</style>
+
+              {/* Arcos exteriores */}
               <path
                 d='M 250 55 A 195 195 0 0 1 419 340'
                 fill='none'
@@ -84,7 +180,6 @@ export default function RDFDiagram() {
                 opacity={activeKey === 'child' ? 0.9 : 0.45}
                 style={{ transition: 'opacity 0.3s' }}
               />
-              {/* Arco exterior — Ambiente→Adulto (ocre) */}
               <path
                 d='M 419 340 A 195 195 0 0 1 81 340'
                 fill='none'
@@ -94,7 +189,6 @@ export default function RDFDiagram() {
                 opacity={activeKey === 'environment' ? 0.9 : 0.45}
                 style={{ transition: 'opacity 0.3s' }}
               />
-              {/* Arco exterior — Adulto→Criança (azul) */}
               <path
                 d='M 81 340 A 195 195 0 0 1 250 55'
                 fill='none'
@@ -105,13 +199,12 @@ export default function RDFDiagram() {
                 style={{ transition: 'opacity 0.3s' }}
               />
 
-              {/* Textos curvados nos arcos — Movimentos */}
+              {/* Textos curvados */}
               <defs>
                 <path id='arc-right' d='M 380 120 A 195 195 0 0 1 430 310' />
                 <path id='arc-bottom' d='M 390 370 A 195 195 0 0 1 110 370' />
                 <path id='arc-left' d='M 70 310 A 195 195 0 0 1 120 120' />
               </defs>
-
               <text
                 fontSize='9'
                 fill='rgba(30,30,30,0.3)'
@@ -144,7 +237,7 @@ export default function RDFDiagram() {
                 </textPath>
               </text>
 
-              {/* Linhas tracejadas de ligação */}
+              {/* Linhas tracejadas */}
               <line
                 x1='250'
                 y1='110'
@@ -215,12 +308,33 @@ export default function RDFDiagram() {
                 onde o desenvolvimento acontece
               </text>
 
-              {/* Node — Criança (topo) */}
-              <g
-                className='cursor-pointer'
-                onClick={() => setActiveKey('child')}
-              >
+              {/* ── Pulse rings ── */}
+              <PulseRing
+                cx={250}
+                cy={65}
+                color='#4a7c59'
+                delay={0}
+                isActive={activeKey === 'child'}
+              />
+              <PulseRing
+                cx={95}
+                cy={375}
+                color='#3a5f8a'
+                delay={0.4}
+                isActive={activeKey === 'adult'}
+              />
+              <PulseRing
+                cx={405}
+                cy={375}
+                color='#c4a44a'
+                delay={0.8}
+                isActive={activeKey === 'environment'}
+              />
+
+              {/* ── Node — Criança ── */}
+              <g className='node-group' onClick={() => setActiveKey('child')}>
                 <circle
+                  className='node-main'
                   cx='250'
                   cy='65'
                   r={activeKey === 'child' ? 42 : 36}
@@ -237,6 +351,7 @@ export default function RDFDiagram() {
                   fontSize='13'
                   fontFamily='DM Sans, sans-serif'
                   fontWeight='600'
+                  style={{ pointerEvents: 'none' }}
                 >
                   Criança
                 </text>
@@ -247,17 +362,16 @@ export default function RDFDiagram() {
                   fill='rgba(255,255,255,0.65)'
                   fontSize='9'
                   fontFamily='DM Sans, sans-serif'
+                  style={{ pointerEvents: 'none' }}
                 >
                   ponto de partida
                 </text>
               </g>
 
-              {/* Node — Adulto (esquerda baixo) */}
-              <g
-                className='cursor-pointer'
-                onClick={() => setActiveKey('adult')}
-              >
+              {/* ── Node — Adulto ── */}
+              <g className='node-group' onClick={() => setActiveKey('adult')}>
                 <circle
+                  className='node-main'
                   cx='95'
                   cy='375'
                   r={activeKey === 'adult' ? 42 : 36}
@@ -274,6 +388,7 @@ export default function RDFDiagram() {
                   fontSize='13'
                   fontFamily='DM Sans, sans-serif'
                   fontWeight='600'
+                  style={{ pointerEvents: 'none' }}
                 >
                   Adulto
                 </text>
@@ -284,17 +399,19 @@ export default function RDFDiagram() {
                   fill='rgba(255,255,255,0.65)'
                   fontSize='9'
                   fontFamily='DM Sans, sans-serif'
+                  style={{ pointerEvents: 'none' }}
                 >
                   lê e ajusta
                 </text>
               </g>
 
-              {/* Node — Ambiente (direita baixo) */}
+              {/* ── Node — Ambiente ── */}
               <g
-                className='cursor-pointer'
+                className='node-group'
                 onClick={() => setActiveKey('environment')}
               >
                 <circle
+                  className='node-main'
                   cx='405'
                   cy='375'
                   r={activeKey === 'environment' ? 42 : 36}
@@ -311,6 +428,7 @@ export default function RDFDiagram() {
                   fontSize='13'
                   fontFamily='DM Sans, sans-serif'
                   fontWeight='600'
+                  style={{ pointerEvents: 'none' }}
                 >
                   Ambiente
                 </text>
@@ -321,6 +439,7 @@ export default function RDFDiagram() {
                   fill='rgba(255,255,255,0.65)'
                   fontSize='9'
                   fontFamily='DM Sans, sans-serif'
+                  style={{ pointerEvents: 'none' }}
                 >
                   modula o campo
                 </text>
@@ -344,7 +463,6 @@ export default function RDFDiagram() {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              {/* Eyebrow */}
               <span
                 className='text-[11px] font-semibold uppercase tracking-[0.12em]'
                 style={{ color: activeColor }}
@@ -352,7 +470,6 @@ export default function RDFDiagram() {
                 {ELEMENT_LABELS[activeKey]}
               </span>
 
-              {/* Titulo */}
               <h3
                 className='mt-4 font-[family-name:var(--font-display)] text-2xl'
                 style={{ color: 'var(--color-gk-black)', fontWeight: 500 }}
@@ -360,7 +477,6 @@ export default function RDFDiagram() {
                 {activeElement.title}
               </h3>
 
-              {/* Role */}
               <p
                 className='mt-2 font-[family-name:var(--font-display)] text-[15px] italic'
                 style={{ color: 'var(--color-gk-cinza)' }}
@@ -368,7 +484,6 @@ export default function RDFDiagram() {
                 {activeElement.role}
               </p>
 
-              {/* Descricao */}
               <p
                 className='mt-5 text-[15px] leading-relaxed'
                 style={{ color: 'rgba(30,30,30,0.7)' }}
@@ -381,7 +496,6 @@ export default function RDFDiagram() {
                   ' Mas a presença do adulto é sempre o terceiro elemento do campo. O que estou a adicionar ao campo agora?'}
               </p>
 
-              {/* Reads */}
               <div className='mt-6 flex flex-col gap-3'>
                 {activeElement.reads.map(read => (
                   <div key={read} className='flex gap-3 text-[14px]'>
@@ -396,7 +510,6 @@ export default function RDFDiagram() {
                 ))}
               </div>
 
-              {/* Citacao */}
               <div
                 className='mt-8 p-5'
                 style={{
