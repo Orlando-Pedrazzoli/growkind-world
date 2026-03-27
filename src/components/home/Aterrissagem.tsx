@@ -31,7 +31,7 @@ export default function Aterrissagem() {
         {/* Titulo */}
         <h2
           className='text-[var(--color-gk-white)]'
-          style={{ fontSize: 'clamp(1.75rem, 3.5vw, 2.75rem)' }}
+          style={{ fontSize: 'clamp(1.25rem, 5vw, 2.75rem)' }}
         >
           Um mundo criado a partir da
           <br />
