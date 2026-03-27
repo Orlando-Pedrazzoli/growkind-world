@@ -8,10 +8,7 @@ export default function RDFHero() {
     <section
       className='-mt-20 md:-mt-24'
       style={{
-        backgroundColor: '#3d5a4f',
-        backgroundImage:
-          'radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)',
-        backgroundSize: '24px 24px',
+        backgroundColor: '#1a1f18',
       }}
     >
       <div className='mx-auto flex max-w-[1280px] flex-col items-center gap-12 px-6 pt-32 pb-20 md:flex-row md:gap-20 md:px-[60px] md:pt-44 md:pb-28'>
@@ -24,8 +21,13 @@ export default function RDFHero() {
         >
           {/* Eyebrow */}
           <p
-            className='mb-8 text-[11px] font-semibold uppercase tracking-[0.14em]'
-            style={{ color: '#c4a44a' }}
+            className='mb-8 text-[11px] font-medium uppercase tracking-[0.14em]'
+            style={{
+              color: 'rgba(240,232,208,0.5)',
+              borderTop: '1px solid rgba(240,232,208,0.2)',
+              paddingTop: '16px',
+              display: 'inline-block',
+            }}
           >
             Framework · GrowKind World
           </p>
@@ -49,7 +51,7 @@ export default function RDFHero() {
           {/* Descricao */}
           <p
             className='mt-8 max-w-lg text-[16px] leading-relaxed md:text-[17px]'
-            style={{ color: 'rgba(240,232,208,0.7)' }}
+            style={{ color: 'rgba(240,232,208,0.65)' }}
           >
             Uma forma de ler o que está a acontecer entre a criança e o ambiente
             — antes de qualquer decisão de resposta. Não é terapia. Não é
@@ -86,32 +88,32 @@ export default function RDFHero() {
             xmlns='http://www.w3.org/2000/svg'
             className='w-full'
           >
-            {/* Arco exterior — Criança (verde) */}
+            {/* Arco exterior — Criança (verde forte) */}
             <path
               d='M 210 40 A 170 170 0 0 1 357 295'
               fill='none'
               stroke='#7baa5d'
               strokeWidth='28'
               strokeLinecap='round'
-              opacity='0.7'
+              opacity='1'
             />
-            {/* Arco exterior — Adulto (azul) */}
+            {/* Arco exterior — Adulto (azul forte) */}
             <path
               d='M 357 295 A 170 170 0 0 1 63 295'
               fill='none'
               stroke='#4e7ea7'
               strokeWidth='28'
               strokeLinecap='round'
-              opacity='0.7'
+              opacity='1'
             />
-            {/* Arco exterior — Ambiente (ocre) */}
+            {/* Arco exterior — Ambiente (dourado forte) */}
             <path
               d='M 63 295 A 170 170 0 0 1 210 40'
               fill='none'
               stroke='#c4a44a'
               strokeWidth='28'
               strokeLinecap='round'
-              opacity='0.7'
+              opacity='1'
             />
 
             {/* Circulo central */}
@@ -119,18 +121,18 @@ export default function RDFHero() {
               cx='210'
               cy='210'
               r='90'
-              fill='rgba(255,255,255,0.08)'
-              stroke='rgba(255,255,255,0.15)'
-              strokeWidth='1'
+              fill='rgba(255,255,255,0.06)'
+              stroke='rgba(240,232,208,0.2)'
+              strokeWidth='1.5'
             />
             <text
               x='210'
               y='200'
               textAnchor='middle'
-              fill='rgba(240,232,208,0.7)'
-              fontSize='14'
+              fill='#f0e8d0'
+              fontSize='15'
               fontFamily='DM Sans, sans-serif'
-              fontWeight='500'
+              fontWeight='600'
             >
               Campo
             </text>
@@ -138,16 +140,16 @@ export default function RDFHero() {
               x='210'
               y='220'
               textAnchor='middle'
-              fill='rgba(240,232,208,0.7)'
-              fontSize='14'
+              fill='#f0e8d0'
+              fontSize='15'
               fontFamily='DM Sans, sans-serif'
-              fontWeight='500'
+              fontWeight='600'
             >
               Relacional
             </text>
 
             {/* Node — Criança (topo) */}
-            <circle cx='210' cy='48' r='32' fill='#4a7c59' />
+            <circle cx='210' cy='48' r='32' fill='#5a9a3e' />
             <text
               x='210'
               y='44'
@@ -163,7 +165,7 @@ export default function RDFHero() {
               x='210'
               y='58'
               textAnchor='middle'
-              fill='rgba(255,255,255,0.6)'
+              fill='rgba(255,255,255,0.75)'
               fontSize='9'
               fontFamily='DM Sans, sans-serif'
             >
@@ -171,7 +173,7 @@ export default function RDFHero() {
             </text>
 
             {/* Node — Adulto (esquerda baixo) */}
-            <circle cx='80' cy='330' r='32' fill='#3a5f8a' />
+            <circle cx='80' cy='330' r='32' fill='#3d6fa0' />
             <text
               x='80'
               y='326'
@@ -187,7 +189,7 @@ export default function RDFHero() {
               x='80'
               y='340'
               textAnchor='middle'
-              fill='rgba(255,255,255,0.6)'
+              fill='rgba(255,255,255,0.75)'
               fontSize='9'
               fontFamily='DM Sans, sans-serif'
             >
@@ -211,7 +213,7 @@ export default function RDFHero() {
               x='340'
               y='340'
               textAnchor='middle'
-              fill='rgba(255,255,255,0.6)'
+              fill='rgba(255,255,255,0.75)'
               fontSize='9'
               fontFamily='DM Sans, sans-serif'
             >
@@ -220,6 +222,15 @@ export default function RDFHero() {
           </svg>
         </motion.div>
       </div>
+
+      {/* Gradiente de transicao */}
+      <div
+        className='h-20'
+        style={{
+          background:
+            'linear-gradient(to bottom, #1a1f18, var(--color-gk-creme))',
+        }}
+      />
     </section>
   );
 }

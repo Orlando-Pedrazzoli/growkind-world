@@ -6,30 +6,21 @@ export default function SobreHero() {
   return (
     <section className='sobre-hero'>
       <div className='sobre-hero__inner page-width'>
-        {/* Coluna imagem */}
+        {/* Imagem de perfil redonda */}
         <div className='sobre-hero__image-col'>
           <div className='sobre-hero__image-wrapper'>
             <Image
               src='/images/joao-profile.jpeg'
               alt='João Pereira — Educador e terapeuta educacional'
               fill
-              sizes='(max-width: 768px) 280px, 400px'
+              sizes='(max-width: 768px) 180px, 220px'
               className='sobre-hero__photo'
               priority
             />
-            <span className='sobre-hero__image-border' aria-hidden='true' />
-          </div>
-          <div className='sobre-hero__badge'>
-            <span className='sobre-hero__badge-number'>30+</span>
-            <span className='sobre-hero__badge-label'>
-              anos de trabalho
-              <br />
-              com crianças autistas
-            </span>
           </div>
         </div>
 
-        {/* Coluna texto */}
+        {/* Texto centrado */}
         <div className='sobre-hero__text-col'>
           <p className='eyebrow sobre-hero__eyebrow'>Sobre o autor</p>
           <h1 className='sobre-hero__name'>João Pereira</h1>
@@ -55,87 +46,60 @@ export default function SobreHero() {
       <style jsx>{`
         .sobre-hero {
           background-color: #0d1f13;
-          /* cancelar o pt-20/pt-24 do layout para o hero encostar no topo */
-          margin-top: calc(-5rem); /* -mt-20 mobile */
-          padding-top: calc(5rem + 80px); /* compensa o header + respiro */
+          margin-top: calc(-5rem);
+          padding-top: calc(5rem + 80px);
           padding-bottom: 96px;
           overflow: hidden;
           position: relative;
         }
 
-        /* compensa pt-24 em desktop */
         @media (min-width: 768px) {
           .sobre-hero {
-            margin-top: calc(-6rem); /* -mt-24 */
+            margin-top: calc(-6rem);
             padding-top: calc(6rem + 80px);
           }
         }
 
         .sobre-hero__inner {
-          display: grid;
-          grid-template-columns: 340px 1fr;
-          gap: 72px;
+          display: flex;
+          flex-direction: column;
           align-items: center;
+          text-align: center;
+          gap: 40px;
           position: relative;
           z-index: 1;
+          max-width: 860px;
+          margin-inline: auto;
         }
 
-        /* ---- imagem ---- */
+        /* ---- imagem redonda estilo profile ---- */
         .sobre-hero__image-col {
           position: relative;
         }
 
         .sobre-hero__image-wrapper {
           position: relative;
-          width: 100%;
-          aspect-ratio: 4 / 5;
+          width: 220px;
+          height: 220px;
+          border-radius: 50%;
           overflow: hidden;
+          border: 3px solid var(--color-gk-green-light);
+          box-shadow: 0 0 0 8px rgba(200, 220, 192, 0.12);
         }
 
-        .sobre-hero__photo {
+        .sobre-hero__image-wrapper :global(.sobre-hero__photo) {
           object-fit: cover;
           object-position: center top;
         }
 
-        .sobre-hero__image-border {
-          position: absolute;
-          inset: 0;
-          border: 2px solid var(--color-gk-green-light);
-          pointer-events: none;
-          transform: translate(12px, 12px);
-          z-index: -1;
-          opacity: 0.5;
-        }
-
-        .sobre-hero__badge {
-          position: absolute;
-          bottom: -16px;
-          right: -16px;
-          background: var(--color-gk-ocre);
-          padding: 18px 22px;
+        /* ---- texto ---- */
+        .sobre-hero__text-col {
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          align-items: center;
+          max-width: 680px;
         }
 
-        .sobre-hero__badge-number {
-          font-family: var(--font-display);
-          font-size: 2.25rem;
-          font-weight: 700;
-          line-height: 1;
-          color: var(--color-gk-white);
-        }
-
-        .sobre-hero__badge-label {
-          font-size: 0.65rem;
-          font-weight: 500;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          line-height: 1.5;
-          color: rgba(255, 255, 255, 0.85);
-        }
-
-        /* ---- texto ---- */
         .sobre-hero__eyebrow {
           color: var(--color-gk-green-light) !important;
           margin-bottom: 14px;
@@ -160,13 +124,14 @@ export default function SobreHero() {
           line-height: 1.75;
           color: rgba(255, 255, 255, 0.72);
           margin: 0 0 32px;
-          max-width: 520px;
+          max-width: 600px;
         }
 
         .sobre-hero__tags {
           display: flex;
           gap: 10px;
           flex-wrap: wrap;
+          justify-content: center;
         }
 
         .sobre-hero__tag {
@@ -181,30 +146,13 @@ export default function SobreHero() {
           opacity: 0.8;
         }
 
-        @media (max-width: 900px) {
-          .sobre-hero__inner {
-            grid-template-columns: 1fr;
-            gap: 48px;
-            max-width: 540px;
-          }
+        @media (max-width: 768px) {
           .sobre-hero__image-wrapper {
-            max-width: 280px;
-            margin: 0 auto;
+            width: 180px;
+            height: 180px;
           }
-          .sobre-hero__badge {
-            right: -8px;
-            bottom: -10px;
-          }
-          .sobre-hero__name,
-          .sobre-hero__role,
-          .sobre-hero__subtitle {
-            text-align: center;
-          }
-          .sobre-hero__subtitle {
-            max-width: 100%;
-          }
-          .sobre-hero__tags {
-            justify-content: center;
+          .sobre-hero__inner {
+            gap: 32px;
           }
         }
       `}</style>

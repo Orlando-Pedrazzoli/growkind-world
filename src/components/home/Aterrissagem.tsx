@@ -25,7 +25,7 @@ export default function Aterrissagem() {
         initial={{ opacity: 0, y: 24 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className='mx-auto flex flex-col items-center px-6 pt-8 pb-12 text-center md:px-[60px] md:pt-20 md:pb-[var(--spacing-section)]'
+        className='mx-auto flex flex-col items-center px-6 pt-0 pb-16 text-center md:px-[60px] md:pt-0 md:pb-[var(--spacing-section)]'
         style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Titulo */}
