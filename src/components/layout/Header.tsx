@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { User } from 'lucide-react';
 
 const navItems = [
-  { label: 'O PROJECTO', href: '#onde-comeca' },
-  { label: 'O LIVRO', href: '#livro' },
-  { label: 'RDF', href: '#rdf' },
+  { label: 'O PROJECTO', href: '#onde-comeca', isAnchor: true },
+  { label: 'O LIVRO', href: '#livro', isAnchor: true },
+  { label: 'RDF', href: '#rdf', isAnchor: true },
+  { label: 'O AUTOR', href: '/sobre', isAnchor: false },
 ];
 
 export default function Header() {
@@ -31,7 +32,9 @@ export default function Header() {
   const handleNavClick = (
     e: React.MouseEvent<HTMLAnchorElement>,
     href: string,
+    isAnchor: boolean,
   ) => {
+    if (!isAnchor) return; // deixa o Link do Next.js tratar a navegação normal
     e.preventDefault();
     setMenuAberto(false);
 
@@ -91,24 +94,43 @@ export default function Header() {
           className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-12 md:flex'
           aria-label='Navegação principal'
         >
-          {navItems.map(item => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={e => handleNavClick(e, item.href)}
-              style={{
-                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
-                textShadow: isTransparent
-                  ? '0 1px 4px rgba(0,0,0,0.6)'
-                  : 'none',
-                fontSize: '14px',
-                letterSpacing: '0.08em',
-              }}
-              className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map(item =>
+            item.isAnchor ? (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={e => handleNavClick(e, item.href, item.isAnchor)}
+                style={{
+                  color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
+                  textShadow: isTransparent
+                    ? '0 1px 4px rgba(0,0,0,0.6)'
+                    : 'none',
+                  fontSize: '14px',
+                  letterSpacing: '0.08em',
+                }}
+                className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuAberto(false)}
+                style={{
+                  color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
+                  textShadow: isTransparent
+                    ? '0 1px 4px rgba(0,0,0,0.6)'
+                    : 'none',
+                  fontSize: '14px',
+                  letterSpacing: '0.08em',
+                }}
+                className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         {/* Icone user (direita) + Hamburger mobile */}
@@ -175,16 +197,27 @@ export default function Header() {
               className='flex flex-col gap-0 py-4'
               style={{ padding: '16px 24px' }}
             >
-              {navItems.map(item => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={e => handleNavClick(e, item.href)}
-                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
-                >
-                  {item.label}
-                </a>
-              ))}
+              {navItems.map(item =>
+                item.isAnchor ? (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    onClick={e => handleNavClick(e, item.href, item.isAnchor)}
+                    className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuAberto(false)}
+                    className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
               {/* Icone user no menu mobile */}
               <button
                 aria-label='Conta de utilizador'
