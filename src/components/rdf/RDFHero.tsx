@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { RDF_AXIOM } from '@/lib/data/rdf';
 
@@ -48,7 +49,7 @@ export default function RDFHero() {
             <em style={{ color: '#c4a44a' }}>Framework</em>
           </h1>
 
-          {/* ── Entrada emocional (Secção 1 do doc de melhorias) ── */}
+          {/* ── Entrada emocional ── */}
           <div
             className='mt-10 px-6 py-5 md:px-8 md:py-6'
             style={{
@@ -75,7 +76,7 @@ export default function RDFHero() {
             <em>&ldquo;o que isso está a contar?&rdquo;</em>
           </p>
 
-          {/* Descricao tecnica (mantida) */}
+          {/* Descricao tecnica */}
           <p
             className='mt-8 max-w-lg text-[16px] leading-relaxed md:text-[17px]'
             style={{ color: 'rgba(240,232,208,0.65)' }}
@@ -99,7 +100,7 @@ export default function RDFHero() {
           </div>
         </motion.div>
 
-        {/* Diagrama SVG direita */}
+        {/* Imagem do diagrama RDF */}
         <motion.div
           className='w-full max-w-[420px] shrink-0'
           initial={{ opacity: 0, scale: 0.9 }}
@@ -110,143 +111,16 @@ export default function RDFHero() {
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
         >
-          <svg
-            viewBox='0 0 420 420'
-            xmlns='http://www.w3.org/2000/svg'
+          <Image
+            src='/images/rdf-diagrama.png'
+            alt='Diagrama do Relational Development Framework — Campo Relacional entre Criança, Adulto e Ambiente'
+            width={840}
+            height={840}
+            priority
             className='w-full'
-          >
-            {/* Arco exterior — Criança (verde forte) */}
-            <path
-              d='M 210 40 A 170 170 0 0 1 357 295'
-              fill='none'
-              stroke='#7baa5d'
-              strokeWidth='28'
-              strokeLinecap='round'
-              opacity='1'
-            />
-            {/* Arco exterior — Adulto (azul forte) */}
-            <path
-              d='M 357 295 A 170 170 0 0 1 63 295'
-              fill='none'
-              stroke='#4e7ea7'
-              strokeWidth='28'
-              strokeLinecap='round'
-              opacity='1'
-            />
-            {/* Arco exterior — Ambiente (dourado forte) */}
-            <path
-              d='M 63 295 A 170 170 0 0 1 210 40'
-              fill='none'
-              stroke='#c4a44a'
-              strokeWidth='28'
-              strokeLinecap='round'
-              opacity='1'
-            />
-
-            {/* Circulo central */}
-            <circle
-              cx='210'
-              cy='210'
-              r='90'
-              fill='rgba(255,255,255,0.06)'
-              stroke='rgba(240,232,208,0.2)'
-              strokeWidth='1.5'
-            />
-            <text
-              x='210'
-              y='200'
-              textAnchor='middle'
-              fill='#f0e8d0'
-              fontSize='15'
-              fontFamily='DM Sans, sans-serif'
-              fontWeight='600'
-            >
-              Campo
-            </text>
-            <text
-              x='210'
-              y='220'
-              textAnchor='middle'
-              fill='#f0e8d0'
-              fontSize='15'
-              fontFamily='DM Sans, sans-serif'
-              fontWeight='600'
-            >
-              Relacional
-            </text>
-
-            {/* Node — Criança (topo) */}
-            <circle cx='210' cy='48' r='32' fill='#5a9a3e' />
-            <text
-              x='210'
-              y='44'
-              textAnchor='middle'
-              fill='#ffffff'
-              fontSize='12'
-              fontFamily='DM Sans, sans-serif'
-              fontWeight='600'
-            >
-              Criança
-            </text>
-            <text
-              x='210'
-              y='58'
-              textAnchor='middle'
-              fill='rgba(255,255,255,0.75)'
-              fontSize='9'
-              fontFamily='DM Sans, sans-serif'
-            >
-              partida
-            </text>
-
-            {/* Node — Adulto (esquerda baixo) */}
-            <circle cx='80' cy='330' r='32' fill='#3d6fa0' />
-            <text
-              x='80'
-              y='326'
-              textAnchor='middle'
-              fill='#ffffff'
-              fontSize='12'
-              fontFamily='DM Sans, sans-serif'
-              fontWeight='600'
-            >
-              Adulto
-            </text>
-            <text
-              x='80'
-              y='340'
-              textAnchor='middle'
-              fill='rgba(255,255,255,0.75)'
-              fontSize='9'
-              fontFamily='DM Sans, sans-serif'
-            >
-              lê e ajusta
-            </text>
-
-            {/* Node — Ambiente (direita baixo) */}
-            <circle cx='340' cy='330' r='32' fill='#c4a44a' />
-            <text
-              x='340'
-              y='326'
-              textAnchor='middle'
-              fill='#ffffff'
-              fontSize='12'
-              fontFamily='DM Sans, sans-serif'
-              fontWeight='600'
-            >
-              Ambiente
-            </text>
-            <text
-              x='340'
-              y='340'
-              textAnchor='middle'
-              fill='rgba(255,255,255,0.75)'
-              fontSize='9'
-              fontFamily='DM Sans, sans-serif'
-            >
-              participa
-            </text>
-          </svg>
+            sizes='(max-width: 768px) 100vw, 420px'
+            quality={90}
+          />
         </motion.div>
       </div>
 
