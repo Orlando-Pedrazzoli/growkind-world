@@ -2,7 +2,8 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, Facebook, Linkedin } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { Instagram, Facebook, Linkedin, Lock } from 'lucide-react';
 
 const legalLinks = [
   { label: 'Privacidade', href: '/privacidade' },
@@ -30,7 +31,9 @@ const socialLinks = [
 ];
 
 export default function Footer() {
+  const { data: session } = useSession();
   const ano = new Date().getFullYear();
+  const isAdmin = session?.user?.role === 'admin';
 
   return (
     <footer
@@ -117,22 +120,40 @@ export default function Footer() {
         </p>
       </div>
 
-      {/* Credito desenvolvimento */}
-      <p
-        className='mt-4 text-center text-[11px] tracking-wide'
-        style={{ color: 'rgba(255,255,255,0.45)' }}
-      >
-        Desenvolvido por{' '}
-        <a
-          href='https://pedrazzolidigital.com/'
-          target='_blank'
-          rel='noopener noreferrer'
-          className='underline transition-opacity duration-300 hover:opacity-100'
-          style={{ color: '#ffffff', opacity: 0.7 }}
+      {/* Credito desenvolvimento + Admin lock */}
+      <div className='mt-4 flex items-center justify-center gap-4'>
+        <p
+          className='text-center text-[11px] tracking-wide'
+          style={{ color: 'rgba(255,255,255,0.45)' }}
         >
-          Pedrazzoli Digital
-        </a>
-      </p>
+          Desenvolvido por{' '}
+          <a
+            href='https://pedrazzolidigital.com/'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='underline transition-opacity duration-300 hover:opacity-100'
+            style={{ color: '#ffffff', opacity: 0.7 }}
+          >
+            Pedrazzoli Digital
+          </a>
+        </p>
+
+        {/* Cadeado admin — só visível para admins */}
+        {isAdmin && (
+          <Link
+            href='/admin'
+            aria-label='Painel de administração'
+            className='transition-opacity duration-300 hover:opacity-100'
+            style={{ opacity: 0.35 }}
+          >
+            <Lock
+              size={14}
+              strokeWidth={1.8}
+              style={{ color: 'var(--color-gk-green-dark)' }}
+            />
+          </Link>
+        )}
+      </div>
     </footer>
   );
 }

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User } from 'lucide-react';
+import UserMenu from '@/components/auth/UserMenu';
 
 const navItems = [
   { label: 'O PROJECTO', href: '/' },
@@ -97,25 +97,19 @@ export default function Header() {
           ))}
         </nav>
 
-        {/* Icone user (direita) + Hamburger mobile */}
+        {/* User icon (direita) + Hamburger mobile */}
         <div className='flex items-center gap-4'>
-          {/* Icone user — visivel apenas em desktop */}
-          <button
-            aria-label='Conta de utilizador'
-            className='hidden cursor-pointer p-1 md:block'
-          >
-            <User
-              size={22}
-              style={{
-                color: isTransparent ? '#FFFFFF' : '#1A5C2A',
-                filter: isTransparent
+          {/* UserMenu desktop — ícone muda cor com scroll */}
+          <div className='hidden md:block'>
+            <UserMenu
+              iconColor={isTransparent ? '#FFFFFF' : '#1A5C2A'}
+              iconFilter={
+                isTransparent
                   ? 'drop-shadow(0 1px 4px rgba(0,0,0,0.6))'
-                  : 'none',
-              }}
-              className='transition-all duration-500'
-              strokeWidth={1.8}
+                  : 'none'
+              }
             />
-          </button>
+          </div>
 
           {/* Botao menu mobile */}
           <button
@@ -171,14 +165,13 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              {/* Icone user no menu mobile */}
-              <button
-                aria-label='Conta de utilizador'
-                className='flex cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
-              >
-                <User size={18} strokeWidth={1.8} />
-                Conta
-              </button>
+              {/* UserMenu no mobile — cor fixa (fundo branco) */}
+              <div className='flex items-center gap-3 px-0 py-4'>
+                <UserMenu iconColor='#1A5C2A' iconFilter='none' />
+                <span className='text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65'>
+                  Conta
+                </span>
+              </div>
             </div>
           </motion.nav>
         )}

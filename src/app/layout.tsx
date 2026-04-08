@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { playfairDisplay, dmSans } from '@/lib/fonts';
+import SessionProvider from '@/components/auth/SessionProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import CookieBanner from '@/components/layout/CookieBanner';
@@ -53,10 +54,12 @@ export default function RootLayout({
       className={`${playfairDisplay.variable} ${dmSans.variable}`}
     >
       <body className='flex min-h-screen flex-col'>
-        <Header />
-        <main className='flex-1 pt-20 md:pt-24'>{children}</main>
-        <Footer />
-        <CookieBanner />
+        <SessionProvider>
+          <Header />
+          <main className='flex-1 pt-20 md:pt-24'>{children}</main>
+          <Footer />
+          <CookieBanner />
+        </SessionProvider>
       </body>
     </html>
   );
