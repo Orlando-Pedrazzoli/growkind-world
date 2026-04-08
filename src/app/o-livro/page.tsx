@@ -3,7 +3,6 @@ import BookHero from '@/components/book/BookHero';
 import BookAbout from '@/components/book/BookAbout';
 import BookTOC from '@/components/book/BookTOC';
 import BookExcerpt from '@/components/book/BookExcerpt';
-import BookCTA from '@/components/book/BookCTA';
 import BookFinalCTA from '@/components/book/BookFinalCTA';
 
 export const metadata: Metadata = {
@@ -25,7 +24,6 @@ export default function LivroPage() {
       <BookAbout />
       <BookTOC />
       <BookExcerpt />
-      <BookCTA />
       <BookFinalCTA />
     </>
   );
