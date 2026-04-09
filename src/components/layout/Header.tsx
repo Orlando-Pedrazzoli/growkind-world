@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useSession, signOut } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { User, LogOut } from 'lucide-react';
 import UserMenu from '@/components/auth/UserMenu';
 
 const navItems = [
@@ -12,6 +14,56 @@ const navItems = [
   { label: 'RDF', href: '/rdf' },
   { label: 'O AUTOR', href: '/sobre' },
 ];
+
+function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') return null;
+
+  if (!session) {
+    return (
+      <>
+        <Link
+          href='/login'
+          onClick={onNavigate}
+          className='flex cursor-pointer items-center gap-3 border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+        >
+          <User size={18} strokeWidth={1.8} />
+          Entrar
+        </Link>
+        <Link
+          href='/registar'
+          onClick={onNavigate}
+          className='flex cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+        >
+          Criar conta
+        </Link>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Link
+        href='/a-minha-conta'
+        onClick={onNavigate}
+        className='flex cursor-pointer items-center gap-3 border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
+      >
+        <User size={18} strokeWidth={1.8} />A minha conta
+      </Link>
+      <button
+        onClick={() => {
+          onNavigate();
+          signOut({ callbackUrl: '/' });
+        }}
+        className='flex w-full cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-red-600'
+      >
+        <LogOut size={18} strokeWidth={1.8} />
+        Sair
+      </button>
+    </>
+  );
+}
 
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -165,13 +217,8 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              {/* UserMenu no mobile — cor fixa (fundo branco) */}
-              <div className='flex items-center gap-3 px-0 py-4'>
-                <UserMenu iconColor='#1A5C2A' iconFilter='none' />
-                <span className='text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65'>
-                  Conta
-                </span>
-              </div>
+              {/* Links de conta — directos, sem dropdown */}
+              <MobileAccountLinks onNavigate={() => setMenuAberto(false)} />
             </div>
           </motion.nav>
         )}
