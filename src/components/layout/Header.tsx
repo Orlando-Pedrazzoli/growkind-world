@@ -101,8 +101,8 @@ export default function Header() {
           <Image
             src='/images/logo-growkind.jpg'
             alt='GrowKind World Logo'
-            width={48}
-            height={48}
+            width={56}
+            height={56}
             className='rounded-full'
           />
           <span
