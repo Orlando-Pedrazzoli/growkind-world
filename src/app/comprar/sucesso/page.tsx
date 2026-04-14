@@ -1,10 +1,11 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-export default function ComprarSucessoPage() {
+function SucessoContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -20,8 +21,6 @@ export default function ComprarSucessoPage() {
       return;
     }
 
-    // O webhook do Stripe já actualizou o Purchase para 'completed'.
-    // Esta página é apenas confirmação visual.
     if (sessionId) {
       setVerified(true);
     }
@@ -89,5 +88,29 @@ export default function ComprarSucessoPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ComprarSucessoPage() {
+  return (
+    <Suspense
+      fallback={
+        <main
+          className='flex min-h-screen items-center justify-center'
+          style={{ backgroundColor: 'var(--color-gk-creme)' }}
+        >
+          <p
+            style={{
+              fontFamily: 'var(--font-body)',
+              color: 'var(--color-gk-cinza)',
+            }}
+          >
+            A verificar...
+          </p>
+        </main>
+      }
+    >
+      <SucessoContent />
+    </Suspense>
   );
 }
