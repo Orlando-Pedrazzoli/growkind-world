@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { RDF_AXIOM } from '@/lib/data/rdf';
+import RDFHeroDiagram from '@/components/rdf/RDFHeroDiagram';
 
 export default function RDFHero() {
   return (
@@ -100,7 +100,7 @@ export default function RDFHero() {
           </div>
         </motion.div>
 
-        {/* Imagem do diagrama RDF */}
+        {/* Diagrama RDF animado */}
         <motion.div
           className='w-full max-w-[420px] shrink-0'
           initial={{ opacity: 0, scale: 0.9 }}
@@ -111,16 +111,7 @@ export default function RDFHero() {
             ease: [0.25, 0.46, 0.45, 0.94],
           }}
         >
-          <Image
-            src='/images/rdf-diagrama.png'
-            alt='Diagrama do Relational Development Framework — Campo Relacional entre Criança, Adulto e Ambiente'
-            width={840}
-            height={840}
-            priority
-            className='w-full'
-            sizes='(max-width: 768px) 100vw, 420px'
-            quality={90}
-          />
+          <RDFHeroDiagram />
         </motion.div>
       </div>
 
