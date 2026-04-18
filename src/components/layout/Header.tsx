@@ -2,9 +2,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut } from 'lucide-react';
@@ -17,6 +18,21 @@ const navItems = [
   { label: 'CURSOS', href: '/cursos' },
   { label: 'O AUTOR', href: '/sobre' },
 ];
+
+/**
+ * Rotas com fundo branco/claro no topo ("páginas de aplicação").
+ * Nestas rotas, a navbar deve estar SEMPRE opaca com links escuros,
+ * independentemente do scroll — o modo transparente é reservado a páginas
+ * com hero escuro a full-width no topo.
+ */
+const APP_ROUTE_PREFIXES = ['/login', '/registar', '/a-minha-conta', '/admin'];
+
+function isAppRoute(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return APP_ROUTE_PREFIXES.some(
+    prefix => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
 
 function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   const { data: session, status } = useSession();
@@ -69,8 +85,14 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
 }
 
 export default function Header() {
+  const pathname = usePathname();
   const [menuAberto, setMenuAberto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  // Rotas de aplicação forçam sempre modo opaco/escuro (links legíveis sobre
+  // fundo branco). Rotas de marketing mantêm o comportamento dinâmico:
+  // transparente no topo, opaco ao fazer scroll.
+  const forcedOpaque = useMemo(() => isAppRoute(pathname), [pathname]);
 
   useEffect(() => {
     function handleScroll() {
@@ -82,16 +104,19 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const isTransparent = !scrolled && !menuAberto;
+  // "Transparent" agora exige três condições: não forçado opaco, não scrolled,
+  // e menu mobile fechado.
+  const isTransparent = !forcedOpaque && !scrolled && !menuAberto;
 
   return (
     <header
       style={{
         backgroundColor: isTransparent
           ? 'transparent'
-          : 'rgba(255,255,255,0.4)',
+          : 'rgba(255,255,255,0.85)',
         borderBottom: isTransparent ? 'none' : '1px solid rgba(26,92,42,0.08)',
-        backdropFilter: isTransparent ? 'none' : 'blur(8px)',
+        backdropFilter: isTransparent ? 'none' : 'blur(12px)',
+        WebkitBackdropFilter: isTransparent ? 'none' : 'blur(12px)',
       }}
       className='fixed top-0 left-0 right-0 z-50 transition-all duration-500'
     >
@@ -128,7 +153,7 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Navegacao desktop (centro) */}
+        {/* Navegação desktop (centro) */}
         <nav
           className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 md:flex lg:gap-12'
           aria-label='Navegação principal'
@@ -138,14 +163,14 @@ export default function Header() {
               key={item.href}
               href={item.href}
               style={{
-                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.65)',
+                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.75)',
                 textShadow: isTransparent
                   ? '0 1px 4px rgba(0,0,0,0.6)'
                   : 'none',
                 fontSize: '14px',
                 letterSpacing: '0.08em',
               }}
-              className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-100'
+              className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-70'
             >
               {item.label}
             </Link>
@@ -154,7 +179,7 @@ export default function Header() {
 
         {/* User icon (direita) + Hamburger mobile */}
         <div className='flex items-center gap-4'>
-          {/* UserMenu desktop — ícone muda cor com scroll */}
+          {/* UserMenu desktop — ícone muda cor com scroll ou rota */}
           <div className='hidden md:block'>
             <UserMenu
               iconColor={isTransparent ? '#FFFFFF' : '#1A5C2A'}
@@ -166,7 +191,7 @@ export default function Header() {
             />
           </div>
 
-          {/* Botao menu mobile */}
+          {/* Botão menu mobile */}
           <button
             onClick={() => setMenuAberto(!menuAberto)}
             className='flex flex-col items-center justify-center gap-1.5 p-2 md:hidden'
@@ -220,7 +245,7 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              {/* Links de conta — directos, sem dropdown */}
+              {/* Links de conta — diretos, sem dropdown */}
               <MobileAccountLinks onNavigate={() => setMenuAberto(false)} />
             </div>
           </motion.nav>

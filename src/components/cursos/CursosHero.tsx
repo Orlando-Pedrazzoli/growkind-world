@@ -4,19 +4,24 @@
 
 import { motion } from 'framer-motion';
 
+// Paleta editorial partilhada com BookHero — mantém coerência visual
+// entre o livro e os cursos (ambos são produtos de profundidade).
+const BG = '#1a1f18'; // verde-oliva quase preto
+const CREAM = '#f0e8d0'; // pergaminho
+const GOLD = '#c4a44a'; // dourado mostarda
+
 export default function CursosHero() {
   return (
     <section
-      className='relative flex min-h-[70vh] items-center justify-center overflow-hidden px-6 py-24 md:min-h-[80vh] md:px-[60px] md:py-32'
-      style={{ backgroundColor: 'var(--color-gk-green-dark)' }}
+      className='relative -mt-20 flex min-h-[70vh] items-center justify-center overflow-hidden px-6 pt-44 pb-24 md:-mt-24 md:min-h-[80vh] md:px-[60px] md:pt-52 md:pb-32'
+      style={{ backgroundColor: BG }}
     >
-      {/* Textura sutil de fundo */}
+      {/* Textura sutil de fundo — tons dourados discretos */}
       <div
         aria-hidden='true'
-        className='absolute inset-0 opacity-[0.04]'
+        className='absolute inset-0 opacity-[0.05]'
         style={{
-          backgroundImage:
-            'radial-gradient(circle at 20% 30%, #e8943a 0%, transparent 50%), radial-gradient(circle at 80% 70%, #e8943a 0%, transparent 50%)',
+          backgroundImage: `radial-gradient(circle at 20% 30%, ${GOLD} 0%, transparent 50%), radial-gradient(circle at 80% 70%, ${GOLD} 0%, transparent 50%)`,
         }}
       />
 
@@ -26,7 +31,7 @@ export default function CursosHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className='mb-6 text-[11px] font-medium uppercase tracking-[0.18em]'
-          style={{ color: 'var(--color-gk-ocre)' }}
+          style={{ color: GOLD }}
         >
           Cursos
         </motion.p>
@@ -36,7 +41,7 @@ export default function CursosHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.1 }}
           className='mb-8 font-[family-name:var(--font-display)] text-4xl italic leading-[1.15] md:text-5xl lg:text-6xl'
-          style={{ color: '#ffffff' }}
+          style={{ color: CREAM }}
         >
           &ldquo;Desenvolvimento não se resolve.
           <br />
@@ -48,7 +53,7 @@ export default function CursosHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.25 }}
           className='mx-auto max-w-2xl text-base leading-relaxed md:text-lg'
-          style={{ color: 'rgba(255,255,255,0.75)' }}
+          style={{ color: 'rgba(240,232,208,0.65)' }}
         >
           Formações pensadas para quem acompanha — com ferramentas, casos reais
           e reflexão guiada. Para profissionais e para famílias.
