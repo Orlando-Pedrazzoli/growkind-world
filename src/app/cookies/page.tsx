@@ -1,19 +1,16 @@
+// src/app/cookies/page.tsx
+
 import type { Metadata } from 'next';
+import LegalPageLayout from '@/components/legal/LegalPageLayout';
+import { cookies } from '@/lib/data/legal';
 
 export const metadata: Metadata = {
   title: 'Política de Cookies',
-  robots: { index: false, follow: false },
+  description:
+    'Que cookies utilizamos no site GrowKind World e como os podes gerir. Usamos apenas cookies estritamente necessários.',
+  robots: { index: true, follow: true },
 };
 
 export default function CookiesPage() {
-  return (
-    <section className="section-padding">
-      <div className="content-width">
-        <h1 className="text-[var(--color-gk-green-dark)]">Política de Cookies</h1>
-        <div className="mt-8 space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/70">
-          <p>Conteúdo em preparação. O texto final será fornecido pelo João.</p>
-        </div>
-      </div>
-    </section>
-  );
+  return <LegalPageLayout policy={cookies} />;
 }

@@ -1,19 +1,16 @@
+// src/app/devolucoes/page.tsx
+
 import type { Metadata } from 'next';
+import LegalPageLayout from '@/components/legal/LegalPageLayout';
+import { devolucoes } from '@/lib/data/legal';
 
 export const metadata: Metadata = {
   title: 'Política de Devoluções',
-  robots: { index: false, follow: false },
+  description:
+    'Como funcionam reembolsos e devoluções de conteúdos digitais na GrowKind World. Regras para UE, Reino Unido, Brasil e outros países.',
+  robots: { index: true, follow: true },
 };
 
 export default function DevolucoesPage() {
-  return (
-    <section className="section-padding">
-      <div className="content-width">
-        <h1 className="text-[var(--color-gk-green-dark)]">Política de Devoluções</h1>
-        <div className="mt-8 space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/70">
-          <p>Conteúdo em preparação. O texto final será fornecido pelo João.</p>
-        </div>
-      </div>
-    </section>
-  );
+  return <LegalPageLayout policy={devolucoes} />;
 }

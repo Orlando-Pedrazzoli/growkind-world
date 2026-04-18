@@ -1,3 +1,5 @@
+// src/components/layout/Header.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -12,6 +14,7 @@ const navItems = [
   { label: 'O PROJECTO', href: '/' },
   { label: 'O LIVRO', href: '/o-livro' },
   { label: 'RDF', href: '/rdf' },
+  { label: 'CURSOS', href: '/cursos' },
   { label: 'O AUTOR', href: '/sobre' },
 ];
 
@@ -127,7 +130,7 @@ export default function Header() {
 
         {/* Navegacao desktop (centro) */}
         <nav
-          className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-12 md:flex'
+          className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 md:flex lg:gap-12'
           aria-label='Navegação principal'
         >
           {navItems.map(item => (

@@ -1,19 +1,16 @@
+// src/app/privacidade/page.tsx
+
 import type { Metadata } from 'next';
+import LegalPageLayout from '@/components/legal/LegalPageLayout';
+import { privacidade } from '@/lib/data/legal';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade',
-  robots: { index: false, follow: false },
+  description:
+    'Como a GrowKind World recolhe, utiliza e protege os teus dados pessoais. Em conformidade com o RGPD, UK GDPR e LGPD.',
+  robots: { index: true, follow: true },
 };
 
 export default function PrivacidadePage() {
-  return (
-    <section className="section-padding">
-      <div className="content-width">
-        <h1 className="text-[var(--color-gk-green-dark)]">Política de Privacidade</h1>
-        <div className="mt-8 space-y-4 text-base leading-relaxed text-[var(--color-gk-black)]/70">
-          <p>Conteúdo em preparação. O texto final será fornecido pelo João.</p>
-        </div>
-      </div>
-    </section>
-  );
+  return <LegalPageLayout policy={privacidade} />;
 }

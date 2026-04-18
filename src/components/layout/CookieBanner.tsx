@@ -1,3 +1,5 @@
+// src/components/layout/CookieBanner.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -5,27 +7,41 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Cookie } from 'lucide-react';
 
-const COOKIE_KEY = 'gk-cookie-consent';
+/**
+ * Banner informativo sobre cookies.
+ *
+ * O site growkindworld.com utiliza APENAS cookies estritamente necessários
+ * (autenticação NextAuth, CSRF, sessão). Estes cookies estão isentos de
+ * consentimento prévio nos termos do art. 5.º n.º 3 da Directiva ePrivacy,
+ * art. 30.º n.º 2 da Lei 41/2004 (PT), Regulation 6(4) PECR (UK) e art. 7.º
+ * inciso IX da LGPD (BR).
+ *
+ * Por esse motivo, este banner NÃO é um banner de consentimento — é um aviso
+ * informativo com um único botão ("Compreendi"), mostrado uma vez. Caso se
+ * venham a introduzir cookies de análise ou marketing, este componente deve
+ * ser substituído por um banner de consentimento com opções granulares.
+ */
+
+const COOKIE_KEY = 'gk-cookie-info';
 
 export default function CookieBanner() {
   const [visivel, setVisivel] = useState(false);
 
   useEffect(() => {
-    const consentimento = document.cookie
+    const jaVisto = document.cookie
       .split('; ')
       .find(row => row.startsWith(`${COOKIE_KEY}=`));
 
-    if (!consentimento) {
+    if (!jaVisto) {
       const timer = setTimeout(() => setVisivel(true), 2000);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  function guardarConsentimento(aceite: boolean) {
-    const valor = aceite ? 'aceite' : 'recusado';
+  function marcarComoVisto() {
     const expira = new Date();
     expira.setFullYear(expira.getFullYear() + 1);
-    document.cookie = `${COOKIE_KEY}=${valor}; expires=${expira.toUTCString()}; path=/; SameSite=Lax`;
+    document.cookie = `${COOKIE_KEY}=visto; expires=${expira.toUTCString()}; path=/; SameSite=Lax`;
     setVisivel(false);
   }
 
@@ -39,7 +55,7 @@ export default function CookieBanner() {
           transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
           className='fixed bottom-6 left-4 right-4 z-[100] mx-auto max-w-4xl md:bottom-8 md:left-8 md:right-8'
           role='dialog'
-          aria-label='Consentimento de cookies'
+          aria-label='Informação sobre cookies'
         >
           <div
             style={{
@@ -71,7 +87,8 @@ export default function CookieBanner() {
               className='flex-1 text-center text-[13px] leading-relaxed sm:text-left md:text-[14px]'
               style={{ color: 'rgba(255, 255, 255, 0.65)' }}
             >
-              Utilizamos cookies para melhorar a tua experiência.{' '}
+              Este site utiliza apenas cookies estritamente necessários ao seu
+              funcionamento.{' '}
               <Link
                 href='/cookies'
                 className='text-[var(--color-gk-ocre)] underline underline-offset-2 transition-colors duration-200 hover:text-white'
@@ -80,36 +97,17 @@ export default function CookieBanner() {
               </Link>
             </p>
 
-            {/* Botões */}
-            <div className='flex flex-shrink-0 gap-3'>
+            {/* Botão único */}
+            <div className='flex flex-shrink-0'>
               <button
-                onClick={() => guardarConsentimento(false)}
-                className='cursor-pointer px-5 py-2.5 text-[12px] font-medium uppercase tracking-[0.08em] transition-all duration-200 hover:text-white/70'
-                style={{
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  border: '1px solid rgba(255, 255, 255, 0.12)',
-                  borderRadius: '10px',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor =
-                    'rgba(255, 255, 255, 0.25)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor =
-                    'rgba(255, 255, 255, 0.12)';
-                }}
-              >
-                Recusar
-              </button>
-              <button
-                onClick={() => guardarConsentimento(true)}
+                onClick={marcarComoVisto}
                 className='cursor-pointer px-6 py-2.5 text-[12px] font-medium uppercase tracking-[0.08em] text-white transition-all duration-200 hover:brightness-110'
                 style={{
                   backgroundColor: 'var(--color-gk-green-dark)',
                   borderRadius: '10px',
                 }}
               >
-                Aceitar
+                Compreendi
               </button>
             </div>
           </div>
