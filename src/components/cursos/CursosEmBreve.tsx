@@ -4,31 +4,27 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { BookOpen, Users, Compass, ArrowRight } from 'lucide-react';
+import { Users, GraduationCap, ArrowRight } from 'lucide-react';
 
 // Paleta editorial partilhada com BookHero e CursosHero.
 const BG = '#1a1f18';
 const CREAM = '#f0e8d0';
 const GOLD = '#c4a44a';
 
-const pilares = [
+const cursos = [
   {
-    icon: Compass,
-    title: 'Fundamentos do RDF',
+    icon: GraduationCap,
+    name: 'GrowKind TA',
+    subtitle: 'Para Profissionais',
     description:
-      'Compreender o Relational Development Framework — a lente, os princípios, os movimentos. A base para tudo o resto.',
+      'Formação dirigida a educadores, teaching assistants e profissionais de apoio educativo. Compreender o Relational Development Framework — a lente, os princípios, os movimentos — com profundidade teórica e aplicação guiada.',
   },
   {
     icon: Users,
-    title: 'Para famílias',
+    name: 'GrowKind Famílias',
+    subtitle: 'Para famílias',
     description:
-      'Acompanhar uma criança neurodivergente no dia-a-dia. Ferramentas práticas, casos reais, espaço para perguntas.',
-  },
-  {
-    icon: BookOpen,
-    title: 'Para profissionais',
-    description:
-      'Educadores, terapeutas e clínicos. Formação com profundidade teórica e aplicação guiada.',
+      'Acompanhar uma criança neurodivergente no dia-a-dia. Ferramentas práticas, casos reais e espaço para perguntas. Um percurso pensado para quem vive o desenvolvimento de dentro.',
   },
 ];
 
@@ -69,7 +65,8 @@ export default function CursosEmBreve() {
             <p style={{ color: 'rgba(240,232,208,0.72)' }}>
               O livro <em>Onde o Mundo Nasce Entre Nós</em> abriu uma porta. Os
               cursos são o lugar onde o que ficou em aberto ganha aplicação —
-              com tempo, com prática, com o João ao lado.
+              com tempo, com prática, com o mesmo rigor e cuidado que nos trouxe
+              até aqui.
             </p>
             <p style={{ color: 'rgba(240,232,208,0.72)' }}>
               Estamos a construí-los com o mesmo cuidado que nos levou a tudo o
@@ -79,52 +76,59 @@ export default function CursosEmBreve() {
           </div>
         </motion.div>
 
-        {/* Três pilares do que vem */}
+        {/* Os dois cursos — grid 2 colunas */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className='mb-20 grid gap-6 md:grid-cols-3 md:gap-8'
+          className='mx-auto mb-20 grid max-w-5xl gap-6 md:grid-cols-2 md:gap-8'
         >
-          {pilares.map((pilar, idx) => (
-            <motion.div
-              key={pilar.title}
+          {cursos.map((curso, idx) => (
+            <motion.article
+              key={curso.name}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className='rounded-2xl border p-7 md:p-8'
+              className='flex flex-col rounded-2xl border p-8 md:p-10'
               style={{
                 backgroundColor: 'rgba(240,232,208,0.03)',
                 borderColor: 'rgba(196, 164, 74, 0.18)',
               }}
             >
               <div
-                className='mb-5 flex h-11 w-11 items-center justify-center rounded-xl'
+                className='mb-6 flex h-12 w-12 items-center justify-center rounded-xl'
                 style={{ backgroundColor: 'rgba(196, 164, 74, 0.12)' }}
               >
-                <pilar.icon
-                  size={20}
+                <curso.icon
+                  size={22}
                   strokeWidth={1.6}
                   style={{ color: GOLD }}
                 />
               </div>
 
+              <p
+                className='mb-2 text-[11px] font-medium uppercase tracking-[0.14em]'
+                style={{ color: GOLD }}
+              >
+                {curso.subtitle}
+              </p>
+
               <h3
-                className='mb-3 font-[family-name:var(--font-display)] text-xl leading-tight md:text-2xl'
+                className='mb-4 font-[family-name:var(--font-display)] text-2xl leading-tight md:text-3xl'
                 style={{ color: CREAM }}
               >
-                {pilar.title}
+                {curso.name}
               </h3>
 
               <p
-                className='text-[15px] leading-relaxed'
+                className='text-[15px] leading-relaxed md:text-base'
                 style={{ color: 'rgba(240,232,208,0.65)' }}
               >
-                {pilar.description}
+                {curso.description}
               </p>
-            </motion.div>
+            </motion.article>
           ))}
         </motion.div>
 
