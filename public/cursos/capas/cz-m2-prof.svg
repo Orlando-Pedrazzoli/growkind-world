@@ -1,0 +1,46 @@
+<svg width="680" height="960" viewBox="0 0 680 960" xmlns="http://www.w3.org/2000/svg">
+<title>GrowKind Curso Zero M2 Profissionais</title>
+<desc>Os três elementos do campo — Profissionais</desc>
+
+<rect width="680" height="960" fill="#1e3028"/>
+
+<line x1="530" y1="100" x2="624" y2="240" stroke="#c4a44a" stroke-opacity="0.15" stroke-width="1"/>
+<line x1="624" y1="240" x2="436" y2="240" stroke="#c4a44a" stroke-opacity="0.15" stroke-width="1"/>
+<line x1="436" y1="240" x2="530" y2="100" stroke="#c4a44a" stroke-opacity="0.15" stroke-width="1"/>
+<circle cx="530" cy="100" r="5" fill="#c4a44a" fill-opacity="0.4"/>
+<circle cx="624" cy="240" r="5" fill="#c4a44a" fill-opacity="0.4"/>
+<circle cx="436" cy="240" r="5" fill="#c4a44a" fill-opacity="0.4"/>
+<circle cx="530" cy="193" r="3" fill="#c4a44a" fill-opacity="0.2"/>
+<rect x="612" y="0" width="1" height="960" fill="#c4a44a" fill-opacity="0.08"/>
+
+<rect x="0" y="300" width="680" height="180" fill="#2a3d35"/>
+<rect x="0" y="296" width="680" height="3" fill="#c4a44a" fill-opacity="0.35"/>
+<rect x="0" y="481" width="680" height="1.5" fill="#c4a44a" fill-opacity="0.15"/>
+
+<rect x="56" y="52" width="138" height="26" rx="13" fill="#c4a44a" fill-opacity="0.12" stroke="#c4a44a" stroke-opacity="0.5" stroke-width="1"/>
+<text x="125" y="70" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#c4a44a" letter-spacing="0.14em">CURSO ZERO</text>
+<text x="596" y="64" text-anchor="end" font-family="DM Sans, sans-serif" font-size="10" font-weight="400" fill="#ffffff" fill-opacity="0.30" letter-spacing="0.1em">GROWKIND WORLD</text>
+
+<text x="56" y="272" font-family="Cormorant Garamond, Georgia, serif" font-size="18" font-weight="400" fill="#c4a44a" fill-opacity="0.7" letter-spacing="0.2em">02 · MÓDULO</text>
+
+<text x="56" y="352" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="300" fill="#ffffff" fill-opacity="0.95">Os três</text>
+<text x="56" y="412" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="300" font-style="italic" fill="#c4a44a">elementos</text>
+<text x="56" y="472" font-family="Cormorant Garamond, Georgia, serif" font-size="52" font-weight="300" fill="#ffffff" fill-opacity="0.95">do campo.</text>
+
+<rect x="56" y="508" width="56" height="2" fill="#c4a44a" fill-opacity="0.6"/>
+<rect x="120" y="509" width="480" height="1" fill="#c4a44a" fill-opacity="0.12"/>
+
+<text x="56" y="548" font-family="DM Sans, sans-serif" font-size="14" font-weight="300" fill="#ffffff" fill-opacity="0.5" letter-spacing="0.04em">Criança · Ambiente · Adulto</text>
+<text x="56" y="570" font-family="DM Sans, sans-serif" font-size="14" font-weight="300" fill="#ffffff" fill-opacity="0.5" letter-spacing="0.04em">Leitura simultânea do campo relacional</text>
+
+<rect x="56" y="614" width="150" height="32" rx="16" fill="#3d5a4f" stroke="#5a7a6d" stroke-width="1"/>
+<text x="131" y="635" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="500" fill="#b8d4cc" letter-spacing="0.08em">PROFISSIONAIS</text>
+<rect x="218" y="614" width="90" height="32" rx="16" fill="#c4a44a" fill-opacity="0.10" stroke="#c4a44a" stroke-opacity="0.35" stroke-width="1"/>
+<text x="263" y="635" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" font-weight="400" fill="#c4a44a" letter-spacing="0.06em">1.5h CPD</text>
+
+<rect x="56" y="874" width="524" height="0.75" fill="#ffffff" fill-opacity="0.08"/>
+<text x="56" y="908" font-family="Cormorant Garamond, Georgia, serif" font-size="15" font-style="italic" fill="#ffffff" fill-opacity="0.28">"Desenvolvimento não se resolve.</text>
+<text x="56" y="930" font-family="Cormorant Garamond, Georgia, serif" font-size="15" font-style="italic" fill="#ffffff" fill-opacity="0.28">Desenvolvimento acompanha-se."</text>
+<circle cx="596" cy="919" r="5" fill="#c4a44a" fill-opacity="0.5"/>
+<circle cx="580" cy="919" r="3" fill="#c4a44a" fill-opacity="0.25"/>
+</svg>
