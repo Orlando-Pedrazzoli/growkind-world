@@ -12,21 +12,34 @@ interface CursoDetalheProps {
   curso: Curso;
 }
 
-// Paleta partilhada
-const BG = '#1a1f18';
-const CREAM = '#f0e8d0';
+// Paleta — hero escuro + corpo claro
+const BG_DARK = '#1a1f18';
+const BG_CREAM = '#faf6ec';
+const CREAM_TEXT = '#f0e8d0';
+const TEXT_DARK = '#1a1f18';
+const TEXT_BODY = '#5a5a4f';
+const TEXT_MUTED = '#8a8a7d';
+const BORDER_SUBTLE = 'rgba(26, 31, 24, 0.08)';
+const GOLD_DARK = '#8a6c1f';
+const GREEN_DARK = '#4d7a64';
+
+const ACCENT_TEXT: Record<string, string> = {
+  profissionais: GOLD_DARK,
+  familias: GREEN_DARK,
+};
 
 export default function CursoDetalhe({ curso }: CursoDetalheProps) {
   const Icon = curso.slug === 'profissionais' ? GraduationCap : Users;
+  const accentTextDark = ACCENT_TEXT[curso.slug] || GOLD_DARK;
 
   return (
-    <article style={{ backgroundColor: BG }}>
+    <article>
       {/* =================================================================== */}
-      {/* HERO do curso                                                       */}
+      {/* HERO ESCURO — para a navbar transparente continuar legível          */}
       {/* =================================================================== */}
       <header
         className='relative -mt-20 overflow-hidden px-6 pt-40 pb-20 md:-mt-24 md:px-[60px] md:pt-48 md:pb-24'
-        style={{ backgroundColor: BG }}
+        style={{ backgroundColor: BG_DARK }}
       >
         {/* Textura sutil */}
         <div
@@ -48,14 +61,13 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
             <Link
               href='/cursos'
               className='inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] transition-colors duration-200 hover:opacity-100'
-              style={{ color: 'rgba(240,232,208,0.55)' }}
+              style={{ color: 'rgba(240,232,208,0.6)' }}
             >
               <ArrowLeft size={14} strokeWidth={1.8} />
               Cursos
             </Link>
           </motion.div>
 
-          {/* Ícone + subtítulo + nome */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -63,7 +75,7 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
           >
             <div
               className='mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl'
-              style={{ backgroundColor: `${curso.accentColor}1f` }}
+              style={{ backgroundColor: `${curso.accentColor}26` }}
             >
               <Icon
                 size={22}
@@ -81,21 +93,21 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
 
             <h1
               className='mb-6 font-[family-name:var(--font-display)] text-4xl leading-[1.05] md:text-5xl lg:text-6xl'
-              style={{ color: CREAM }}
+              style={{ color: CREAM_TEXT }}
             >
               {curso.nome}
             </h1>
 
             <p
               className='mb-8 max-w-2xl text-[15px] uppercase tracking-[0.1em]'
-              style={{ color: 'rgba(240,232,208,0.6)' }}
+              style={{ color: 'rgba(240,232,208,0.65)' }}
             >
               {curso.publico}
             </p>
 
             <div className='max-w-2xl space-y-5 text-[17px] leading-[1.75] md:text-[18px]'>
               {curso.intro.map((p, i) => (
-                <p key={i} style={{ color: 'rgba(240,232,208,0.75)' }}>
+                <p key={i} style={{ color: 'rgba(240,232,208,0.8)' }}>
                   {p}
                 </p>
               ))}
@@ -105,9 +117,12 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
       </header>
 
       {/* =================================================================== */}
-      {/* LISTAGEM DOS 4 MÓDULOS                                              */}
+      {/* CORPO CLARO — listagem de módulos                                   */}
       {/* =================================================================== */}
-      <section className='px-6 pb-24 md:px-[60px] md:pb-32'>
+      <section
+        className='px-6 py-20 md:px-[60px] md:py-28'
+        style={{ backgroundColor: BG_CREAM }}
+      >
         <div className='mx-auto max-w-4xl'>
           <motion.div
             initial={{ opacity: 0 }}
@@ -115,18 +130,15 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className='mb-10 flex items-baseline justify-between border-b pb-6 md:mb-12'
-            style={{ borderColor: 'rgba(196, 164, 74, 0.15)' }}
+            style={{ borderColor: BORDER_SUBTLE }}
           >
             <h2
               className='text-[11px] font-semibold uppercase tracking-[0.16em]'
-              style={{ color: curso.accentColor }}
+              style={{ color: accentTextDark }}
             >
               Os quatro módulos
             </h2>
-            <span
-              className='text-[12px]'
-              style={{ color: 'rgba(240,232,208,0.45)' }}
-            >
+            <span className='text-[12px]' style={{ color: TEXT_MUTED }}>
               {curso.modulos.filter(m => m.gratuito).length} gratuito ·{' '}
               {curso.modulos.filter(m => !m.gratuito).length} em breve
             </span>
@@ -138,6 +150,7 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
                 key={modulo.slug}
                 modulo={modulo}
                 accentColor={curso.accentColor}
+                accentTextColor={accentTextDark}
                 index={idx}
               />
             ))}

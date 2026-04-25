@@ -1,9 +1,13 @@
+// src/models/Purchase.ts
+
 import mongoose, { Schema, Document } from 'mongoose';
+
+export type ProductType = 'ebook' | 'curso-prof' | 'curso-fam';
 
 export interface IPurchase extends Document {
   userId: mongoose.Types.ObjectId;
   userEmail: string;
-  product: 'ebook';
+  product: ProductType;
   stripeSessionId: string;
   stripePaymentIntentId?: string;
   amount: number;
@@ -27,7 +31,7 @@ const PurchaseSchema = new Schema<IPurchase>(
     },
     product: {
       type: String,
-      enum: ['ebook'],
+      enum: ['ebook', 'curso-prof', 'curso-fam'],
       required: true,
     },
     stripeSessionId: {
@@ -55,6 +59,9 @@ const PurchaseSchema = new Schema<IPurchase>(
   },
   { timestamps: true },
 );
+
+// Índice composto: queries rápidas por utilizador + produto + status
+PurchaseSchema.index({ userEmail: 1, product: 1, status: 1 });
 
 export default mongoose.models.Purchase ||
   mongoose.model<IPurchase>('Purchase', PurchaseSchema);

@@ -3,29 +3,33 @@
 export interface Modulo {
   numero: 1 | 2 | 3 | 4;
   slug: string;
-  titulo: string; // Título composto (linha 1 + 2 se aplicável)
+  titulo: string;
   tituloLinhas?: {
     primeira: string;
     segunda?: string;
     emphasis?: 'primeira' | 'segunda';
   };
-  lead: string; // Descrição curta (eyebrow/lead dos HTMLs)
+  lead: string;
   duracao: string;
   gratuito: boolean;
-  htmlPath: string; // Caminho do HTML do módulo em /public
-  capaPath: string; // Caminho da capa SVG em /public
+  htmlPath: string;
+  capaPath: string;
 }
 
 export interface Curso {
   slug: 'profissionais' | 'familias';
-  nome: string; // ex: "GrowKind TA"
-  subtitulo: string; // ex: "Para Profissionais"
-  publico: string; // descrição expandida do público
-  descricao: string; // resumo da proposta
-  intro: string[]; // parágrafos de introdução na página dedicada
-  accentColor: string; // acento da paleta (dourado ou verde-salva)
-  capaPrincipal: string; // capa a usar no card da /cursos (M1)
+  nome: string;
+  subtitulo: string;
+  publico: string;
+  descricao: string;
+  intro: string[];
+  accentColor: string;
+  capaPrincipal: string;
   modulos: Modulo[];
+  // Compra
+  productKey: 'curso-prof' | 'curso-fam'; // chave em Purchase.product
+  preco: number; // em cêntimos (€)
+  precoEur: string; // string formatada para UI ("€49")
 }
 
 // =============================================================================
@@ -42,8 +46,11 @@ export const cursoProfissionais: Curso = {
     'Um percurso em quatro módulos para quem acompanha crianças neurodivergentes em contexto educativo. Não é uma formação sobre técnicas — é um deslocamento de olhar.',
     'Cada módulo instala uma lente de observação nova, construída sobre a anterior. No fim, o adulto não se torna especialista. Torna-se eixo.',
   ],
-  accentColor: '#c4a44a', // dourado mostarda
+  accentColor: '#c4a44a',
   capaPrincipal: '/cursos/capas/cz-m1-prof.svg',
+  productKey: 'curso-prof',
+  preco: 4900, // €49
+  precoEur: '€49',
   modulos: [
     {
       numero: 1,
@@ -72,7 +79,7 @@ export const cursoProfissionais: Curso = {
       lead: 'Ver vs. observar — no corpo. O instrumento para registar a resposta, de forma transferível entre todos os adultos em torno da criança.',
       duracao: '1h20',
       gratuito: false,
-      htmlPath: '/cursos/profissionais/cz-m2-prof.html',
+      htmlPath: '/api/curso/profissionais/m2', // rota protegida
       capaPath: '/cursos/capas/cz-m2-prof.svg',
     },
     {
@@ -87,7 +94,7 @@ export const cursoProfissionais: Curso = {
       lead: 'Não começa com teoria. Começa com o que já sabe fazer — mas ainda não sabe que é co-regulação.',
       duracao: '1h30',
       gratuito: false,
-      htmlPath: '/cursos/profissionais/cz-m3-prof.html',
+      htmlPath: '/api/curso/profissionais/m3',
       capaPath: '/cursos/capas/cz-m3-prof.svg',
     },
     {
@@ -102,7 +109,7 @@ export const cursoProfissionais: Curso = {
       lead: 'Integração dos três módulos anteriores. Antes de ver como se articulam — teste o que já ficou automático.',
       duracao: '1h30',
       gratuito: false,
-      htmlPath: '/cursos/profissionais/cz-m4-prof.html',
+      htmlPath: '/api/curso/profissionais/m4',
       capaPath: '/cursos/capas/cz-m4-prof.svg',
     },
   ],
@@ -122,8 +129,11 @@ export const cursoFamilias: Curso = {
     'Um percurso em quatro módulos para quem acompanha, todos os dias, uma criança neurodivergente. Não é um manual. É um deslocamento de olhar.',
     'Cada módulo parte do que já sente — porque o seu corpo já sabe o que a teoria vai confirmar.',
   ],
-  accentColor: '#7aab96', // verde-salva
+  accentColor: '#7aab96',
   capaPrincipal: '/cursos/capas/cz-m1-fam.svg',
+  productKey: 'curso-fam',
+  preco: 2900, // €29
+  precoEur: '€29',
   modulos: [
     {
       numero: 1,
@@ -152,7 +162,7 @@ export const cursoFamilias: Curso = {
       lead: 'Uma forma de ver o que acontece à volta do comportamento — sem o reduzir a culpa, a falha ou a diagnóstico.',
       duracao: '1h30',
       gratuito: false,
-      htmlPath: '/cursos/familias/cz-m2-fam.html',
+      htmlPath: '/api/curso/familias/m2',
       capaPath: '/cursos/capas/cz-m2-fam.svg',
     },
     {
@@ -167,7 +177,7 @@ export const cursoFamilias: Curso = {
       lead: 'Não começa com teoria. Começa com o que já sente — porque o seu corpo já sabe o que o módulo vai confirmar.',
       duracao: '1h15',
       gratuito: false,
-      htmlPath: '/cursos/familias/cz-m3-fam.html',
+      htmlPath: '/api/curso/familias/m3',
       capaPath: '/cursos/capas/cz-m3-fam.svg',
     },
     {
@@ -182,18 +192,21 @@ export const cursoFamilias: Curso = {
       lead: 'Antes de continuar — uma situação real. Para verificar o que os três módulos anteriores já instalaram no seu olhar.',
       duracao: '1h30',
       gratuito: false,
-      htmlPath: '/cursos/familias/cz-m4-fam.html',
+      htmlPath: '/api/curso/familias/m4',
       capaPath: '/cursos/capas/cz-m4-fam.svg',
     },
   ],
 };
 
-// =============================================================================
-// EXPORTS AGREGADOS
-// =============================================================================
 export const cursos = {
   profissionais: cursoProfissionais,
   familias: cursoFamilias,
 } as const;
 
 export const todosOsCursos: Curso[] = [cursoProfissionais, cursoFamilias];
+
+// Mapa productKey → curso (útil em /api/checkout)
+export const cursosPorProductKey: Record<'curso-prof' | 'curso-fam', Curso> = {
+  'curso-prof': cursoProfissionais,
+  'curso-fam': cursoFamilias,
+};
