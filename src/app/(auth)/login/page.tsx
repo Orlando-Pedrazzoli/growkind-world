@@ -1,10 +1,28 @@
+// src/app/(auth)/login/page.tsx
+
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import LoginForm from '@/components/auth/LoginForm';
 
 export const metadata: Metadata = {
   title: 'Entrar',
   description: 'Entra na tua conta GrowKind World.',
 };
+
+// Pequeno fallback enquanto Suspense resolve searchParams (loading instantâneo)
+function LoginFormFallback() {
+  return (
+    <div className='mx-auto w-full max-w-[400px]'>
+      <div className='h-[56px] animate-pulse rounded border border-[var(--color-gk-green-dark)]/10 bg-white' />
+      <div className='my-8 h-px bg-[var(--color-gk-green-dark)]/10' />
+      <div className='space-y-4'>
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/5' />
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/5' />
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/10' />
+      </div>
+    </div>
+  );
+}
 
 export default function LoginPage() {
   return (
@@ -19,7 +37,9 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <LoginForm />
+        <Suspense fallback={<LoginFormFallback />}>
+          <LoginForm />
+        </Suspense>
       </div>
     </section>
   );

@@ -1,3 +1,5 @@
+// src/components/home/Aterrissagem.tsx
+
 'use client';
 
 import { useRef } from 'react';
@@ -63,20 +65,20 @@ export default function Aterrissagem() {
         <div className='mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6 md:mt-12'>
           <button
             onClick={() => scrollTo('onde-comeca')}
-            className='inline-block cursor-pointer px-10 py-4 text-[14px] font-medium uppercase tracking-widest'
+            className='inline-block cursor-pointer rounded-full px-10 py-4 text-[14px] font-medium uppercase tracking-widest transition-all duration-300 hover:brightness-110'
             style={{
               backgroundColor: 'var(--color-gk-ocre)',
               color: '#ffffff',
             }}
           >
-            Por onde começar
+            A nossa história
           </button>
           <button
             onClick={() => scrollTo('oque-acreditamos')}
-            className='inline-block cursor-pointer border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[14px] font-medium uppercase tracking-widest'
+            className='inline-block cursor-pointer rounded-full border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[14px] font-medium uppercase tracking-widest transition-all duration-300 hover:border-white/70 hover:bg-white/5'
             style={{ color: '#ffffff' }}
           >
-            Nossa metodologia
+            Os nossos princípios
           </button>
         </div>
       </motion.div>

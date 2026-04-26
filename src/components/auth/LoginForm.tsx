@@ -1,12 +1,29 @@
+// src/components/auth/LoginForm.tsx
+
 'use client';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { safeNext } from '@/lib/safeRedirect';
 
 export default function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Valida e captura o destino pretendido após login
+  const nextUrl = safeNext(searchParams.get('next'), '/');
+
+  // Para Google OAuth (callback URL absoluto)
+  const googleCallbackUrl = nextUrl;
+
+  // Para o link "Criar conta" — preserva o ?next=
+  const registarHref =
+    nextUrl === '/'
+      ? '/registar'
+      : `/registar?next=${encodeURIComponent(nextUrl)}`;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -27,14 +44,14 @@ export default function LoginForm() {
       setError('Email ou password incorrectos');
       setLoading(false);
     } else {
-      router.push('/');
+      router.push(nextUrl);
       router.refresh();
     }
   }
 
   async function handleGoogle() {
     setLoading(true);
-    await signIn('google', { callbackUrl: '/' });
+    await signIn('google', { callbackUrl: googleCallbackUrl });
   }
 
   return (
@@ -109,7 +126,7 @@ export default function LoginForm() {
       <p className='mt-8 text-center text-[14px] text-[var(--color-gk-cinza)]'>
         Ainda não tens conta?{' '}
         <Link
-          href='/registar'
+          href={registarHref}
           className='font-medium text-[var(--color-gk-green-dark)] underline underline-offset-2'
         >
           Criar conta

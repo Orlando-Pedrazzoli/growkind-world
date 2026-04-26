@@ -3,9 +3,15 @@ import type { NextConfig } from 'next';
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
+      // Cloudinary — imagens do projeto
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
+      },
+      // Google — fotos de perfil de utilizadores Google OAuth
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
       },
     ],
   },
@@ -16,8 +22,12 @@ const nextConfig: NextConfig = {
         source: '/(.*)',
         headers: [
           {
+            // SAMEORIGIN permite iframes apenas do MESMO domínio.
+            // Necessário porque /a-minha-conta/livro e /a-minha-conta/cursos/...
+            // usam iframe para servir HTML do site (book.html, módulos).
+            // Continua a proteger contra clickjacking de domínios externos.
             key: 'X-Frame-Options',
-            value: 'DENY',
+            value: 'SAMEORIGIN',
           },
           {
             key: 'X-Content-Type-Options',

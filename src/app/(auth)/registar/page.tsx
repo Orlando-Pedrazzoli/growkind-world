@@ -1,10 +1,28 @@
+// src/app/(auth)/registar/page.tsx
+
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import RegisterForm from '@/components/auth/RegisterForm';
 
 export const metadata: Metadata = {
   title: 'Criar Conta',
   description: 'Cria a tua conta GrowKind World.',
 };
+
+function RegisterFormFallback() {
+  return (
+    <div className='mx-auto w-full max-w-[400px]'>
+      <div className='h-[56px] animate-pulse rounded border border-[var(--color-gk-green-dark)]/10 bg-white' />
+      <div className='my-8 h-px bg-[var(--color-gk-green-dark)]/10' />
+      <div className='space-y-4'>
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/5' />
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/5' />
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/5' />
+        <div className='h-12 animate-pulse rounded bg-[var(--color-gk-green-dark)]/10' />
+      </div>
+    </div>
+  );
+}
 
 export default function RegisterPage() {
   return (
@@ -21,7 +39,9 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        <RegisterForm />
+        <Suspense fallback={<RegisterFormFallback />}>
+          <RegisterForm />
+        </Suspense>
       </div>
     </section>
   );

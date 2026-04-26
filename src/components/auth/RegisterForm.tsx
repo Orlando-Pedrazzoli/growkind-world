@@ -1,12 +1,27 @@
+// src/components/auth/RegisterForm.tsx
+
 'use client';
 
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { safeNext } from '@/lib/safeRedirect';
 
 export default function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Valida e captura o destino pretendido após registo
+  const nextUrl = safeNext(searchParams.get('next'), '/');
+
+  // Para Google OAuth
+  const googleCallbackUrl = nextUrl;
+
+  // Para o link "Entrar" — preserva o ?next=
+  const loginHref =
+    nextUrl === '/' ? '/login' : `/login?next=${encodeURIComponent(nextUrl)}`;
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,9 +56,10 @@ export default function RegisterForm() {
       });
 
       if (result?.error) {
-        router.push('/login');
+        // Se auto-login falhar, manda para login mas preserva o destino
+        router.push(loginHref);
       } else {
-        router.push('/');
+        router.push(nextUrl);
         router.refresh();
       }
     } catch {
@@ -54,7 +70,7 @@ export default function RegisterForm() {
 
   async function handleGoogle() {
     setLoading(true);
-    await signIn('google', { callbackUrl: '/' });
+    await signIn('google', { callbackUrl: googleCallbackUrl });
   }
 
   return (
@@ -138,7 +154,7 @@ export default function RegisterForm() {
       <p className='mt-8 text-center text-[14px] text-[var(--color-gk-cinza)]'>
         Já tens conta?{' '}
         <Link
-          href='/login'
+          href={loginHref}
           className='font-medium text-[var(--color-gk-green-dark)] underline underline-offset-2'
         >
           Entrar
