@@ -1,116 +1,130 @@
-'use client';
+// src/app/comprar/sucesso/page.tsx
 
-import { Suspense } from 'react';
-import { useEffect, useState } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
+import { Check, BookOpen, GraduationCap, Users } from 'lucide-react';
+import { auth } from '@/lib/auth';
+import { connectDB } from '@/lib/db';
+import Purchase from '@/models/Purchase';
 
-function SucessoContent() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const { data: session, status } = useSession();
-  const [verified, setVerified] = useState(false);
+export const metadata: Metadata = {
+  title: 'Compra concluída',
+  robots: { index: false, follow: false },
+};
 
-  const sessionId = searchParams.get('session_id');
-
-  useEffect(() => {
-    if (status === 'loading') return;
-
-    if (!session) {
-      router.push('/login');
-      return;
-    }
-
-    if (sessionId) {
-      setVerified(true);
-    }
-  }, [session, status, sessionId, router]);
-
-  if (status === 'loading' || !verified) {
-    return (
-      <main
-        className='flex min-h-screen items-center justify-center'
-        style={{ backgroundColor: 'var(--color-gk-creme)' }}
-      >
-        <p
-          style={{
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-gk-cinza)',
-          }}
-        >
-          A verificar...
-        </p>
-      </main>
-    );
-  }
-
-  return (
-    <main
-      className='flex min-h-screen items-center justify-center px-6'
-      style={{ backgroundColor: 'var(--color-gk-creme)' }}
-    >
-      <div className='text-center' style={{ maxWidth: 'var(--width-content)' }}>
-        <h1
-          className='text-3xl md:text-4xl mb-4'
-          style={{
-            fontFamily: 'var(--font-display)',
-            color: 'var(--color-gk-green-dark)',
-          }}
-        >
-          Obrigado pela tua compra
-        </h1>
-
-        <p
-          className='text-lg mb-2'
-          style={{
-            fontFamily: 'var(--font-body)',
-            color: 'var(--color-gk-black)',
-          }}
-        >
-          O eBook &ldquo;Onde o Mundo Nasce Entre Nós&rdquo; já está disponível
-          na tua conta.
-        </p>
-
-        <p className='text-sm mb-8' style={{ color: 'var(--color-gk-cinza)' }}>
-          Podes aceder a qualquer momento em A minha conta &rarr; Livro.
-        </p>
-
-        <div className='flex flex-col sm:flex-row gap-4 justify-center'>
-          <button
-            onClick={() => router.push('/a-minha-conta/livro')}
-            className='btn-primary'
-          >
-            Ler o livro agora
-          </button>
-          <button onClick={() => router.push('/')} className='btn-ghost'>
-            Voltar ao início
-          </button>
-        </div>
-      </div>
-    </main>
-  );
+interface PageProps {
+  searchParams: Promise<{ session_id?: string; product?: string }>;
 }
 
-export default function ComprarSucessoPage() {
+export default async function SucessoPage({ searchParams }: PageProps) {
+  const { session_id, product } = await searchParams;
+  const session = await auth();
+
+  if (!session?.user?.email) {
+    redirect('/login');
+  }
+
+  // Verificar a compra (defensivo — webhook pode ainda não ter processado)
+  await connectDB();
+  let purchase = null;
+  if (session_id) {
+    purchase = await Purchase.findOne({ stripeSessionId: session_id });
+  }
+
+  // Determinar tipo de produto e CTAs apropriados
+  const productType =
+    product === 'curso-prof'
+      ? 'curso-prof'
+      : product === 'curso-fam'
+        ? 'curso-fam'
+        : purchase?.product || 'ebook';
+
+  const config = {
+    ebook: {
+      title: 'Tens o eBook',
+      message:
+        'A tua compra foi confirmada. Já podes começar a ler — o livro fica disponível na tua área de cliente.',
+      ctaPrimary: { label: 'Ler o livro', href: '/a-minha-conta/livro' },
+      ctaSecondary: { label: 'A minha conta', href: '/a-minha-conta' },
+      Icon: BookOpen,
+    },
+    'curso-prof': {
+      title: 'Bem-vindo ao GrowKind TA',
+      message:
+        'A tua compra foi confirmada. Os módulos 2, 3 e 4 estão agora disponíveis na tua área de cliente. O percurso é sequencial — começa pelo módulo 2.',
+      ctaPrimary: {
+        label: 'Aceder ao curso',
+        href: '/a-minha-conta/cursos',
+      },
+      ctaSecondary: { label: 'A minha conta', href: '/a-minha-conta' },
+      Icon: GraduationCap,
+    },
+    'curso-fam': {
+      title: 'Bem-vindo ao GrowKind Famílias',
+      message:
+        'A tua compra foi confirmada. Os módulos 2, 3 e 4 estão agora disponíveis na tua área de cliente. Cada módulo parte do que já sente — sem pressa.',
+      ctaPrimary: {
+        label: 'Aceder ao curso',
+        href: '/a-minha-conta/cursos',
+      },
+      ctaSecondary: { label: 'A minha conta', href: '/a-minha-conta' },
+      Icon: Users,
+    },
+  } as const;
+
+  const c = config[productType as keyof typeof config];
+  const isPending = purchase?.status === 'pending';
+
   return (
-    <Suspense
-      fallback={
-        <main
-          className='flex min-h-screen items-center justify-center'
-          style={{ backgroundColor: 'var(--color-gk-creme)' }}
-        >
-          <p
+    <section className='section-padding'>
+      <div className='content-width'>
+        <div className='mx-auto flex max-w-2xl flex-col items-center text-center'>
+          {/* Icone de check */}
+          <div
+            className='mb-8 flex h-20 w-20 items-center justify-center rounded-full'
             style={{
-              fontFamily: 'var(--font-body)',
-              color: 'var(--color-gk-cinza)',
+              backgroundColor: 'rgba(122, 171, 150, 0.15)',
             }}
           >
-            A verificar...
+            <Check size={36} strokeWidth={2} style={{ color: '#4d7a64' }} />
+          </div>
+
+          <span className='eyebrow'>Pagamento concluído</span>
+          <h1 className='mt-4'>{c.title}</h1>
+
+          <p className='mx-auto mt-6 max-w-lg text-[16px] leading-relaxed text-[var(--color-gk-cinza)]'>
+            {c.message}
           </p>
-        </main>
-      }
-    >
-      <SucessoContent />
-    </Suspense>
+
+          {isPending && (
+            <p
+              className='mx-auto mt-4 max-w-lg rounded-lg border px-4 py-3 text-[13px] leading-relaxed'
+              style={{
+                color: '#8a6c1f',
+                backgroundColor: 'rgba(196, 164, 74, 0.08)',
+                borderColor: 'rgba(196, 164, 74, 0.25)',
+              }}
+            >
+              A confirmação do pagamento pode demorar alguns segundos. Se o
+              acesso ainda não estiver disponível, atualiza a página dentro de
+              instantes.
+            </p>
+          )}
+
+          <div className='mt-10 flex flex-col items-center gap-3 sm:flex-row sm:gap-5'>
+            <Link href={c.ctaPrimary.href} className='btn-primary'>
+              {c.ctaPrimary.label}
+            </Link>
+            <Link
+              href={c.ctaSecondary.href}
+              className='text-[13px] uppercase tracking-[0.08em] text-[var(--color-gk-cinza)] transition-colors hover:text-[var(--color-gk-green-dark)]'
+            >
+              {c.ctaSecondary.label}
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

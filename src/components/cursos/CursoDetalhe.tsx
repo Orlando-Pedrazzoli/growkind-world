@@ -1,23 +1,27 @@
 // src/components/cursos/CursoDetalhe.tsx
 
-'use client';
-
 import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowLeft, Users, GraduationCap } from 'lucide-react';
+import {
+  ArrowLeft,
+  Users,
+  GraduationCap,
+  Check,
+  ShoppingBag,
+} from 'lucide-react';
+import { auth } from '@/lib/auth';
+import { connectDB } from '@/lib/db';
+import Purchase from '@/models/Purchase';
 import type { Curso } from '@/lib/data/cursos';
 import ModuloCard from './ModuloCard';
+import CursoDetalheCTA from './CursoDetalheCTA';
 
 interface CursoDetalheProps {
   curso: Curso;
 }
 
-// Paleta — hero escuro + corpo claro
 const BG_DARK = '#1a1f18';
 const BG_CREAM = '#faf6ec';
 const CREAM_TEXT = '#f0e8d0';
-const TEXT_DARK = '#1a1f18';
-const TEXT_BODY = '#5a5a4f';
 const TEXT_MUTED = '#8a8a7d';
 const BORDER_SUBTLE = 'rgba(26, 31, 24, 0.08)';
 const GOLD_DARK = '#8a6c1f';
@@ -28,20 +32,37 @@ const ACCENT_TEXT: Record<string, string> = {
   familias: GREEN_DARK,
 };
 
-export default function CursoDetalhe({ curso }: CursoDetalheProps) {
+async function userHasCourse(
+  email: string,
+  productKey: 'curso-prof' | 'curso-fam',
+): Promise<boolean> {
+  await connectDB();
+  const purchase = await Purchase.findOne({
+    userEmail: email.toLowerCase(),
+    product: productKey,
+    status: 'completed',
+  });
+  return !!purchase;
+}
+
+export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
   const Icon = curso.slug === 'profissionais' ? GraduationCap : Users;
   const accentTextDark = ACCENT_TEXT[curso.slug] || GOLD_DARK;
 
+  // Verificar estado do utilizador no servidor
+  const session = await auth();
+  const isLoggedIn = !!session?.user?.email;
+  const isOwned = isLoggedIn
+    ? await userHasCourse(session!.user!.email!, curso.productKey)
+    : false;
+
   return (
     <article>
-      {/* =================================================================== */}
-      {/* HERO ESCURO — para a navbar transparente continuar legível          */}
-      {/* =================================================================== */}
+      {/* HERO ESCURO */}
       <header
         className='relative -mt-20 overflow-hidden px-6 pt-40 pb-20 md:-mt-24 md:px-[60px] md:pt-48 md:pb-24'
         style={{ backgroundColor: BG_DARK }}
       >
-        {/* Textura sutil */}
         <div
           aria-hidden='true'
           className='absolute inset-0 opacity-[0.06]'
@@ -51,13 +72,7 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
         />
 
         <div className='relative z-10 mx-auto max-w-4xl'>
-          {/* Breadcrumb */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className='mb-8'
-          >
+          <div className='mb-8'>
             <Link
               href='/cursos'
               className='inline-flex items-center gap-2 text-[12px] uppercase tracking-[0.12em] transition-colors duration-200 hover:opacity-100'
@@ -66,13 +81,9 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
               <ArrowLeft size={14} strokeWidth={1.8} />
               Cursos
             </Link>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.05 }}
-          >
+          <div>
             <div
               className='mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl'
               style={{ backgroundColor: `${curso.accentColor}26` }}
@@ -112,23 +123,48 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
                 </p>
               ))}
             </div>
-          </motion.div>
+
+            {/* CTA principal — botão de compra ou estado de "já é dono" */}
+            {isOwned ? (
+              <div
+                className='mt-10 inline-flex items-center gap-3 rounded-full px-5 py-3 text-[13px] font-medium uppercase tracking-[0.08em]'
+                style={{
+                  backgroundColor: `${curso.accentColor}1a`,
+                  color: curso.accentColor,
+                  border: `1px solid ${curso.accentColor}40`,
+                }}
+              >
+                <Check size={16} strokeWidth={2.2} />
+                Curso adquirido
+              </div>
+            ) : (
+              <div className='mt-10'>
+                <CursoDetalheCTA
+                  productKey={curso.productKey}
+                  precoEur={curso.precoEur}
+                  accentColor={curso.accentColor}
+                  isLoggedIn={isLoggedIn}
+                  cursoSlug={curso.slug}
+                />
+                <p
+                  className='mt-3 text-[12px]'
+                  style={{ color: 'rgba(240,232,208,0.5)' }}
+                >
+                  M1 gratuito · M2-M4 incluídos na compra
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </header>
 
-      {/* =================================================================== */}
-      {/* CORPO CLARO — listagem de módulos                                   */}
-      {/* =================================================================== */}
+      {/* CORPO CLARO — listagem de módulos */}
       <section
         className='px-6 py-20 md:px-[60px] md:py-28'
         style={{ backgroundColor: BG_CREAM }}
       >
         <div className='mx-auto max-w-4xl'>
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <div
             className='mb-10 flex items-baseline justify-between border-b pb-6 md:mb-12'
             style={{ borderColor: BORDER_SUBTLE }}
           >
@@ -139,18 +175,25 @@ export default function CursoDetalhe({ curso }: CursoDetalheProps) {
               Os quatro módulos
             </h2>
             <span className='text-[12px]' style={{ color: TEXT_MUTED }}>
-              {curso.modulos.filter(m => m.gratuito).length} gratuito ·{' '}
-              {curso.modulos.filter(m => !m.gratuito).length} em breve
+              {isOwned
+                ? `${curso.modulos.length} módulos · todos desbloqueados`
+                : `1 gratuito · 3 com a compra`}
             </span>
-          </motion.div>
+          </div>
 
           <div className='flex flex-col gap-6 md:gap-8'>
             {curso.modulos.map((modulo, idx) => (
               <ModuloCard
                 key={modulo.slug}
                 modulo={modulo}
+                cursoSlug={curso.slug}
+                cursoNome={curso.nome}
+                productKey={curso.productKey}
+                precoEur={curso.precoEur}
                 accentColor={curso.accentColor}
                 accentTextColor={accentTextDark}
+                isOwned={isOwned}
+                isLoggedIn={isLoggedIn}
                 index={idx}
               />
             ))}
