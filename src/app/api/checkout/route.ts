@@ -18,9 +18,9 @@ interface ProductCatalogEntry {
   name: string;
   description: string;
   amount: number; // cêntimos
-  successPath: string; // após sucesso, para onde levar
-  cancelPath: string; // se cancelar, para onde voltar
-  alreadyOwnedRedirect: string; // se já tem, para onde mandar
+  successPath: string;
+  cancelPath: string;
+  alreadyOwnedRedirect: string;
 }
 
 function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
@@ -28,8 +28,8 @@ function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
     case 'ebook':
       return {
         name: 'Onde o Mundo Nasce Entre Nós — eBook',
-        description: 'PDF + ePub · Acesso imediato no site',
-        amount: 1200,
+        description: 'Livro digital · Acesso vitalício no site',
+        amount: 1400, // €14 (atualizado)
         successPath: '/comprar/sucesso?session_id={CHECKOUT_SESSION_ID}',
         cancelPath: '/o-livro',
         alreadyOwnedRedirect: '/a-minha-conta/livro',
@@ -59,7 +59,6 @@ function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
       };
     }
     default: {
-      // Type narrowing — não devia chegar aqui
       const _exhaustive: never = product;
       throw new Error(`Produto desconhecido: ${_exhaustive}`);
     }
@@ -81,7 +80,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Parse body — backwards compatible: se body vazio, assume 'ebook'
     let product: ProductRequest = 'ebook';
     try {
       const body = await req.json();
@@ -89,14 +87,13 @@ export async function POST(req: NextRequest) {
         product = body.product;
       }
     } catch {
-      // body vazio → mantém default 'ebook' (compatível com chamadas antigas)
+      // body vazio → mantém default 'ebook'
     }
 
     const catalog = getProductCatalog(product);
 
     await connectDB();
 
-    // Verificar se já comprou
     const existingPurchase = await Purchase.findOne({
       userEmail: session.user.email.toLowerCase(),
       product,
@@ -113,7 +110,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Buscar user no MongoDB
     const dbUser = await User.findOne({
       email: session.user.email.toLowerCase(),
     });
@@ -125,7 +121,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Criar sessão Stripe Checkout
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
@@ -152,7 +147,6 @@ export async function POST(req: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}${catalog.cancelPath}`,
     });
 
-    // Registar purchase como pending
     await Purchase.create({
       userId: dbUser._id,
       userEmail: session.user.email.toLowerCase(),
