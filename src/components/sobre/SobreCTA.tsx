@@ -24,8 +24,9 @@ export default function SobreCTA() {
         </div>
 
         <div className='sobre-cta__actions'>
-          {/* CTA principal — email, destaque ocre conforme globals */}
-          <Link href='/#captura' className='sobre-cta__email-btn'>
+          {/* CTA principal — email, destaque ocre conforme globals.
+              Item 9 corrigido: #captura → #lista (id real da secção CapturaLista) */}
+          <Link href='/#lista' className='sobre-cta__email-btn'>
             Entrar na lista — receber em primeira mão
             <span aria-hidden='true'> →</span>
           </Link>

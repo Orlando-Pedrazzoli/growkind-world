@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { BOOK_EDITIONS } from '@/lib/data/book';
 
 export default function BookHero() {
@@ -72,7 +73,7 @@ export default function BookHero() {
             — algo que acontece no corpo, no tempo e na relação.
           </p>
 
-          {/* 3 Botoes de compra */}
+          {/* Botoes de compra (BOOK_EDITIONS) */}
           <div className='mt-10 flex max-w-[420px] flex-col gap-3'>
             {BOOK_EDITIONS.map(edition => {
               const isExternal = edition.href.startsWith('http');
@@ -150,6 +151,22 @@ export default function BookHero() {
               );
             })}
           </div>
+
+          {/* Link para preview gratuito */}
+          <Link
+            href='/livro/preview'
+            className='group mt-5 inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.1em] transition-all duration-300'
+            style={{ color: 'rgba(240,232,208,0.7)' }}
+          >
+            <span className='underline-offset-4 group-hover:underline'>
+              Ler os primeiros capítulos · grátis
+            </span>
+            <ArrowRight
+              size={14}
+              strokeWidth={1.8}
+              className='transition-transform duration-300 group-hover:translate-x-1'
+            />
+          </Link>
 
           {/* Credito autor */}
           <p

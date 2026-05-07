@@ -22,14 +22,27 @@ const navItems = [
 /**
  * Rotas com fundo branco/claro no topo ("páginas de aplicação").
  * Nestas rotas, a navbar deve estar SEMPRE opaca com links escuros,
- * independentemente do scroll — o modo transparente é reservado a páginas
- * com hero escuro a full-width no topo.
+ * independentemente do scroll.
  */
 const APP_ROUTE_PREFIXES = ['/login', '/registar', '/a-minha-conta', '/admin'];
+
+/**
+ * Rotas onde o Header não deve aparecer de todo — experiências imersivas
+ * que têm o seu próprio chrome (ex: leitor do livro com sidebar de capítulos,
+ * controlos de fonte e tema próprios).
+ */
+const HIDE_HEADER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
 
 function isAppRoute(pathname: string | null): boolean {
   if (!pathname) return false;
   return APP_ROUTE_PREFIXES.some(
+    prefix => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
+function shouldHideHeader(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return HIDE_HEADER_PREFIXES.some(
     prefix => pathname === prefix || pathname.startsWith(`${prefix}/`),
   );
 }
@@ -89,9 +102,9 @@ export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Rotas de aplicação forçam sempre modo opaco/escuro (links legíveis sobre
-  // fundo branco). Rotas de marketing mantêm o comportamento dinâmico:
-  // transparente no topo, opaco ao fazer scroll.
+  // Detectar rotas que escondem o Header (leitor imersivo)
+  const hidden = useMemo(() => shouldHideHeader(pathname), [pathname]);
+
   const forcedOpaque = useMemo(() => isAppRoute(pathname), [pathname]);
 
   useEffect(() => {
@@ -104,8 +117,9 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // "Transparent" agora exige três condições: não forçado opaco, não scrolled,
-  // e menu mobile fechado.
+  // SE rota imersiva → não renderizar nada
+  if (hidden) return null;
+
   const isTransparent = !forcedOpaque && !scrolled && !menuAberto;
 
   return (

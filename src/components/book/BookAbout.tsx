@@ -42,10 +42,13 @@ export default function BookAbout() {
             className='mt-10 space-y-6 text-[16px] leading-[1.8] md:text-[17px]'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
+            {/* Item 10: primeiro parágrafo reescrito (sem duplicar a frase
+                "acompanha o desenvolvimento como processo vivo..." que já
+                aparece no BookHero acima) */}
             <p>
-              Em vez de explicar o autismo como diagnóstico, este livro
-              acompanha o desenvolvimento como processo vivo — algo que acontece
-              no corpo, no tempo e na relação.
+              Não é um livro sobre o autismo enquanto diagnóstico. É um livro
+              sobre o que acontece antes da intervenção — sobre o que pede para
+              ser lido antes de ser corrigido.
             </p>
             <p>
               Cada gesto, repetição ou pausa é lido como tentativa de manter

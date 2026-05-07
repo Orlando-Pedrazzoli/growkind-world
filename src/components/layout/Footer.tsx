@@ -1,7 +1,9 @@
 'use client';
 
+import { useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Instagram, Facebook, Linkedin, Lock } from 'lucide-react';
 
@@ -30,10 +32,31 @@ const socialLinks = [
   },
 ];
 
+/**
+ * Rotas onde o Footer não deve aparecer — experiências imersivas
+ * que têm o seu próprio chrome (ex: leitor do livro).
+ * Mantém-se sincronizado com HIDE_HEADER_PREFIXES em Header.tsx.
+ */
+const HIDE_FOOTER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
+
+function shouldHideFooter(pathname: string | null): boolean {
+  if (!pathname) return false;
+  return HIDE_FOOTER_PREFIXES.some(
+    prefix => pathname === prefix || pathname.startsWith(`${prefix}/`),
+  );
+}
+
 export default function Footer() {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const ano = new Date().getFullYear();
   const isAdmin = session?.user?.role === 'admin';
+
+  // Detectar rotas que escondem o Footer (leitor imersivo)
+  const hidden = useMemo(() => shouldHideFooter(pathname), [pathname]);
+
+  // SE rota imersiva → não renderizar nada
+  if (hidden) return null;
 
   return (
     <footer

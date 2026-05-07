@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import { BOOK_EDITIONS } from '@/lib/data/book';
 
 export default function BookFinalCTA() {
@@ -45,7 +46,7 @@ export default function BookFinalCTA() {
           pergunta diferente — e deixar que ela mude o que você oferece.
         </p>
 
-        {/* 3 Botoes inline */}
+        {/* Botoes de compra (BOOK_EDITIONS) */}
         <div className='mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
           {BOOK_EDITIONS.map(edition => {
             const isExternal = edition.href.startsWith('http');
@@ -96,6 +97,24 @@ export default function BookFinalCTA() {
               </Component>
             );
           })}
+        </div>
+
+        {/* Link para preview gratuito */}
+        <div className='mt-6 flex justify-center'>
+          <Link
+            href='/livro/preview'
+            className='group inline-flex items-center gap-2 text-[13px] uppercase tracking-[0.1em] transition-all duration-300'
+            style={{ color: 'rgba(240,232,208,0.7)' }}
+          >
+            <span className='underline-offset-4 group-hover:underline'>
+              Ler os primeiros capítulos · grátis
+            </span>
+            <ArrowRight
+              size={14}
+              strokeWidth={1.8}
+              className='transition-transform duration-300 group-hover:translate-x-1'
+            />
+          </Link>
         </div>
 
         {/* Info envio */}

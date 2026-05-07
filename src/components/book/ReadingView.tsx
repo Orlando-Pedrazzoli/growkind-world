@@ -16,6 +16,13 @@ interface ReadingViewProps {
   onChapterChange: (chapterId: string) => void;
 }
 
+// Largura da sidebar quando ancorada (desktop)
+const SIDEBAR_WIDTH_PX = 320;
+// Breakpoint mínimo para sidebar persistente
+const DESKTOP_MIN_WIDTH = 1024;
+// Chave de persistência da preferência
+const SIDEBAR_PREF_KEY = 'gk-reading-sidebar-open';
+
 // ── Renderização de cada bloco de conteúdo ────────────────
 function BlockRenderer({ block }: { block: ContentBlock }) {
   switch (block.type) {
@@ -139,12 +146,55 @@ export default function ReadingView({
   hasFullAccess,
   onChapterChange,
 }: ReadingViewProps) {
+  // Sidebar fechada inicialmente (será definida no useEffect com base em ecrã + preferência)
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [fontSize, setFontSize] = useState<'sm' | 'md' | 'lg'>('md');
   const [theme, setTheme] = useState<'light' | 'sepia' | 'dark'>('sepia');
   const [scrollProgress, setScrollProgress] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const isGated = chapter.access === 'full' && !hasFullAccess;
+
+  // Detectar tamanho do ecrã + restaurar preferência da sidebar
+  useEffect(() => {
+    function checkScreen() {
+      const desktop = window.innerWidth >= DESKTOP_MIN_WIDTH;
+      setIsDesktop(desktop);
+
+      // Em desktop: respeita preferência guardada (default: aberta)
+      // Em mobile/tablet: sempre fechada por defeito
+      if (desktop) {
+        const saved = localStorage.getItem(SIDEBAR_PREF_KEY);
+        // Se nunca foi tocada, abre por defeito; senão respeita escolha
+        setSidebarOpen(saved === null ? true : saved === 'true');
+      } else {
+        setSidebarOpen(false);
+      }
+    }
+
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
+
+  // Toggle com persistência
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen(prev => {
+      const next = !prev;
+      // Só persistir preferência em desktop (em mobile é sempre overlay temporário)
+      if (window.innerWidth >= DESKTOP_MIN_WIDTH) {
+        localStorage.setItem(SIDEBAR_PREF_KEY, String(next));
+      }
+      return next;
+    });
+  }, []);
+
+  const closeSidebar = useCallback(() => {
+    setSidebarOpen(false);
+    if (window.innerWidth >= DESKTOP_MIN_WIDTH) {
+      localStorage.setItem(SIDEBAR_PREF_KEY, 'false');
+    }
+  }, []);
 
   // Progresso de scroll
   const handleScroll = useCallback(() => {
@@ -197,6 +247,15 @@ export default function ReadingView({
     ? chapter.blocks.slice(0, 3) // Mostra apenas os primeiros 3 parágrafos
     : chapter.blocks;
 
+  // Sidebar ancorada vs overlay:
+  // - Em desktop com sidebar aberta → "ancorada" (conteúdo encolhe)
+  // - Em mobile/tablet com sidebar aberta → "overlay" (conteúdo coberto)
+  const sidebarMode: 'docked' | 'overlay' | 'closed' = !sidebarOpen
+    ? 'closed'
+    : isDesktop
+      ? 'docked'
+      : 'overlay';
+
   return (
     <div className={`reading-root ${themeClass}`}>
       {/* ── Barra de progresso topo ── */}
@@ -206,11 +265,19 @@ export default function ReadingView({
       />
 
       {/* ── Header ── */}
-      <header className='reading-header'>
+      <header
+        className='reading-header'
+        style={
+          sidebarMode === 'docked'
+            ? { paddingLeft: `${SIDEBAR_WIDTH_PX + 24}px` }
+            : undefined
+        }
+      >
         <button
           className='reading-header-btn'
-          onClick={() => setSidebarOpen(true)}
-          aria-label='Índice do livro'
+          onClick={toggleSidebar}
+          aria-label={sidebarOpen ? 'Fechar índice' : 'Abrir índice'}
+          aria-expanded={sidebarOpen}
         >
           <IconMenu />
         </button>
@@ -260,71 +327,101 @@ export default function ReadingView({
       </header>
 
       {/* ── Sidebar (índice) ── */}
+      {/* Overlay backdrop: só em modo overlay (mobile/tablet) */}
+      {sidebarMode === 'overlay' && (
+        <div className='reading-sidebar-overlay' onClick={closeSidebar} />
+      )}
+
+      {/* Aside da sidebar — sempre renderizada quando aberta. Em modo docked
+          fica permanentemente visível à esquerda; em overlay paira sobre o conteúdo. */}
       {sidebarOpen && (
-        <>
-          <div
-            className='reading-sidebar-overlay'
-            onClick={() => setSidebarOpen(false)}
-          />
-          <aside className='reading-sidebar'>
-            <div className='reading-sidebar-header'>
-              <span className='reading-sidebar-title'>Índice</span>
-              <button
-                className='reading-sidebar-close'
-                onClick={() => setSidebarOpen(false)}
-                aria-label='Fechar índice'
-              >
-                ✕
-              </button>
-            </div>
-            <nav className='reading-sidebar-nav'>
-              {bookIndex.map(section => (
-                <div key={section.id} className='reading-sidebar-section'>
-                  {'chapters' in section ? (
-                    <>
-                      <div className='reading-sidebar-part'>
-                        {section.label}
-                      </div>
-                      {section.chapters?.map(ch => (
-                        <button
-                          key={ch.id}
-                          className={`reading-sidebar-chapter ${
-                            ch.id === chapter.id ? 'active' : ''
-                          } ${ch.access === 'full' && !hasFullAccess ? 'locked' : ''}`}
-                          onClick={() => {
-                            onChapterChange(ch.id);
+        <aside
+          className='reading-sidebar'
+          style={{
+            // Em desktop ancorada: ocupa altura total e fica na coluna esquerda
+            // Em overlay: comportamento default do CSS do João
+            ...(sidebarMode === 'docked'
+              ? {
+                  width: `${SIDEBAR_WIDTH_PX}px`,
+                  position: 'fixed',
+                  top: 0,
+                  left: 0,
+                  bottom: 0,
+                  zIndex: 30,
+                  borderRight: '1px solid rgba(0,0,0,0.08)',
+                }
+              : {}),
+          }}
+        >
+          <div className='reading-sidebar-header'>
+            <span className='reading-sidebar-title'>Índice</span>
+            <button
+              className='reading-sidebar-close'
+              onClick={closeSidebar}
+              aria-label='Fechar índice'
+            >
+              ✕
+            </button>
+          </div>
+          <nav className='reading-sidebar-nav'>
+            {bookIndex.map(section => (
+              <div key={section.id} className='reading-sidebar-section'>
+                {'chapters' in section ? (
+                  <>
+                    <div className='reading-sidebar-part'>{section.label}</div>
+                    {section.chapters?.map(ch => (
+                      <button
+                        key={ch.id}
+                        className={`reading-sidebar-chapter ${
+                          ch.id === chapter.id ? 'active' : ''
+                        } ${ch.access === 'full' && !hasFullAccess ? 'locked' : ''}`}
+                        onClick={() => {
+                          onChapterChange(ch.id);
+                          // Em mobile/tablet, fechar a sidebar ao escolher capítulo
+                          // Em desktop, manter aberta (utilizador pode continuar a navegar)
+                          if (window.innerWidth < DESKTOP_MIN_WIDTH) {
                             setSidebarOpen(false);
-                          }}
-                        >
-                          {ch.access === 'full' && !hasFullAccess && (
-                            <span className='reading-sidebar-lock'>🔒</span>
-                          )}
-                          {ch.label}
-                        </button>
-                      ))}
-                    </>
-                  ) : (
-                    <button
-                      className={`reading-sidebar-chapter reading-sidebar-chapter--top ${
-                        section.id === chapter.id ? 'active' : ''
-                      }`}
-                      onClick={() => {
-                        onChapterChange(section.id);
+                          }
+                        }}
+                      >
+                        {ch.access === 'full' && !hasFullAccess && (
+                          <span className='reading-sidebar-lock'>🔒</span>
+                        )}
+                        {ch.label}
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  <button
+                    className={`reading-sidebar-chapter reading-sidebar-chapter--top ${
+                      section.id === chapter.id ? 'active' : ''
+                    }`}
+                    onClick={() => {
+                      onChapterChange(section.id);
+                      if (window.innerWidth < DESKTOP_MIN_WIDTH) {
                         setSidebarOpen(false);
-                      }}
-                    >
-                      {section.label}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </nav>
-          </aside>
-        </>
+                      }
+                    }}
+                  >
+                    {section.label}
+                  </button>
+                )}
+              </div>
+            ))}
+          </nav>
+        </aside>
       )}
 
       {/* ── Conteúdo principal ── */}
-      <main ref={contentRef} className={`reading-content ${fontSizeClass}`}>
+      <main
+        ref={contentRef}
+        className={`reading-content ${fontSizeClass}`}
+        style={
+          sidebarMode === 'docked'
+            ? { marginLeft: `${SIDEBAR_WIDTH_PX}px` }
+            : undefined
+        }
+      >
         <div className='reading-content-inner'>
           {/* Título do capítulo */}
           <div className='reading-chapter-header'>
@@ -337,7 +434,7 @@ export default function ReadingView({
                 {chapter.subtitle.split('\n').map((line, i) => (
                   <span key={i}>
                     {line}
-                    {i < chapter.subtitle.split('\n').length - 1 && <br />}
+                    {i < chapter.subtitle!.split('\n').length - 1 && <br />}
                   </span>
                 ))}
               </p>

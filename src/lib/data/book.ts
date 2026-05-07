@@ -13,23 +13,38 @@ export interface BookEdition {
   style: 'primary' | 'secondary' | 'ghost';
 }
 
+// ─────────────────────────────────────────────────────────────────
+// EDIÇÕES ACTIVAS — apresentadas em /o-livro (BookHero + BookFinalCTA)
+// ─────────────────────────────────────────────────────────────────
+//
+// NOTA Maio 2026 (Item 2 — Revisão João Pereira):
+// As edições Amazon (Kindle e Físico) estão temporariamente
+// desactivadas até o livro ser publicado e os ISBN existirem.
+// Para reactivar: mover os objectos de BOOK_EDITIONS_PENDING para
+// BOOK_EDITIONS, e substituir 'XXXXXXXXX' pelos ISBN reais.
+// ─────────────────────────────────────────────────────────────────
+
 export const BOOK_EDITIONS: BookEdition[] = [
   {
     format: 'ebook',
     label: 'eBook · PDF + ePub',
     sublabel: 'Acesso imediato — no site',
-    price: '€12',
+    price: '€14',
     icon: '📱',
     href: '/comprar/ebook',
     style: 'primary',
   },
+];
+
+// Edições à espera de ISBN — não aparecem no site até serem movidas para BOOK_EDITIONS
+export const BOOK_EDITIONS_PENDING: BookEdition[] = [
   {
     format: 'kindle',
     label: 'Kindle · Amazon',
     sublabel: 'Leitura no Kindle ou app Amazon',
     price: '€9.99',
     icon: '📖',
-    href: 'https://amazon.com/dp/XXXXXXXXX',
+    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN Kindle real
     style: 'secondary',
   },
   {
@@ -38,7 +53,7 @@ export const BOOK_EDITIONS: BookEdition[] = [
     sublabel: 'Envio para PT, BR e resto do mundo',
     price: '€19.99',
     icon: '📗',
-    href: 'https://amazon.com/dp/XXXXXXXXX',
+    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN físico real
     style: 'ghost',
   },
 ];

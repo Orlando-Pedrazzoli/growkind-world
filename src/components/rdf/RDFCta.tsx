@@ -52,12 +52,12 @@ export default function RDFCta() {
           profissionais e para famílias.
         </p>
 
-        {/* Frase secundária */}
+        {/* Frase secundária — corrigido Item 8: 4 cursos → 2 cursos */}
         <p
           className='mt-3 text-[13px]'
           style={{ color: 'rgba(240,232,208,0.4)' }}
         >
-          4 cursos · do sentir ao agir · para profissionais e famílias
+          2 cursos · para profissionais e famílias
         </p>
 
         {/* Botão único */}
