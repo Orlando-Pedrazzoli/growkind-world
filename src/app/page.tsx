@@ -1,4 +1,6 @@
+// src/app/page.tsx
 import type { Metadata } from 'next';
+import { buildPageMetadata } from '@/lib/seo';
 import Hero from '@/components/home/Hero';
 import Aterrissagem from '@/components/home/Aterrissagem';
 import SeccaoLivro from '@/components/home/SeccaoLivro';
@@ -11,11 +13,23 @@ import OLivro from '@/components/home/OLivro';
 import FrameworkRDF from '@/components/home/FrameworkRDF';
 import CapturaLista from '@/components/home/CapturaLista';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: 'GrowKind World — Educação que cresce com a criança',
   description:
-    'Projecto educativo e editorial dedicado à infância neurodivergente. Livro, cursos e recursos para famílias e profissionais.',
-};
+    'Projecto educativo e editorial dedicado à infância neurodivergente. Livro, cursos e recursos para famílias e profissionais que valorizam compreensão antes da intervenção.',
+  path: '/',
+  keywords: [
+    'neurodivergência',
+    'autismo',
+    'desenvolvimento infantil',
+    'educação inclusiva',
+    'João Pereira',
+    'Relational Development Framework',
+    'RDF',
+    'cursos para pais',
+    'cursos teaching assistants',
+  ],
+});
 
 export default function HomePage() {
   return (
