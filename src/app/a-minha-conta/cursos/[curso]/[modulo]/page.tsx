@@ -1,12 +1,10 @@
 // src/app/a-minha-conta/cursos/[curso]/[modulo]/page.tsx
-
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { auth } from '@/lib/auth';
-import { connectDB } from '@/lib/db';
-import Purchase from '@/models/Purchase';
+import { hasAccess } from '@/lib/access';
 import { cursos } from '@/lib/data/cursos';
 
 export const metadata: Metadata = {
@@ -20,7 +18,6 @@ interface PageProps {
 
 const VALID_CURSOS = ['profissionais', 'familias'] as const;
 const VALID_MODULOS = ['m1', 'm2', 'm3', 'm4'] as const;
-
 type CursoSlug = (typeof VALID_CURSOS)[number];
 type ModuloSlug = (typeof VALID_MODULOS)[number];
 
@@ -47,6 +44,7 @@ export default async function ModuloViewerPage({ params }: PageProps) {
 
   const cursoData = cursos[cursoSlug];
   const moduloData = cursoData.modulos.find(m => m.slug === moduloSlug);
+
   if (!moduloData) notFound();
 
   // Se M1 (gratuito), apenas redirecionar para o HTML público
@@ -54,16 +52,14 @@ export default async function ModuloViewerPage({ params }: PageProps) {
     redirect(moduloData.htmlPath);
   }
 
-  // Verificar se utilizador comprou este curso
-  await connectDB();
-  const purchase = await Purchase.findOne({
-    userEmail: session!.user!.email!.toLowerCase(),
-    product: PRODUCT_BY_CURSO[cursoSlug],
-    status: 'completed',
-  });
+  // Verificar acesso (admin OU Purchase completed)
+  const allowed = await hasAccess(
+    session!.user!.email!,
+    PRODUCT_BY_CURSO[cursoSlug],
+  );
 
-  if (!purchase) {
-    // Não comprou — redirecionar para a página de compra
+  if (!allowed) {
+    // Não tem acesso — redirecionar para a página de compra
     redirect(`/cursos/${cursoSlug}`);
   }
 

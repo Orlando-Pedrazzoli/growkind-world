@@ -1,11 +1,11 @@
 // src/app/api/checkout/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { auth } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import Purchase from '@/models/Purchase';
 import User from '@/models/User';
+import { isAdminEmail } from '@/lib/access';
 import { cursosPorProductKey } from '@/lib/data/cursos';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -29,7 +29,7 @@ function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
       return {
         name: 'Onde o Mundo Nasce Entre Nós — eBook',
         description: 'Livro digital · Acesso vitalício no site',
-        amount: 1400, // €14 (atualizado)
+        amount: 1400,
         successPath: '/comprar/sucesso?session_id={CHECKOUT_SESSION_ID}',
         cancelPath: '/o-livro',
         alreadyOwnedRedirect: '/a-minha-conta/livro',
@@ -91,6 +91,24 @@ export async function POST(req: NextRequest) {
     }
 
     const catalog = getProductCatalog(product);
+
+    // ─────────────────────────────────────────────────────
+    // ADMIN BYPASS — admins têm acesso a tudo sem passar pelo Stripe.
+    // O frontend (/comprar/ebook/page.tsx) já trata `redirect` no JSON,
+    // levando o admin direto ao conteúdo.
+    // ─────────────────────────────────────────────────────
+    if (isAdminEmail(session.user.email)) {
+      console.log(
+        `[CHECKOUT] Admin bypass: ${session.user.email} → ${product}`,
+      );
+      return NextResponse.json(
+        {
+          error: 'Já tens acesso a este produto (admin).',
+          redirect: catalog.alreadyOwnedRedirect,
+        },
+        { status: 400 },
+      );
+    }
 
     await connectDB();
 

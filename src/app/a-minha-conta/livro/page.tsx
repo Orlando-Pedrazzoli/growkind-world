@@ -1,10 +1,8 @@
 // src/app/a-minha-conta/livro/page.tsx
-
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { auth } from '@/lib/auth';
-import { connectDB } from '@/lib/db';
-import Purchase from '@/models/Purchase';
+import { hasAccess } from '@/lib/access';
 import { chaptersMap, previewChapterIds } from '@/lib/book-data';
 import BookReader from '@/components/book/BookReader';
 
@@ -17,16 +15,6 @@ interface PageProps {
   searchParams: Promise<{ capitulo?: string }>;
 }
 
-async function hasBookAccess(email: string): Promise<boolean> {
-  await connectDB();
-  const purchase = await Purchase.findOne({
-    userEmail: email.toLowerCase(),
-    product: 'ebook',
-    status: 'completed',
-  });
-  return !!purchase;
-}
-
 export default async function MyBookPage({ searchParams }: PageProps) {
   const session = await auth();
 
@@ -34,7 +22,9 @@ export default async function MyBookPage({ searchParams }: PageProps) {
     redirect('/login?next=/a-minha-conta/livro');
   }
 
-  const hasAccess = await hasBookAccess(session.user.email);
+  // Verifica acesso (admin OU compra do ebook)
+  const allowed = await hasAccess(session.user.email, 'ebook');
+
   const { capitulo } = await searchParams;
 
   // Determinar capítulo inicial
@@ -43,9 +33,8 @@ export default async function MyBookPage({ searchParams }: PageProps) {
   const initialChapterId =
     capitulo && chaptersMap[capitulo] ? capitulo : 'introducao';
 
-  // Se não tem acesso, redirecionar para preview
-  // (preview público mostra os 3 primeiros capítulos)
-  if (!hasAccess) {
+  // Se não tem acesso, redirecionar para preview público (3 primeiros capítulos)
+  if (!allowed) {
     redirect('/livro/preview');
   }
 

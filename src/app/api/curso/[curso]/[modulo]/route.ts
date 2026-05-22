@@ -1,11 +1,9 @@
 // src/app/api/curso/[curso]/[modulo]/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 import { readFile } from 'fs/promises';
 import path from 'path';
 import { auth } from '@/lib/auth';
-import { connectDB } from '@/lib/db';
-import Purchase from '@/models/Purchase';
+import { hasAccess } from '@/lib/access';
 
 /**
  * Rota protegida que serve os HTMLs M2-M4 dos cursos.
@@ -13,7 +11,7 @@ import Purchase from '@/models/Purchase';
  * Os ficheiros estão em `private/cursos/{curso}/{modulo}.html` (fora do `public/`)
  * e só são servidos se:
  *   1. O utilizador está autenticado
- *   2. Tem uma Purchase completed para o produto correspondente
+ *   2. Tem acesso ao produto (admin OU Purchase completed)
  *
  * Os HTMLs do M1 continuam em `public/cursos/...` (gratuitos, indexáveis,
  * acessíveis a todos via URL direto).
@@ -74,15 +72,10 @@ export async function GET(
     );
   }
 
-  // 3. Verificar compra
-  await connectDB();
-  const purchase = await Purchase.findOne({
-    userEmail: session.user.email.toLowerCase(),
-    product: CURSO_TO_PRODUCT[curso],
-    status: 'completed',
-  });
+  // 3. Verificar acesso (admin OU compra)
+  const allowed = await hasAccess(session.user.email, CURSO_TO_PRODUCT[curso]);
 
-  if (!purchase) {
+  if (!allowed) {
     return NextResponse.json(
       {
         error: 'Não tens acesso a este módulo. Adquire o curso para continuar.',
@@ -103,12 +96,10 @@ export async function GET(
 
   try {
     const html = await readFile(filePath, 'utf-8');
-
     return new NextResponse(html, {
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
-        // Não cachear — queremos que verificação de acesso seja sempre fresca
         'Cache-Control': 'private, no-store, must-revalidate',
       },
     });
