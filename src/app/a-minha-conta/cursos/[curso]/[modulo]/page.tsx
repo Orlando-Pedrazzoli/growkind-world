@@ -36,7 +36,11 @@ export default async function ModuloViewerPage({ params }: PageProps) {
   const cursoSlug = curso as CursoSlug;
   const moduloSlug = modulo as ModuloSlug;
 
-  // Validar utilizador
+  // ─────────────────────────────────────────────────────────────
+  // 1) LOGIN OBRIGATÓRIO — para QUALQUER módulo, inclusive o M1
+  //    gratuito. Sem sessão → vai para login/cadastro e regressa
+  //    a este módulo depois de autenticar (next preservado).
+  // ─────────────────────────────────────────────────────────────
   const session = await auth();
   if (!session?.user?.email) {
     redirect(`/login?next=/a-minha-conta/cursos/${cursoSlug}/${moduloSlug}`);
@@ -47,19 +51,24 @@ export default async function ModuloViewerPage({ params }: PageProps) {
 
   if (!moduloData) notFound();
 
-  // Se M1 (gratuito), apenas redirecionar para o HTML público
+  // ─────────────────────────────────────────────────────────────
+  // 2) M1 GRATUITO — utilizador já está autenticado (passou o check
+  //    acima). Servimos o conteúdo público do M1.
+  // ─────────────────────────────────────────────────────────────
   if (moduloData.gratuito) {
     redirect(moduloData.htmlPath);
   }
 
-  // Verificar acesso (admin OU Purchase completed)
+  // ─────────────────────────────────────────────────────────────
+  // 3) MÓDULOS PAGOS (M2-M4) — verificar posse (admin OU compra).
+  // ─────────────────────────────────────────────────────────────
   const allowed = await hasAccess(
     session!.user!.email!,
     PRODUCT_BY_CURSO[cursoSlug],
   );
 
   if (!allowed) {
-    // Não tem acesso — redirecionar para a página de compra
+    // Não tem acesso — volta à página de venda do curso.
     redirect(`/cursos/${cursoSlug}`);
   }
 
@@ -93,7 +102,7 @@ export default async function ModuloViewerPage({ params }: PageProps) {
             src={`/api/curso/${cursoSlug}/${moduloSlug}`}
             title={`${cursoData.nome} — ${moduloData.titulo}`}
             className='h-full w-full border-0'
-            sandbox='allow-scripts allow-same-origin allow-popups'
+            sandbox='allow-scripts allow-same-origin allow-popups allow-forms'
           />
         </div>
       </div>

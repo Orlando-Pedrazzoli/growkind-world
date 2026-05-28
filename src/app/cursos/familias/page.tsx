@@ -26,7 +26,7 @@ export default function CursoFamiliasPage() {
           description: cursoFamilias.descricao,
           path: '/cursos/familias',
           coverImage: cursoFamilias.capaPrincipal,
-          price: '29.00',
+          price: '58.00',
           audience: cursoFamilias.publico,
         })}
       />

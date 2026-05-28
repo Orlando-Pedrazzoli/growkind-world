@@ -1,13 +1,7 @@
 // src/components/cursos/CursoDetalhe.tsx
 
 import Link from 'next/link';
-import {
-  ArrowLeft,
-  Users,
-  GraduationCap,
-  Check,
-  ShoppingBag,
-} from 'lucide-react';
+import { ArrowLeft, Users, GraduationCap, Check } from 'lucide-react';
 import { auth } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import Purchase from '@/models/Purchase';
@@ -150,7 +144,8 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
                   className='mt-3 text-[12px]'
                   style={{ color: 'rgba(240,232,208,0.5)' }}
                 >
-                  M1 gratuito · M2-M4 incluídos na compra
+                  Módulo 1 gratuito · Módulos 2, 3 e 4 incluídos na compra do
+                  curso completo
                 </p>
               </div>
             )}
@@ -188,8 +183,6 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
                 modulo={modulo}
                 cursoSlug={curso.slug}
                 cursoNome={curso.nome}
-                productKey={curso.productKey}
-                precoEur={curso.precoEur}
                 accentColor={curso.accentColor}
                 accentTextColor={accentTextDark}
                 isOwned={isOwned}

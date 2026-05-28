@@ -26,10 +26,10 @@ export interface Curso {
   accentColor: string;
   capaPrincipal: string;
   modulos: Modulo[];
-  // Compra
+  // Compra — apenas o curso completo (M2+M3+M4). M1 é gratuito.
   productKey: 'curso-prof' | 'curso-fam'; // chave em Purchase.product
-  preco: number; // em cêntimos (€)
-  precoEur: string; // string formatada para UI ("€49")
+  preco: number; // pacote completo, em cêntimos (€)
+  precoEur: string; // string formatada para UI ("€98")
 }
 
 // =============================================================================
@@ -49,8 +49,8 @@ export const cursoProfissionais: Curso = {
   accentColor: '#c4a44a',
   capaPrincipal: '/cursos/capas/cz-m1-prof.svg',
   productKey: 'curso-prof',
-  preco: 4900, // €49
-  precoEur: '€49',
+  preco: 9800, // €98 — curso completo (M2 + M3 + M4)
+  precoEur: '€98',
   modulos: [
     {
       numero: 1,
@@ -132,8 +132,8 @@ export const cursoFamilias: Curso = {
   accentColor: '#7aab96',
   capaPrincipal: '/cursos/capas/cz-m1-fam.svg',
   productKey: 'curso-fam',
-  preco: 2900, // €29
-  precoEur: '€29',
+  preco: 5800, // €58 — curso completo (M2 + M3 + M4)
+  precoEur: '€58',
   modulos: [
     {
       numero: 1,

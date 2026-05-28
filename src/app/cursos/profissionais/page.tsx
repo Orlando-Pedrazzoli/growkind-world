@@ -28,7 +28,7 @@ export default function CursoProfissionaisPage() {
           description: cursoProfissionais.descricao,
           path: '/cursos/profissionais',
           coverImage: cursoProfissionais.capaPrincipal,
-          price: '49.00',
+          price: '98.00',
           audience: cursoProfissionais.publico,
         })}
       />
