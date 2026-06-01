@@ -25,10 +25,9 @@ export const SEO_CONFIG = {
   language: 'pt-PT',
 
   // Imagem OG default (1200×630). Caminho relativo a /public.
-  // TODO: criar /public/og-image.jpg dedicada (1200x630).
-  // Por agora usamos hero-home.jpg como fallback.
+  // Imagem dedicada — manter <300KB para preview fiável no WhatsApp.
   defaultOgImage: {
-    url: '/images/hero-home.jpg',
+    url: '/og-image.jpg',
     width: 1200,
     height: 630,
     alt: 'GrowKind World — Educação que cresce com a criança',
