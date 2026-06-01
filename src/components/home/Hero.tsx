@@ -82,6 +82,7 @@ export default function Hero() {
       aria-roledescription='carrossel'
       aria-label='Destaques GrowKind World'
       className='relative -mt-20 overflow-hidden md:-mt-24'
+      style={{ backgroundColor: '#1b140c' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocusCapture={() => setIsHovered(true)}
