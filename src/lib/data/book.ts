@@ -3,12 +3,14 @@
 // Textos aprovados pelo João Pereira
 // ============================================
 
+import { BookOpen, Tablet, Book, type LucideIcon } from 'lucide-react';
+
 export interface BookEdition {
   format: 'ebook' | 'kindle' | 'physical';
   label: string;
   sublabel: string;
   price: string;
-  icon: string;
+  icon: LucideIcon;
   href: string;
   style: 'primary' | 'secondary' | 'ghost';
 }
@@ -27,10 +29,10 @@ export interface BookEdition {
 export const BOOK_EDITIONS: BookEdition[] = [
   {
     format: 'ebook',
-    label: 'eBook · PDF + ePub',
-    sublabel: 'Acesso imediato — no site',
+    label: 'Comprar o eBook',
+    sublabel: 'Acesso imediato · Leitura no site',
     price: '€14',
-    icon: '📱',
+    icon: BookOpen,
     href: '/comprar/ebook',
     style: 'primary',
   },
@@ -43,7 +45,7 @@ export const BOOK_EDITIONS_PENDING: BookEdition[] = [
     label: 'Kindle · Amazon',
     sublabel: 'Leitura no Kindle ou app Amazon',
     price: '€9.99',
-    icon: '📖',
+    icon: Tablet,
     href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN Kindle real
     style: 'secondary',
   },
@@ -52,7 +54,7 @@ export const BOOK_EDITIONS_PENDING: BookEdition[] = [
     label: 'Livro Físico · Amazon',
     sublabel: 'Envio para PT, BR e resto do mundo',
     price: '€19.99',
-    icon: '📗',
+    icon: Book,
     href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN físico real
     style: 'ghost',
   },

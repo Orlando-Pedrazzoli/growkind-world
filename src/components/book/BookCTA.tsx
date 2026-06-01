@@ -49,10 +49,11 @@ export default function BookCTA() {
           página.
         </p>
 
-        {/* 3 Botoes inline */}
+        {/* Botoes inline */}
         <div className='mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
           {BOOK_EDITIONS.map(edition => {
             const isExternal = edition.href.startsWith('http');
+            const Icon = edition.icon;
 
             if (edition.style === 'primary') {
               return (
@@ -66,8 +67,10 @@ export default function BookCTA() {
                     borderRadius: '8px',
                   }}
                 >
-                  <span>{edition.icon}</span>
-                  <span>eBook — {edition.price}</span>
+                  <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
+                  <span>
+                    {edition.label} — {edition.price}
+                  </span>
                 </Link>
               );
             }
@@ -89,18 +92,15 @@ export default function BookCTA() {
                       : '1px solid rgba(212,207,196,0.8)',
                   color:
                     edition.style === 'secondary'
-                      ? '#3d5a4f'
+                      ? '#ffffff'
                       : 'var(--color-gk-cinza)',
                   borderRadius: '8px',
                   backgroundColor:
                     edition.style === 'secondary' ? '#3d5a4f' : 'transparent',
-                  ...(edition.style === 'secondary'
-                    ? { color: '#ffffff' }
-                    : {}),
                 }}
                 {...externalProps}
               >
-                <span>{edition.icon}</span>
+                <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
                 <span>
                   {edition.format === 'kindle' ? 'Kindle' : 'Físico Amazon'} —{' '}
                   {edition.price}

@@ -1,14 +1,13 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { revealContainer, revealItem } from '@/lib/motion';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function CapturaLista() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
   const [email, setEmail] = useState('');
   const [state, setState] = useState<FormState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -55,23 +54,26 @@ export default function CapturaLista() {
 
   return (
     <section
-      ref={ref}
       id='lista'
       className='w-full'
       style={{ backgroundColor: '#0d1f13' }}
     >
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        variants={revealContainer}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: false, amount: 0.2 }}
         className='mx-auto flex flex-col items-center px-6 py-12 text-center md:px-[60px] md:py-[var(--spacing-section)]'
         style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
-        <span className='eyebrow'>Acompanha o processo</span>
+        <motion.span variants={revealItem} className='eyebrow'>
+          Acompanha o processo
+        </motion.span>
 
         {/* Separador */}
-        <div
+        <motion.div
+          variants={revealItem}
           className='mx-auto mt-6 md:mt-8'
           style={{
             width: '40px',
@@ -81,14 +83,18 @@ export default function CapturaLista() {
         />
 
         {/* Titulo */}
-        <h2 className='mt-8 text-[var(--color-gk-white)] md:mt-12'>
+        <motion.h2
+          variants={revealItem}
+          className='mt-8 text-[var(--color-gk-white)] md:mt-12'
+        >
           Entra na lista.
           <br />
           Recebe em primeira mão.
-        </h2>
+        </motion.h2>
 
         {/* Subtitulo */}
-        <p
+        <motion.p
+          variants={revealItem}
           className='mx-auto mt-4 max-w-lg text-lg leading-relaxed md:mt-6'
           style={{ color: 'rgba(255,255,255,0.6)' }}
         >
@@ -96,7 +102,7 @@ export default function CapturaLista() {
           lista.
           <br />
           Sem pressão. Só o que importa.
-        </p>
+        </motion.p>
 
         {/* Formulario funcional */}
         {state === 'success' ? (
@@ -143,13 +149,14 @@ export default function CapturaLista() {
           </motion.div>
         ) : (
           // ─── Estado: idle / submitting / error ────────────────────────
-          <form
+          <motion.form
+            variants={revealItem}
             onSubmit={handleSubmit}
             className='mt-8 w-full max-w-lg md:mt-10'
             noValidate
           >
             <div
-              className='flex w-full flex-col overflow-hidden sm:flex-row'
+              className='flex w-full flex-col overflow-hidden rounded-2xl sm:flex-row sm:rounded-full'
               style={{
                 border:
                   state === 'error'
@@ -210,7 +217,7 @@ export default function CapturaLista() {
               </Link>
               . Podes cancelar a inscrição a qualquer momento.
             </p>
-          </form>
+          </motion.form>
         )}
       </motion.div>
     </section>

@@ -1,30 +1,27 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function OQueVimos() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-
   return (
-    <section
-      ref={ref}
-      className='w-full'
-      style={{ backgroundColor: '#091208' }}
-    >
+    <section className='w-full' style={{ backgroundColor: '#091208' }}>
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        variants={revealContainer}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: false, amount: 0.2 }}
         className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
         style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
-        <span className='eyebrow'>O que vimos</span>
+        <motion.span variants={revealItem} className='eyebrow'>
+          O que vimos
+        </motion.span>
 
         {/* Separador */}
-        <div
+        <motion.div
+          variants={revealItem}
           className='mx-auto mt-6 md:mt-8'
           style={{
             width: '40px',
@@ -33,17 +30,22 @@ export default function OQueVimos() {
           }}
         />
 
-        {/* Conteudo */}
-        <div className='mt-10 max-w-3xl space-y-6 md:mt-16 md:space-y-8'>
-          <p
+        {/* Conteudo — sub-container que escalona os blocos */}
+        <motion.div
+          variants={revealContainer}
+          className='mt-10 max-w-3xl space-y-6 md:mt-16 md:space-y-8'
+        >
+          <motion.p
+            variants={revealItem}
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
             Há um silêncio que se instala quando um diagnóstico chega e ninguém
             sabe, verdadeiramente, o que fazer com ele.
-          </p>
+          </motion.p>
 
-          <div
+          <motion.div
+            variants={revealItem}
             className='space-y-1 text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
@@ -58,22 +60,25 @@ export default function OQueVimos() {
               Profissionais competentes, mas fragmentados — cada um a olhar para
               uma parte da criança, quase nunca para o todo.
             </p>
-          </div>
+          </motion.div>
 
-          <p
+          <motion.p
+            variants={revealItem}
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
             E no meio de tudo isso, crianças simplesmente a tentar existir.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        {/* Blockquote */}
-        <blockquote
+        {/* Blockquote — sub-container que escalona as duas linhas */}
+        <motion.blockquote
+          variants={revealContainer}
           className='mt-10 max-w-3xl border-l-2 pl-6 md:mt-12 md:pl-8'
           style={{ borderColor: 'var(--color-gk-ocre)' }}
         >
-          <p
+          <motion.p
+            variants={revealItem}
             className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
@@ -81,14 +86,15 @@ export default function OQueVimos() {
             <br />
             Estava entre a experiência vivida e a linguagem usada para a
             explicar.
-          </p>
-          <p
+          </motion.p>
+          <motion.p
+            variants={revealItem}
             className='mt-4 font-[family-name:var(--font-display)] text-xl font-semibold italic md:mt-6 md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
             Faltava tradução.
-          </p>
-        </blockquote>
+          </motion.p>
+        </motion.blockquote>
       </motion.div>
     </section>
   );

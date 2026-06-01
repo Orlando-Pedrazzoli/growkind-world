@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { revealContainer, revealItem } from '@/lib/motion';
 
 const items = [
   {
@@ -24,27 +24,24 @@ const items = [
 ];
 
 export default function ParaQuem() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-
   return (
-    <section
-      ref={ref}
-      className='w-full'
-      style={{ backgroundColor: '#0d1f13' }}
-    >
+    <section className='w-full' style={{ backgroundColor: '#0d1f13' }}>
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        variants={revealContainer}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: false, amount: 0.2 }}
         className='mx-auto px-6 py-12 md:px-[60px] md:py-[var(--spacing-section)]'
         style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Eyebrow */}
-        <span className='eyebrow'>Para quem é</span>
+        <motion.span variants={revealItem} className='eyebrow'>
+          Para quem é
+        </motion.span>
 
         {/* Separador */}
-        <div
+        <motion.div
+          variants={revealItem}
           className='mt-6 md:mt-8'
           style={{
             width: '40px',
@@ -53,11 +50,12 @@ export default function ParaQuem() {
           }}
         />
 
-        {/* Lista */}
-        <div className='mt-10 md:mt-16'>
+        {/* Lista — sub-container que escalona cada linha */}
+        <motion.div variants={revealContainer} className='mt-10 md:mt-16'>
           {items.map((item, i) => (
-            <div
+            <motion.div
               key={i}
+              variants={revealItem}
               className='flex flex-col gap-2 py-6 sm:flex-row sm:items-baseline sm:gap-12 md:py-8'
               style={{
                 borderBottom:
@@ -78,9 +76,9 @@ export default function ParaQuem() {
               >
                 {item.descricao}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   );

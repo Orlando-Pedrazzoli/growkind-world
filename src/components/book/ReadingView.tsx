@@ -133,7 +133,7 @@ function PaywallGate() {
           Comprar acesso completo
         </a>
         <p className='reading-paywall-note'>
-          Acesso vitalício · PDF + ePub incluídos
+          Acesso vitalício · Leitura no site
         </p>
       </div>
     </div>

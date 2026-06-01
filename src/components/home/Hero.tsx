@@ -26,14 +26,14 @@ const SLIDES: Slide[] = [
     id: 'livro',
     alt: 'Onde o Mundo Nasce Entre Nós — o livro de João Pereira',
     desktop: '/images/hero-livro.jpg',
-    mobile: '/images/hero-livro.jpg',
+    mobile: '/images/hero-livro-mobile.jpg',
     href: '/o-livro',
   },
   {
     id: 'rdf',
     alt: 'Relational Development Framework (RDF) — uma nova forma de olhar o desenvolvimento',
     desktop: '/images/hero-rdf.jpg',
-    mobile: '/images/hero-rdf.jpg',
+    mobile: '/images/hero-rdf-mobile.jpg',
     href: '/rdf',
   },
 ];

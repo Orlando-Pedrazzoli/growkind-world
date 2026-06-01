@@ -77,6 +77,7 @@ export default function BookHero() {
           <div className='mt-10 flex max-w-[420px] flex-col gap-3'>
             {BOOK_EDITIONS.map(edition => {
               const isExternal = edition.href.startsWith('http');
+              const Icon = edition.icon;
               const btnClasses =
                 'flex items-center justify-between px-6 py-4 text-[14px] font-medium transition-all duration-300';
 
@@ -85,7 +86,7 @@ export default function BookHero() {
                   <Link
                     key={edition.format}
                     href={edition.href}
-                    className={btnClasses}
+                    className={`${btnClasses} hover:brightness-110`}
                     style={{
                       backgroundColor: '#c4a44a',
                       color: '#1a1f18',
@@ -93,13 +94,18 @@ export default function BookHero() {
                     }}
                   >
                     <span className='flex items-center gap-3'>
-                      <span>{edition.icon}</span>
+                      <Icon
+                        size={22}
+                        strokeWidth={1.8}
+                        className='shrink-0'
+                        aria-hidden='true'
+                      />
                       <span>
-                        <span className='block text-[11px] uppercase tracking-[0.1em] opacity-70'>
-                          {edition.label}
-                        </span>
-                        <span className='block text-[13px]'>
+                        <span className='block text-[11px] uppercase tracking-[0.1em] opacity-60'>
                           {edition.sublabel}
+                        </span>
+                        <span className='block text-[14px] font-semibold'>
+                          {edition.label}
                         </span>
                       </span>
                     </span>
@@ -131,13 +137,18 @@ export default function BookHero() {
                   {...externalProps}
                 >
                   <span className='flex items-center gap-3'>
-                    <span>{edition.icon}</span>
+                    <Icon
+                      size={20}
+                      strokeWidth={1.8}
+                      className='shrink-0 opacity-80'
+                      aria-hidden='true'
+                    />
                     <span>
                       <span className='block text-[11px] uppercase tracking-[0.1em] opacity-50'>
-                        {edition.label}
-                      </span>
-                      <span className='block text-[13px] opacity-80'>
                         {edition.sublabel}
+                      </span>
+                      <span className='block text-[14px] font-semibold opacity-90'>
+                        {edition.label}
                       </span>
                     </span>
                   </span>

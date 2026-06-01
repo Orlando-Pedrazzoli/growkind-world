@@ -2,13 +2,10 @@
 
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function Aterrissagem() {
-  const ref = useRef<HTMLElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
-
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -18,20 +15,21 @@ export default function Aterrissagem() {
 
   return (
     <section
-      ref={ref}
       id='sobre'
       className='w-full'
       style={{ backgroundColor: '#1b140c' }}
     >
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        variants={revealContainer}
+        initial='hidden'
+        whileInView='visible'
+        viewport={{ once: false, amount: 0.2 }}
         className='mx-auto flex flex-col items-center px-6 pt-0 pb-16 text-center md:px-[60px] md:pt-0 md:pb-[var(--spacing-section)]'
         style={{ maxWidth: 'var(--width-content-wide)' }}
       >
         {/* Titulo */}
-        <h2
+        <motion.h2
+          variants={revealItem}
           className='text-[var(--color-gk-white)]'
           style={{ fontSize: 'clamp(1.25rem, 5vw, 2.75rem)' }}
         >
@@ -40,10 +38,11 @@ export default function Aterrissagem() {
           <em className='text-[var(--color-gk-ocre)]'>
             experiência neurodivergente.
           </em>
-        </h2>
+        </motion.h2>
 
         {/* Separador */}
-        <div
+        <motion.div
+          variants={revealItem}
           className='mx-auto mt-8 md:mt-10'
           style={{
             width: '40px',
@@ -53,17 +52,22 @@ export default function Aterrissagem() {
         />
 
         {/* Subtitulo */}
-        <p
+        <motion.p
+          variants={revealItem}
           className='mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:mt-8'
           style={{ color: 'rgba(255,255,255,0.65)' }}
         >
           Para pais e profissionais que valorizam compreensão antes da
           intervenção.
-        </p>
+        </motion.p>
 
-        {/* Botoes */}
-        <div className='mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6 md:mt-12'>
-          <button
+        {/* Botoes — sub-container que escalona os dois CTAs */}
+        <motion.div
+          variants={revealContainer}
+          className='mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6 md:mt-12'
+        >
+          <motion.button
+            variants={revealItem}
             onClick={() => scrollTo('onde-comeca')}
             className='inline-block cursor-pointer rounded-full px-10 py-4 text-[14px] font-medium uppercase tracking-widest transition-all duration-300 hover:brightness-110'
             style={{
@@ -72,15 +76,16 @@ export default function Aterrissagem() {
             }}
           >
             A nossa história
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+            variants={revealItem}
             onClick={() => scrollTo('oque-acreditamos')}
             className='inline-block cursor-pointer rounded-full border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[14px] font-medium uppercase tracking-widest transition-all duration-300 hover:border-white/70 hover:bg-white/5'
             style={{ color: '#ffffff' }}
           >
             Os nossos princípios
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       </motion.div>
     </section>
   );

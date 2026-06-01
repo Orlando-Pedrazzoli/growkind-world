@@ -50,6 +50,7 @@ export default function BookFinalCTA() {
         <div className='mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
           {BOOK_EDITIONS.map(edition => {
             const isExternal = edition.href.startsWith('http');
+            const Icon = edition.icon;
 
             if (edition.style === 'primary') {
               return (
@@ -63,8 +64,10 @@ export default function BookFinalCTA() {
                     borderRadius: '8px',
                   }}
                 >
-                  <span>{edition.icon}</span>
-                  <span>eBook — {edition.price}</span>
+                  <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
+                  <span>
+                    {edition.label} — {edition.price}
+                  </span>
                 </Link>
               );
             }
@@ -89,7 +92,7 @@ export default function BookFinalCTA() {
                 }}
                 {...externalProps}
               >
-                <span>{edition.icon}</span>
+                <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
                 <span>
                   {edition.format === 'kindle' ? 'Kindle' : 'Físico Amazon'} —{' '}
                   {edition.price}
@@ -122,7 +125,7 @@ export default function BookFinalCTA() {
           className='mt-5 text-[13px] italic'
           style={{ color: 'rgba(240,232,208,0.35)' }}
         >
-          Envio para PT, BR e resto do mundo · Devolução em 7 dias
+          Acesso imediato · Devolução em 7 dias
         </p>
       </motion.div>
     </section>
