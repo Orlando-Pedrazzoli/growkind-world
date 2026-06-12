@@ -20,7 +20,7 @@ export default function Aterrissagem() {
     <section
       id='sobre'
       className='w-full'
-      style={{ backgroundColor: '#1b140c' }}
+      style={{ backgroundColor: '#0a0805' }}
     >
       <motion.div
         variants={revealContainer}
