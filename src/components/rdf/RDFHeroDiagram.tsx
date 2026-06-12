@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
 type NodeId = 'crianca' | 'adulto' | 'ambiente';
 type LineId = 'line1' | 'line2' | 'line3';
@@ -10,37 +11,18 @@ interface NodeConfig {
   cx: number;
   cy: number;
   r: number;
-  label: string;
-  role: string;
   fillClass: string;
 }
 
+// Estrutura sem textos — labels/roles vêm do dicionário
 const NODES: NodeConfig[] = [
-  {
-    id: 'crianca',
-    cx: 220,
-    cy: 52,
-    r: 58,
-    label: 'Criança',
-    role: 'ponto de partida',
-    fillClass: 'rgba(74,124,111,0.45)',
-  },
-  {
-    id: 'adulto',
-    cx: 68,
-    cy: 330,
-    r: 58,
-    label: 'Adulto',
-    role: 'lê e ajusta',
-    fillClass: 'rgba(196,164,74,0.25)',
-  },
+  { id: 'crianca', cx: 220, cy: 52, r: 58, fillClass: 'rgba(74,124,111,0.45)' },
+  { id: 'adulto', cx: 68, cy: 330, r: 58, fillClass: 'rgba(196,164,74,0.25)' },
   {
     id: 'ambiente',
     cx: 372,
     cy: 330,
     r: 58,
-    label: 'Ambiente',
-    role: 'modula o campo',
     fillClass: 'rgba(120,88,48,0.45)',
   },
 ];
@@ -55,6 +37,8 @@ const LINES: { id: LineId; x1: number; y1: number; x2: number; y2: number }[] =
 const wait = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
 
 export default function RDFHeroDiagram() {
+  const t = useTranslations('rdf.heroDiagram');
+
   const nodeRefs = useRef<Record<NodeId, SVGGElement | null>>({
     crianca: null,
     adulto: null,
@@ -185,7 +169,7 @@ export default function RDFHeroDiagram() {
               fontWeight='400'
               fill='#faf8f4'
             >
-              {node.label}
+              {t(`nodes.${node.id}.label`)}
             </text>
             <text
               textAnchor='middle'
@@ -197,7 +181,7 @@ export default function RDFHeroDiagram() {
               fill='#c4a44a'
               letterSpacing='0.1em'
             >
-              {node.role}
+              {t(`nodes.${node.id}.role`)}
             </text>
           </g>
         ))}
@@ -234,7 +218,7 @@ export default function RDFHeroDiagram() {
             fontWeight='400'
             fill='#faf8f4'
           >
-            Campo
+            {t('centerLine1')}
           </text>
           <text
             textAnchor='middle'
@@ -245,7 +229,7 @@ export default function RDFHeroDiagram() {
             fontWeight='400'
             fill='#faf8f4'
           >
-            Relacional
+            {t('centerLine2')}
           </text>
           <line
             x1='188'
@@ -264,7 +248,7 @@ export default function RDFHeroDiagram() {
             fontSize='13'
             fill='rgba(250,248,244,0.45)'
           >
-            onde o desenvolvimento
+            {t('centerSubLine1')}
           </text>
           <text
             textAnchor='middle'
@@ -275,7 +259,7 @@ export default function RDFHeroDiagram() {
             fontSize='13'
             fill='rgba(250,248,244,0.45)'
           >
-            acontece
+            {t('centerSubLine2')}
           </text>
         </g>
       </svg>
@@ -309,7 +293,7 @@ export default function RDFHeroDiagram() {
           (e.target as HTMLButtonElement).style.color = 'rgba(196,164,74,0.4)';
         }}
       >
-        ↺ &nbsp;repetir
+        ↺ &nbsp;{t('replay')}
       </button>
     </div>
   );

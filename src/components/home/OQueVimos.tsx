@@ -1,9 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function OQueVimos() {
+  const t = useTranslations('home.saw');
+
   return (
     <section className='w-full' style={{ backgroundColor: '#091208' }}>
       <motion.div
@@ -16,7 +19,7 @@ export default function OQueVimos() {
       >
         {/* Eyebrow */}
         <motion.span variants={revealItem} className='eyebrow'>
-          O que vimos
+          {t('eyebrow')}
         </motion.span>
 
         {/* Separador */}
@@ -40,8 +43,7 @@ export default function OQueVimos() {
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
-            Há um silêncio que se instala quando um diagnóstico chega e ninguém
-            sabe, verdadeiramente, o que fazer com ele.
+            {t('intro')}
           </motion.p>
 
           <motion.div
@@ -49,17 +51,9 @@ export default function OQueVimos() {
             className='space-y-1 text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
-            <p>
-              Pais confusos diante de relatórios que não conversam entre si.
-            </p>
-            <p>
-              Educadores sobrecarregados com estratégias que raramente
-              sobrevivem ao ritmo real da sala de aula.
-            </p>
-            <p>
-              Profissionais competentes, mas fragmentados — cada um a olhar para
-              uma parte da criança, quase nunca para o todo.
-            </p>
+            <p>{t('point1')}</p>
+            <p>{t('point2')}</p>
+            <p>{t('point3')}</p>
           </motion.div>
 
           <motion.p
@@ -67,7 +61,7 @@ export default function OQueVimos() {
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(255,255,255,0.7)' }}
           >
-            E no meio de tudo isso, crianças simplesmente a tentar existir.
+            {t('point4')}
           </motion.p>
         </motion.div>
 
@@ -79,20 +73,17 @@ export default function OQueVimos() {
         >
           <motion.p
             variants={revealItem}
-            className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
+            className='whitespace-pre-line font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
-            O maior abismo nunca esteve entre a criança e o mundo.
-            <br />
-            Estava entre a experiência vivida e a linguagem usada para a
-            explicar.
+            {t('quote')}
           </motion.p>
           <motion.p
             variants={revealItem}
             className='mt-4 font-[family-name:var(--font-display)] text-xl font-semibold italic md:mt-6 md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
-            Faltava tradução.
+            {t('quoteEmphasis')}
           </motion.p>
         </motion.blockquote>
       </motion.div>

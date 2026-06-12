@@ -1,76 +1,39 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
-/* ── Dados dos movimentos para o painel ── */
-const movimentosData = {
-  m1: {
-    codigo: 'M1 · Regulação',
-    cor: '#7BAA5D',
-    titulo: 'Habitar o Mundo',
-    subtitulo: 'Ser Chão',
-    paragrafos: [
-      'Quando o campo pede regulação, o adulto torna-se chão. O sistema nervoso da criança precisa de encontrar estabilidade antes de qualquer outra coisa.',
-      'O adulto não instrui — regula. A presença é a intervenção. Não há técnica que substitua o adulto regulado que simplesmente fica.',
-      'Fundamento: Teoria Polyvagal (Porges) — o sistema nervoso autónomo precisa de estado de segurança neurofisiológica antes de qualquer aprendizagem ser possível.',
-    ],
-    publico: ['Famílias', 'Teaching Assistants'],
-  },
-  m2: {
-    codigo: 'M2 · Estrutura',
-    cor: '#4E7EA7',
-    titulo: 'Agir no Mundo',
-    subtitulo: 'Abrir Caminho',
-    paragrafos: [
-      'Quando o campo pede estrutura, o adulto torna-se estrutura. A criança precisa de previsibilidade e organização para poder agir.',
-      'O adulto oferece o enquadramento que permite a acção — não como controlo, mas como contenção que liberta. A rotina não é rigidez — é chão previsível.',
-      'A diferença entre corrigir o comportamento e organizar o campo que o produziu.',
-    ],
-    publico: ['Famílias', 'Teaching Assistants', 'Professores'],
-  },
-  m3: {
-    codigo: 'M3 · Relação',
-    cor: '#C8844A',
-    titulo: 'Encontrar o Outro',
-    subtitulo: 'Sustentar o Encontro',
-    paragrafos: [
-      'Quando o campo pede relação, o adulto torna-se mediador do encontro. Este movimento tem uma progressão interna que é pedagogicamente crítica.',
-      'O outro como obstáculo funcional → o outro como referência responsiva → o outro como mente própria. Muitos adultos estão no primeiro ponto. Começar pela Teoria da Mente perde-os.',
-      'O RDF começa onde o campo está — não onde gostaríamos que estivesse.',
-    ],
-    publico: ['Famílias', 'Teaching Assistants', 'Terapeutas'],
-  },
-  mt: {
-    codigo: 'MT · Transversal',
-    cor: '#C17F3A',
-    titulo: 'Coordenar o Campo',
-    subtitulo: 'Ser Eixo',
-    paragrafos: [
-      'Este movimento pertence ao campo do adulto — não ao desenvolvimento da criança. É transversal a todos os movimentos, não sequencial nem final.',
-      'O adulto que coordena o campo mantém coerência entre o que observa, o que decide e o que comunica — à família, à escola, aos terapeutas.',
-      'Na prática, é frequentemente a mãe, o pai ou o TA que cumpre esta função — garantindo que a leitura do campo é partilhada e coerente entre todos os adultos que acompanham a criança.',
-    ],
-    publico: ['Todos os públicos'],
-  },
+/* ── Estrutura dos movimentos (cores/códigos) — textos vêm do dicionário ── */
+const MOVIMENTO_CONFIG = {
+  m1: { codigo: 'M1', cor: '#7BAA5D' },
+  m2: { codigo: 'M2', cor: '#4E7EA7' },
+  m3: { codigo: 'M3', cor: '#C8844A' },
+  mt: { codigo: 'MT', cor: '#C17F3A' },
 } as const;
 
-type MovimentoKey = keyof typeof movimentosData;
+type MovimentoKey = keyof typeof MOVIMENTO_CONFIG;
 
-const legenda = [
-  { key: 'm1', cor: '#7BAA5D', label: 'M1 · Habitar o Mundo' },
-  { key: 'm2', cor: '#4E7EA7', label: 'M2 · Agir no Mundo' },
-  { key: 'm3', cor: '#C8844A', label: 'M3 · Encontrar o Outro' },
-  { key: 'mt', cor: '#C17F3A', label: 'MT · Coordenar o Campo' },
-];
+const LEGENDA_KEYS: MovimentoKey[] = ['m1', 'm2', 'm3', 'mt'];
 
 export default function DiagramaPage() {
+  const t = useTranslations('rdf.diagramPage');
   const [activeNode, setActiveNode] = useState<MovimentoKey | null>(null);
 
   function handleNodeClick(key: MovimentoKey) {
     setActiveNode(key);
   }
 
-  const activeData = activeNode ? movimentosData[activeNode] : null;
+  // Título de cada nó em duas linhas — \n no JSON
+  const nodeTitleLines = (key: MovimentoKey) =>
+    t(`movements.${key}.nodeTitle`).split('\n');
+
+  const activeConfig = activeNode ? MOVIMENTO_CONFIG[activeNode] : null;
+  const activeParagrafos = activeNode
+    ? (t.raw(`movements.${activeNode}.paragraphs`) as string[])
+    : [];
+  const activePublico = activeNode
+    ? (t.raw(`movements.${activeNode}.audience`) as string[])
+    : [];
 
   return (
     <>
@@ -85,17 +48,14 @@ export default function DiagramaPage() {
           className='section-label mb-5 block'
           style={{ textAlign: 'center' }}
         >
-          RDF · Framework Interactivo
+          {t('heroLabel')}
         </span>
-        <h1 className='text-[var(--color-gk-green-dark)]'>
-          O Campo Relacional
-        </h1>
+        <h1 className='text-[var(--color-gk-green-dark)]'>{t('heroTitle')}</h1>
         <p
           className='mx-auto mt-5 text-[var(--color-gk-cinza)]'
           style={{ fontSize: '16px', lineHeight: 1.7, maxWidth: '520px' }}
         >
-          Clica em cada movimento para explorar o que o campo está a pedir — e o
-          que o adulto pode oferecer.
+          {t('heroSubtitle')}
         </p>
       </section>
 
@@ -111,10 +71,10 @@ export default function DiagramaPage() {
           className='mx-auto mb-10 flex flex-wrap gap-8'
           style={{ maxWidth: '1100px' }}
         >
-          {legenda.map(l => (
+          {LEGENDA_KEYS.map(key => (
             <button
-              key={l.key}
-              onClick={() => handleNodeClick(l.key as MovimentoKey)}
+              key={key}
+              onClick={() => handleNodeClick(key)}
               className='flex items-center gap-2.5 transition-opacity hover:opacity-80'
             >
               <div
@@ -122,7 +82,7 @@ export default function DiagramaPage() {
                   width: '12px',
                   height: '12px',
                   borderRadius: '50%',
-                  background: l.cor,
+                  background: MOVIMENTO_CONFIG[key].cor,
                   flexShrink: 0,
                 }}
               />
@@ -130,7 +90,7 @@ export default function DiagramaPage() {
                 className='text-[var(--color-gk-cinza)]'
                 style={{ fontSize: '12px', letterSpacing: '0.04em' }}
               >
-                {l.label}
+                {MOVIMENTO_CONFIG[key].codigo} · {t(`movements.${key}.titulo`)}
               </span>
             </button>
           ))}
@@ -242,7 +202,7 @@ export default function DiagramaPage() {
                   letterSpacing='1'
                   fontWeight='500'
                 >
-                  CRIANÇA
+                  {t('externalLabels.childLabel')}
                 </text>
                 <text
                   x='290'
@@ -252,7 +212,7 @@ export default function DiagramaPage() {
                   fontSize='8'
                   fill='#6B6B6B'
                 >
-                  ponto de partida
+                  {t('externalLabels.childSub')}
                 </text>
 
                 <circle
@@ -273,7 +233,7 @@ export default function DiagramaPage() {
                   letterSpacing='1'
                   fontWeight='500'
                 >
-                  ADULTO
+                  {t('externalLabels.adultLabel')}
                 </text>
                 <text
                   x='530'
@@ -283,7 +243,7 @@ export default function DiagramaPage() {
                   fontSize='8'
                   fill='#6B6B6B'
                 >
-                  leitor do campo
+                  {t('externalLabels.adultSub')}
                 </text>
 
                 <circle
@@ -304,7 +264,7 @@ export default function DiagramaPage() {
                   letterSpacing='1'
                   fontWeight='500'
                 >
-                  AMBIENTE
+                  {t('externalLabels.environmentLabel')}
                 </text>
                 <text
                   x='50'
@@ -314,7 +274,7 @@ export default function DiagramaPage() {
                   fontSize='8'
                   fill='#6B6B6B'
                 >
-                  participante
+                  {t('externalLabels.environmentSub')}
                 </text>
               </g>
 
@@ -372,7 +332,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  Coordenar
+                  {nodeTitleLines('mt')[0]}
                 </text>
                 <text
                   x='290'
@@ -383,7 +343,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  o Campo
+                  {nodeTitleLines('mt')[1]}
                 </text>
               </g>
 
@@ -441,7 +401,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  Habitar
+                  {nodeTitleLines('m1')[0]}
                 </text>
                 <text
                   x='290'
@@ -452,7 +412,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  o Mundo
+                  {nodeTitleLines('m1')[1]}
                 </text>
               </g>
 
@@ -510,7 +470,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  Agir
+                  {nodeTitleLines('m2')[0]}
                 </text>
                 <text
                   x='468'
@@ -521,7 +481,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  no Mundo
+                  {nodeTitleLines('m2')[1]}
                 </text>
               </g>
 
@@ -579,7 +539,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  Encontrar
+                  {nodeTitleLines('m3')[0]}
                 </text>
                 <text
                   x='112'
@@ -590,7 +550,7 @@ export default function DiagramaPage() {
                   fill='#fff'
                   fontWeight='600'
                 >
-                  o Outro
+                  {nodeTitleLines('m3')[1]}
                 </text>
               </g>
             </svg>
@@ -598,7 +558,7 @@ export default function DiagramaPage() {
 
           {/* Painel Lateral */}
           <div className='sticky top-24'>
-            {!activeData ? (
+            {!activeConfig || !activeNode ? (
               /* Placeholder */
               <div
                 className='text-center'
@@ -620,8 +580,7 @@ export default function DiagramaPage() {
                   className='font-[family-name:var(--font-display)] italic text-[var(--color-gk-cinza)]'
                   style={{ fontSize: '17px', lineHeight: 1.6 }}
                 >
-                  Clica em qualquer movimento do diagrama para explorar o que o
-                  campo está a pedir.
+                  {t('placeholder')}
                 </p>
               </div>
             ) : (
@@ -641,11 +600,11 @@ export default function DiagramaPage() {
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
                     fontWeight: 500,
-                    color: activeData.cor,
+                    color: activeConfig.cor,
                     marginBottom: '8px',
                   }}
                 >
-                  {activeData.codigo}
+                  {t(`movements.${activeNode}.codigo`)}
                 </div>
 
                 <h2
@@ -656,14 +615,14 @@ export default function DiagramaPage() {
                     marginBottom: '6px',
                   }}
                 >
-                  {activeData.titulo}
+                  {t(`movements.${activeNode}.titulo`)}
                 </h2>
 
                 <span
                   className='eyebrow mb-7 block'
                   style={{ color: 'var(--color-gk-ocre)' }}
                 >
-                  {activeData.subtitulo}
+                  {t(`movements.${activeNode}.subtitulo`)}
                 </span>
 
                 {/* Divider */}
@@ -680,7 +639,7 @@ export default function DiagramaPage() {
                   className='mb-8 space-y-3.5 text-[var(--color-gk-cinza)]'
                   style={{ fontSize: '14px', lineHeight: 1.85 }}
                 >
-                  {activeData.paragrafos.map((p, i) => (
+                  {activeParagrafos.map((p, i) => (
                     <p key={i}>{p}</p>
                   ))}
                 </div>
@@ -698,10 +657,12 @@ export default function DiagramaPage() {
                       fontWeight: 500,
                     }}
                   >
-                    {activeNode === 'mt' ? 'Transversal a' : 'Curso para'}
+                    {activeNode === 'mt'
+                      ? t('audienceTransversal')
+                      : t('audienceCourse')}
                   </div>
                   <div className='flex flex-wrap gap-2'>
-                    {activeData.publico.map(tag => (
+                    {activePublico.map(tag => (
                       <span
                         key={tag}
                         className='bg-[var(--color-gk-creme)] text-[var(--color-gk-green-dark)]'
@@ -723,7 +684,7 @@ export default function DiagramaPage() {
                   className='btn-primary block w-full text-center'
                   style={{ fontSize: '12px', letterSpacing: '0.08em' }}
                 >
-                  Entrar na lista de espera
+                  {t('cta')}
                 </a>
 
                 <div className='mt-3 text-center'>
@@ -746,8 +707,8 @@ export default function DiagramaPage() {
                       }}
                     />
                     {activeNode === 'mt'
-                      ? 'Formação em desenvolvimento'
-                      : 'Curso em desenvolvimento'}
+                      ? t('statusTraining')
+                      : t('statusCourse')}
                   </span>
                 </div>
               </div>
@@ -767,11 +728,9 @@ export default function DiagramaPage() {
         <div
           style={{ maxWidth: '640px', margin: '0 auto', textAlign: 'center' }}
         >
-          <span className='eyebrow mb-6 block'>
-            Formação GrowKind · Em breve
-          </span>
+          <span className='eyebrow mb-6 block'>{t('capture.eyebrow')}</span>
           <h2 className='text-[var(--color-gk-green-dark)]'>
-            Fica a saber primeiro
+            {t('capture.title')}
           </h2>
           <p
             className='mx-auto mt-4 text-[var(--color-gk-green-dark)]'
@@ -782,8 +741,7 @@ export default function DiagramaPage() {
               maxWidth: '480px',
             }}
           >
-            Os cursos RDF — para famílias e para Teaching Assistants — abrem em
-            breve. A lista de espera tem prioridade nas inscrições.
+            {t('capture.body')}
           </p>
 
           <form
@@ -796,34 +754,38 @@ export default function DiagramaPage() {
               type='text'
               name='nome'
               required
-              placeholder='O teu nome'
+              placeholder={t('capture.namePlaceholder')}
               className='input-editorial'
             />
             <input
               type='email'
               name='email'
               required
-              placeholder='O teu email'
+              placeholder={t('capture.emailPlaceholder')}
               className='input-editorial'
             />
             <select name='perfil' className='input-editorial' defaultValue=''>
               <option value='' disabled>
-                Eu sou...
+                {t('capture.selectPlaceholder')}
               </option>
-              <option value='pai-mae'>Pai / Mãe</option>
-              <option value='teaching-assistant'>Teaching Assistant</option>
-              <option value='professor'>Professor(a)</option>
+              <option value='pai-mae'>{t('capture.optionParent')}</option>
+              <option value='teaching-assistant'>
+                {t('capture.optionTA')}
+              </option>
+              <option value='professor'>{t('capture.optionTeacher')}</option>
               <option value='psicologo-terapeuta'>
-                Psicólogo(a) / Terapeuta
+                {t('capture.optionTherapist')}
               </option>
-              <option value='outro-profissional'>Outro profissional</option>
+              <option value='outro-profissional'>
+                {t('capture.optionOther')}
+              </option>
             </select>
             <button
               type='submit'
               className='btn-primary w-full'
               style={{ padding: '18px' }}
             >
-              Entrar na lista de espera
+              {t('capture.submit')}
             </button>
           </form>
 
@@ -831,7 +793,7 @@ export default function DiagramaPage() {
             className='mt-4 text-[var(--color-gk-green-dark)]'
             style={{ fontSize: '12px', opacity: 0.5 }}
           >
-            Sem pressão. Só o que importa — quando importar.
+            {t('capture.footnote')}
           </p>
         </div>
       </section>

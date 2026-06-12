@@ -3,9 +3,13 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { RDF_AXIOM } from '@/lib/data/rdf';
+import { useTranslations } from 'next-intl';
+import { useRdfData } from '@/lib/data/rdf';
 
 export default function RDFCta() {
+  const t = useTranslations('rdf.cta');
+  const { axiom } = useRdfData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -26,7 +30,7 @@ export default function RDFCta() {
           className='text-[11px] font-semibold uppercase tracking-[0.14em]'
           style={{ color: '#c4a44a' }}
         >
-          O princípio
+          {t('eyebrow')}
         </span>
 
         {/* Axioma */}
@@ -39,7 +43,7 @@ export default function RDFCta() {
             lineHeight: 1.3,
           }}
         >
-          &ldquo;{RDF_AXIOM}&rdquo;
+          &ldquo;{axiom}&rdquo;
         </h2>
 
         {/* Frase de transição */}
@@ -47,9 +51,7 @@ export default function RDFCta() {
           className='mx-auto mt-8 max-w-[560px] text-[16px] leading-relaxed'
           style={{ color: 'rgba(240,232,208,0.6)' }}
         >
-          A lente está disponível nesta página. O que os cursos aprofundam é a
-          aplicação — com ferramentas, casos reais e reflexão guiada. Para
-          profissionais e para famílias.
+          {t('body')}
         </p>
 
         {/* Frase secundária — corrigido Item 8: 4 cursos → 2 cursos */}
@@ -57,7 +59,7 @@ export default function RDFCta() {
           className='mt-3 text-[13px]'
           style={{ color: 'rgba(240,232,208,0.4)' }}
         >
-          2 cursos · para profissionais e famílias
+          {t('coursesNote')}
         </p>
 
         {/* Botão único */}
@@ -72,7 +74,7 @@ export default function RDFCta() {
               borderRadius: '8px',
             }}
           >
-            Conhecer os cursos <span aria-hidden='true'>→</span>
+            {t('button')} <span aria-hidden='true'>→</span>
           </Link>
         </div>
       </motion.div>

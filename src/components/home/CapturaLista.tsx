@@ -3,11 +3,14 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
 type FormState = 'idle' | 'submitting' | 'success' | 'error';
 
 export default function CapturaLista() {
+  const t = useTranslations('home.newsletter');
+
   const [email, setEmail] = useState('');
   const [state, setState] = useState<FormState>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -18,7 +21,7 @@ export default function CapturaLista() {
     // Validação básica client-side
     const trimmed = email.trim();
     if (!trimmed || !trimmed.includes('@') || !trimmed.includes('.')) {
-      setErrorMsg('Por favor introduz um email válido.');
+      setErrorMsg(t('invalidEmail'));
       setState('error');
       return;
     }
@@ -36,7 +39,7 @@ export default function CapturaLista() {
       const data = await res.json();
 
       if (!res.ok) {
-        setErrorMsg(data.error || 'Erro ao processar inscrição.');
+        setErrorMsg(data.error || t('error'));
         setState('error');
         return;
       }
@@ -45,9 +48,7 @@ export default function CapturaLista() {
       setEmail('');
       setState('success');
     } catch {
-      setErrorMsg(
-        'Erro de ligação. Verifica a tua internet e tenta novamente.',
-      );
+      setErrorMsg(t('connectionError'));
       setState('error');
     }
   }
@@ -68,7 +69,7 @@ export default function CapturaLista() {
       >
         {/* Eyebrow */}
         <motion.span variants={revealItem} className='eyebrow'>
-          Acompanha o processo
+          {t('eyebrow')}
         </motion.span>
 
         {/* Separador */}
@@ -82,26 +83,21 @@ export default function CapturaLista() {
           }}
         />
 
-        {/* Titulo */}
+        {/* Titulo — \n no JSON + whitespace-pre-line preserva a quebra */}
         <motion.h2
           variants={revealItem}
-          className='mt-8 text-[var(--color-gk-white)] md:mt-12'
+          className='mt-8 whitespace-pre-line text-[var(--color-gk-white)] md:mt-12'
         >
-          Entra na lista.
-          <br />
-          Recebe em primeira mão.
+          {t('title')}
         </motion.h2>
 
         {/* Subtitulo */}
         <motion.p
           variants={revealItem}
-          className='mx-auto mt-4 max-w-lg text-lg leading-relaxed md:mt-6'
+          className='mx-auto mt-4 max-w-lg whitespace-pre-line text-lg leading-relaxed md:mt-6'
           style={{ color: 'rgba(255,255,255,0.6)' }}
         >
-          O lançamento do livro e dos cursos acontece primeiro para quem está na
-          lista.
-          <br />
-          Sem pressão. Só o que importa.
+          {t('body')}
         </motion.p>
 
         {/* Formulario funcional */}
@@ -141,10 +137,10 @@ export default function CapturaLista() {
               className='font-[family-name:var(--font-display)] text-xl'
               style={{ color: '#7AAB96' }}
             >
-              Inscrição confirmada
+              {t('successTitle')}
             </p>
             <p className='text-sm' style={{ color: 'rgba(255,255,255,0.7)' }}>
-              Bem-vindo à lista. Avisamos-te assim que houver novidades.
+              {t('successBody')}
             </p>
           </motion.div>
         ) : (
@@ -167,7 +163,7 @@ export default function CapturaLista() {
             >
               <input
                 type='email'
-                placeholder='o teu email'
+                placeholder={t('emailPlaceholder')}
                 value={email}
                 onChange={e => {
                   setEmail(e.target.value);
@@ -177,7 +173,7 @@ export default function CapturaLista() {
                 required
                 className='flex-1 border-none bg-transparent px-6 py-4 text-sm outline-none disabled:opacity-50'
                 style={{ color: 'rgba(255,255,255,0.85)' }}
-                aria-label='Email'
+                aria-label={t('emailPlaceholder')}
                 aria-invalid={state === 'error'}
               />
               <button
@@ -186,7 +182,7 @@ export default function CapturaLista() {
                 className='cursor-pointer px-8 py-4 text-[14px] font-medium uppercase tracking-widest text-white transition-all duration-300 hover:brightness-110 disabled:cursor-wait disabled:opacity-60'
                 style={{ backgroundColor: 'var(--color-gk-ocre)' }}
               >
-                {state === 'submitting' ? 'A enviar...' : 'Quero entrar'}
+                {state === 'submitting' ? t('submitting') : t('cta')}
               </button>
             </div>
 
@@ -203,19 +199,21 @@ export default function CapturaLista() {
               </motion.p>
             )}
 
-            {/* Nota privacidade */}
+            {/* Nota privacidade — consent usa tags <privacy></privacy> no JSON */}
             <p
               className='mt-4 text-[12px] leading-relaxed'
               style={{ color: 'rgba(255,255,255,0.4)' }}
             >
-              Ao inscrever-te concordas com a nossa{' '}
-              <Link
-                href='/privacidade'
-                className='underline underline-offset-2 transition-colors hover:text-white'
-              >
-                Política de Privacidade
-              </Link>
-              . Podes cancelar a inscrição a qualquer momento.
+              {t.rich('consent', {
+                privacy: chunks => (
+                  <Link
+                    href='/privacidade'
+                    className='underline underline-offset-2 transition-colors hover:text-white'
+                  >
+                    {chunks}
+                  </Link>
+                ),
+              })}
             </p>
           </motion.form>
         )}

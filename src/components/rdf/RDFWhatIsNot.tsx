@@ -2,9 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { RDF_DEFINITION } from '@/lib/data/rdf';
+import { useTranslations } from 'next-intl';
+import { useRdfData } from '@/lib/data/rdf';
 
 export default function RDFWhatIsNot() {
+  const t = useTranslations('rdf.whatIsNot');
+  const { definition } = useRdfData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -26,7 +30,7 @@ export default function RDFWhatIsNot() {
             className='text-[11px] font-semibold uppercase tracking-[0.14em]'
             style={{ color: '#8b6914' }}
           >
-            Posicionamento
+            {t('eyebrow')}
           </span>
 
           <h2
@@ -38,16 +42,16 @@ export default function RDFWhatIsNot() {
               lineHeight: 1.15,
             }}
           >
-            O que o RDF <em style={{ color: '#c4a44a' }}>é</em> — e o que não é
+            {t.rich('title', {
+              em: chunks => <em style={{ color: '#c4a44a' }}>{chunks}</em>,
+            })}
           </h2>
 
           <p
             className='mt-5 text-[16px] leading-relaxed'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            Esta distinção importa. O RDF é frequentemente confundido com uma
-            terapia ou método. É outra coisa: opera um nível antes — na leitura
-            que precede qualquer decisão de resposta.
+            {t('intro')}
           </p>
         </div>
 
@@ -77,12 +81,12 @@ export default function RDFWhatIsNot() {
                 className='text-[11px] font-semibold uppercase tracking-[0.12em]'
                 style={{ color: 'var(--color-gk-cinza)' }}
               >
-                O RDF não é
+                {t('isNotLabel')}
               </span>
             </div>
 
             <div className='mt-6 flex flex-col gap-4'>
-              {RDF_DEFINITION.isNot.map(item => (
+              {definition.isNot.map(item => (
                 <div key={item} className='flex items-start gap-3'>
                   <span
                     className='mt-0.5 shrink-0 text-[14px]'
@@ -125,12 +129,12 @@ export default function RDFWhatIsNot() {
                 className='text-[11px] font-semibold uppercase tracking-[0.12em]'
                 style={{ color: 'var(--color-gk-cinza)' }}
               >
-                O RDF é
+                {t('isLabel')}
               </span>
             </div>
 
             <div className='mt-6 flex flex-col gap-4'>
-              {RDF_DEFINITION.is.map(item => (
+              {definition.is.map(item => (
                 <div key={item} className='flex items-start gap-3'>
                   <span
                     className='mt-0.5 shrink-0 text-[14px]'

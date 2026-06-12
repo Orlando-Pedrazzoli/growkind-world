@@ -1,0 +1,751 @@
+{
+  "seo": {
+    "title": "GrowKind World — Educação que cresce com a criança",
+    "description": "Projeto educativo e editorial dedicado à infância neurodivergente. Livro, cursos e recursos para famílias e profissionais que valorizam compreensão antes da intervenção."
+  },
+  "nav": {
+    "home": "O Projecto",
+    "book": "O Livro",
+    "rdf": "RDF",
+    "courses": "Cursos",
+    "about": "O Autor",
+    "account": "A minha conta",
+    "login": "Entrar",
+    "register": "Criar conta",
+    "logout": "Sair",
+    "languageLabel": "Idioma"
+  },
+  "home": {
+    "hero": {
+      "titleLead": "Um mundo criado a partir da",
+      "titleEmphasis": "experiência neurodivergente.",
+      "subtitle": "Para pais e profissionais que valorizam compreensão antes da intervenção.",
+      "ctaStory": "A nossa história",
+      "ctaPrinciples": "Os nossos princípios",
+      "slideHome": "GrowKind World — Um mundo criado a partir da experiência neurodivergente",
+      "slideBook": "Onde o Mundo Nasce Entre Nós — o livro de João Pereira",
+      "slideRdf": "Relational Development Framework (RDF) — uma nova forma de olhar o desenvolvimento",
+      "carouselRole": "carrossel",
+      "carouselLabel": "Destaques GrowKind World",
+      "prevSlide": "Slide anterior",
+      "nextSlide": "Próximo slide",
+      "slideStatus": "Slide {current} de {total}: {alt}"
+    },
+    "origin": {
+      "eyebrow": "Onde tudo começa",
+      "body1": "Durante muito tempo, a pergunta foi sempre a mesma:\ncomo ensinamos a criança a adaptar-se ao mundo?",
+      "body2": "O GrowKind nasce de outra pergunta:\ncomo organizamos o mundo para que ele faça sentido\npara diferentes formas de existir?",
+      "body3": "Não é uma pergunta pequena.\nÉ uma pergunta que muda tudo."
+    },
+    "saw": {
+      "eyebrow": "O que vimos",
+      "intro": "Há um silêncio que se instala quando um diagnóstico chega e ninguém sabe, verdadeiramente, o que fazer com ele.",
+      "point1": "Pais confusos diante de relatórios que não conversam entre si.",
+      "point2": "Educadores sobrecarregados com estratégias que raramente sobrevivem ao ritmo real da sala de aula.",
+      "point3": "Profissionais competentes, mas fragmentados — cada um a olhar para uma parte da criança, quase nunca para o todo.",
+      "point4": "E no meio de tudo isso, crianças simplesmente a tentar existir.",
+      "quote": "O maior abismo nunca esteve entre a criança e o mundo.\nEstava entre a experiência vivida e a linguagem usada para a explicar.",
+      "quoteEmphasis": "Faltava tradução."
+    },
+    "believe": {
+      "eyebrow": "O que acreditamos",
+      "item1Title": "O desenvolvimento começa pelo ambiente.",
+      "item1Line1": "Antes de qualquer currículo, antes de qualquer intervenção,",
+      "item1Highlight": "o mundo precisa de ser habitável.",
+      "item1Line2": "Seguro. Previsível. Com ritmo próprio.",
+      "item2Title": "A experiência vem antes da instrução.",
+      "item2Line1": "Antes da palavra, há o gesto.",
+      "item2Line2": "Antes do conceito, há a experiência.",
+      "item2Line3": "Antes de corrigir, precisamos compreender.",
+      "item3Title": "O mundo vem antes do currículo.",
+      "item3Line1": "Nenhum conteúdo faz sentido se o mundo ainda é vivido como fragmentado.",
+      "item3Highlight": "O GrowKind constrói primeiro o território."
+    },
+    "doing": {
+      "eyebrow": "O que fazemos",
+      "body1": "A GrowKind nasce para fazer essa tradução.",
+      "body2": "Um território vivo onde o desenvolvimento pode ser acompanhado com rigor, tempo e atenção ao real.",
+      "body3": "Aqui o olhar encontra organização. Os profissionais encontram uma linguagem comum. E quem acompanha a criança encontra sustentação para o dia a dia real.",
+      "quote": "O desenvolvimento não acontece apenas dentro da criança.\nEle emerge no campo que se forma entre criança, adulto e ambiente.",
+      "closing": "Quando esse campo encontra organização, o desenvolvimento deixa de ser um problema a resolver e passa a ser um processo que pode ser acompanhado."
+    },
+    "forWhom": {
+      "eyebrow": "Para quem é",
+      "parentsTitle": "Para pais e famílias",
+      "parentsBody": "Que querem compreender antes de agir.",
+      "educatorsTitle": "Para educadores",
+      "educatorsBody": "Que ensinam sem apagar quem a criança é.",
+      "prosTitle": "Para profissionais",
+      "prosBody": "Que sabem que o desenvolvimento começa antes da técnica.",
+      "allTitle": "Para todos",
+      "allBody": "Que acreditam que acompanhar é mais exigente — e mais poderoso — do que corrigir."
+    },
+    "adultLine": "Quando o adulto aprende a ver,\na criança deixa de estar sozinha\nno processo.",
+    "bookSection": {
+      "eyebrow": "O Livro",
+      "title": "Onde o Mundo\nNasce Entre Nós",
+      "coverAlt": "Onde o Mundo Nasce Entre Nós — João Pereira",
+      "body1": "Não é um manual. É um deslocamento de olhar.",
+      "body2": "Em vez de explicar o autismo como diagnóstico, este livro acompanha o desenvolvimento como processo vivo — algo que acontece no corpo, no tempo e na relação.",
+      "body3": "Cada gesto, repetição ou pausa é lido como tentativa de manter equilíbrio. Nada aqui é tratado como erro a eliminar, mas como movimento que pede compreensão.",
+      "cta": "Descobrir o Livro"
+    },
+    "rdfSection": {
+      "eyebrow": "Framework · GrowKind World",
+      "title": "Relational Development Framework",
+      "subtitle": "Uma forma de ler o que está a acontecer\nantes de qualquer decisão de resposta.",
+      "body": "O RDF não é uma terapia. Não é um protocolo. É uma lente — uma forma de organizar como o adulto observa, lê e se posiciona no campo relacional da criança.",
+      "closing": "O desenvolvimento não se resolve. O desenvolvimento acompanha-se.",
+      "cta": "Conheça o RDF"
+    },
+    "newsletter": {
+      "eyebrow": "Acompanha o processo",
+      "title": "Entra na lista.\nRecebe em primeira mão.",
+      "body": "O lançamento do livro e dos cursos acontece primeiro para quem está na lista.\nSem pressão. Só o que importa.",
+      "emailPlaceholder": "O teu email",
+      "cta": "Quero entrar",
+      "submitting": "A enviar...",
+      "consent": "Ao inscreveres-te concordas com a nossa <privacy>Política de Privacidade</privacy>. Podes cancelar a inscrição a qualquer momento.",
+      "successTitle": "Inscrição confirmada",
+      "successBody": "Bem-vindo à lista. Avisamos-te assim que houver novidades.",
+      "invalidEmail": "Por favor introduz um email válido.",
+      "connectionError": "Erro de ligação. Verifica a tua internet e tenta novamente.",
+      "error": "Algo correu mal. Tenta novamente."
+    }
+  },
+  "footer": {
+    "tagline": "@growkindworld · growkindworld.com",
+    "rights": "Todos os direitos reservados",
+    "privacy": "Privacidade",
+    "terms": "Termos",
+    "cookies": "Cookies",
+    "returns": "Devoluções",
+    "developedBy": "Desenvolvido por",
+    "logoAlt": "Logótipo GrowKind World",
+    "legalAria": "Links legais",
+    "adminPanel": "Painel de administração"
+  },
+  "cookieBanner": {
+    "message": "Usamos cookies para melhorar a tua experiência.",
+    "accept": "Aceitar",
+    "reject": "Rejeitar",
+    "settings": "Definições"
+  },
+  "book": {
+    "meta": {
+      "title": "Onde o Mundo Nasce Entre Nós — O Livro",
+      "description": "Não é um manual. É um deslocamento de olhar. Em vez de explicar o autismo como diagnóstico, este livro acompanha o desenvolvimento como processo vivo. Por João Pereira.",
+      "ogAlt": "Onde o Mundo Nasce Entre Nós — João Pereira",
+      "keywords": [
+        "livro autismo",
+        "livro neurodivergência",
+        "desenvolvimento infantil",
+        "João Pereira livro",
+        "Onde o Mundo Nasce Entre Nós",
+        "ebook autismo português"
+      ]
+    },
+    "previewLink": "Ler os primeiros capítulos · grátis",
+    "hero": {
+      "authorLine": "João Pereira · GrowKind World · 2026",
+      "titleLead": "Onde o Mundo",
+      "titleEmphasis": "Nasce Entre Nós",
+      "subtitle": "Um caminho partilhado no autismo infantil",
+      "tagline": "Não é um manual. É um deslocamento de olhar.",
+      "description": "Nem todo comportamento pede correção. Alguns pedem leitura, tempo e presença. Este livro acompanha o desenvolvimento como processo vivo — algo que acontece no corpo, no tempo e na relação.",
+      "byAuthor": "Por <author>João Pereira</author> · Fundador, GrowKind World",
+      "coverAlt": "Capa do livro Onde o Mundo Nasce Entre Nós — João Pereira"
+    },
+    "about": {
+      "eyebrow": "O que é este livro",
+      "titleLead": "Um deslocamento",
+      "titleEmphasis": "de olhar",
+      "body1": "Não é um livro sobre o autismo enquanto diagnóstico. É um livro sobre o que acontece antes da intervenção — sobre o que pede para ser lido antes de ser corrigido.",
+      "body2": "Cada gesto, repetição ou pausa é lido como tentativa de manter equilíbrio. Nada aqui é tratado como erro a eliminar, mas como movimento que pede compreensão.",
+      "body3": "Ao longo da leitura, o adulto deixa de buscar respostas rápidas e passa a coordenar processos. Não para controlar. Mas para sustentar.",
+      "body4": "Se, ao final, você não tiver soluções imediatas — mas um olhar mais afinado e uma presença mais segura ao lado da criança — então este livro cumpriu seu papel."
+    },
+    "toc": {
+      "eyebrow": "Estrutura da obra",
+      "titleLead": "O que encontra",
+      "titleEmphasis": "dentro do livro",
+      "subtitle": "20 capítulos organizados em três partes — do sentir ao fazer, do fazer à relação."
+    },
+    "excerpt": {
+      "eyebrow": "Conheça o livro",
+      "titleLead": "Leia o",
+      "titleEmphasis": "início",
+      "subtitle": "A introdução — para sentir, antes de decidir.",
+      "chapterLabel": "Introdução · Um convite para ver de novo"
+    },
+    "cta": {
+      "eyebrow": "Continue a leitura",
+      "titleLead": "Onde o Mundo Nasce",
+      "titleEmphasis": "Entre Nós",
+      "subtitle": "20 capítulos. Três partes. Uma lente que não se desfaz após a última página.",
+      "note": "Devolução em 7 dias · eBook: acesso imediato"
+    },
+    "finalCta": {
+      "titleLead": "Comece por",
+      "titleEmphasis": "ver diferente.",
+      "subtitle": "Não é preciso ter todas as respostas. Basta estar disposto a fazer uma pergunta diferente — e deixar que ela mude o que você oferece.",
+      "note": "Acesso imediato · Devolução em 7 dias"
+    },
+    "editions": {
+      "kindle": "Kindle",
+      "physicalAmazon": "Físico Amazon"
+    },
+    "reader": {
+      "openIndex": "Abrir índice",
+      "closeIndex": "Fechar índice",
+      "index": "Índice",
+      "fontSmall": "Fonte pequena",
+      "fontLarge": "Fonte grande",
+      "themeLight": "Tema claro",
+      "themeSepia": "Tema sépia",
+      "themeDark": "Tema escuro",
+      "readingTime": "{minutes} min de leitura",
+      "continue": "Continuar",
+      "paywallTitle": "Continue a leitura",
+      "paywallText": "Aceda ao livro completo — todos os 20 capítulos, glossário técnico-científico e nota de fundamentação científica.",
+      "paywallAmount": "14€",
+      "paywallPeriod": "acesso vitalício",
+      "paywallButton": "Comprar acesso completo",
+      "paywallNote": "Acesso vitalício · Leitura no site"
+    },
+    "data": {
+      "editions": {
+        "ebook": {
+          "label": "Comprar o eBook",
+          "sublabel": "Acesso imediato · Leitura no site"
+        },
+        "kindle": {
+          "label": "Kindle · Amazon",
+          "sublabel": "Leitura no Kindle ou app Amazon"
+        },
+        "physical": {
+          "label": "Livro Físico · Amazon",
+          "sublabel": "Envio para PT, BR e resto do mundo"
+        }
+      },
+      "parts": {
+        "part1": {
+          "label": "PARTE I",
+          "title": "Quando o mundo começa por dentro",
+          "subtitle": "A experiência antes da ação",
+          "chapters": [
+            "Quando o mundo muda de lugar",
+            "Quando o mundo se sente primeiro",
+            "Quando o corpo aprende onde está",
+            "Quando o mundo perde direção",
+            "Quando o mundo não faz sentido"
+          ]
+        },
+        "part2": {
+          "label": "PARTE II",
+          "title": "Quando sentir não é o bastante",
+          "subtitle": "Organizar para agir",
+          "chapters": [
+            "Quando compreender não basta",
+            "Quando o começo não se sustenta",
+            "Quando a ação precisa de bordas",
+            "Quando a palavra dá direção",
+            "Quando o ritmo organiza o dia",
+            "Quando o interesse dá direção"
+          ]
+        },
+        "part3": {
+          "label": "PARTE III",
+          "title": "Quando o mundo deixa de responder do mesmo jeito",
+          "subtitle": "A construção da relação",
+          "chapters": [
+            "Quando a palavra cria ponte",
+            "Quando o sentir ganha nome",
+            "Quando a autonomia emerge",
+            "Quando a identidade pode existir",
+            "Quando o outro começa a ser referência",
+            "Quando o outro ganha mente"
+          ]
+        }
+      },
+      "audiences": {
+        "families": {
+          "title": "Para pais e famílias",
+          "description": "Que querem compreender antes de agir — e acompanhar antes de corrigir."
+        },
+        "educators": {
+          "title": "Para educadores",
+          "description": "Que ensinam sem apagar quem a criança é — e que buscam uma lente profissional sólida."
+        },
+        "professionals": {
+          "title": "Para profissionais",
+          "description": "Que sabem que o desenvolvimento começa antes da técnica — e que querem coordenar em vez de fragmentar."
+        }
+      },
+      "excerpt": [
+        "Há uma pergunta que atravessa este livro inteiro — não como tema a resolver, mas como orientação para o olhar.",
+        "O que está acontecendo quando a criança age como age?",
+        "Não \"como faço isso parar?\" — mas \"o que isso está contando?\"",
+        "É uma distinção simples. Mas muda tudo.",
+        "Quando a pergunta é \"como faço isso parar?\", o comportamento vira problema. O adulto vira solucionador. E a criança vira alguém que precisa ser corrigida.",
+        "Quando a pergunta é \"o que isso está contando?\", o comportamento vira mensagem. O adulto vira leitor. E a criança vira alguém que está tentando, com os recursos que tem, manter algo organizado por dentro.",
+        "Este livro se constrói a partir dessa segunda pergunta.",
+        "Não é um manual. Não oferece protocolos nem listas de estratégias. Não promete transformar a criança em alguém mais fácil de acompanhar. O que propõe é mais exigente — e, na minha experiência, mais duradouro: um deslocamento de olhar.",
+        "Ao longo de quase três décadas acompanhando crianças autistas, famílias e educadores — no Brasil, em Portugal, no Reino Unido — aprendi que o maior obstáculo raramente está na criança. Está na distância entre o que ela vive e a linguagem que os adultos ao redor usam para explicar o que veem.",
+        "Essa distância produz mal-entendidos. Intervenções que chegam no momento errado. Exigências que chegam antes de o campo estar pronto para recebê-las. Adultos exaustos que tentam resolver o que precisaria ser acompanhado.",
+        "Este livro é uma tentativa de reduzir essa distância.",
+        "Cada capítulo acompanha um momento do desenvolvimento — não como etapa a cumprir, mas como território a reconhecer. Há coisas que o corpo da criança comunica antes de qualquer palavra. Há coisas que o ambiente oferece ou retira antes de qualquer instrução. Há coisas que a presença do adulto transmite antes de qualquer técnica.",
+        "É nesse \"antes\" que este livro se instala."
+      ],
+      "quote": "O desenvolvimento não se resolve. Ele se acompanha."
+    }
+  },
+  "rdf": {
+    "meta": {
+      "title": "Relational Development Framework — RDF",
+      "description": "Uma forma de ler o que está a acontecer entre a criança e o ambiente, antes de qualquer decisão de resposta. Não é terapia. Não é protocolo. É uma lente.",
+      "ogAlt": "Relational Development Framework — GrowKind World",
+      "keywords": [
+        "Relational Development Framework",
+        "RDF",
+        "framework desenvolvimento infantil",
+        "autismo lente observação",
+        "João Pereira RDF",
+        "campo relacional criança"
+      ]
+    },
+    "diagramaMeta": {
+      "title": "Diagrama RDF — O Campo Relacional",
+      "description": "Explora o diagrama interactivo do Relational Development Framework — os três movimentos e o campo relacional entre criança, adulto e ambiente.",
+      "ogAlt": "Diagrama RDF — O Campo Relacional"
+    },
+    "hero": {
+      "eyebrow": "Framework · GrowKind World",
+      "entryQuote": "O que se vê do lado de fora costuma ser chamado de comportamento. O que não se vê é o esforço imenso para manter alguma continuidade por dentro.",
+      "questionShift": "A pergunta deixa de ser <em>“como faço isso parar?”</em> e começa a transformar-se em <em>“o que isso está a contar?”</em>",
+      "description": "Uma forma de ler o que está a acontecer entre a criança e o ambiente — antes de qualquer decisão de resposta. Não é terapia. Não é protocolo. É uma lente."
+    },
+    "question": {
+      "eyebrow": "A pergunta central",
+      "body": "Esta pergunta é o ponto de partida de toda a leitura RDF. Não começa pelo que fazer. Começa pelo que está a acontecer. É uma inversão simples — mas muda tudo o que vem depois."
+    },
+    "diagram": {
+      "eyebrow": "O campo relacional",
+      "titleLead": "Três elementos em",
+      "titleEmphasis": "relação simultânea",
+      "subtitle": "Clique em cada elemento para ver o que o adulto lê — e em cada movimento para entender quando e como.",
+      "arcRight": "M1 · Habitar o Mundo · Ser Chão",
+      "arcBottomA": "M3 · Encontrar o Outro · Ser Mediador",
+      "arcBottomB": "TRANSVERSAL · Coordenar o Campo",
+      "arcLeft": "M2 · Agir no Mundo · Ser Estrutura",
+      "centerLine1": "Campo",
+      "centerLine2": "Relacional",
+      "centerSub": "onde o desenvolvimento acontece",
+      "nodes": {
+        "child": {
+          "label": "Criança",
+          "sub": "ponto de partida"
+        },
+        "adult": {
+          "label": "Adulto",
+          "sub": "lê e ajusta"
+        },
+        "environment": {
+          "label": "Ambiente",
+          "sub": "modula o campo"
+        }
+      },
+      "elementLabels": {
+        "child": "Elemento 1 · Ponto de partida",
+        "environment": "Elemento 2 · Participante activo",
+        "adult": "Elemento 3 · Lê e ajusta"
+      },
+      "extras": {
+        "child": "O que está a acontecer com o sistema nervoso desta criança agora?",
+        "environment": "Ajustar o espaço é intervir.",
+        "adult": "Mas a presença do adulto é sempre o terceiro elemento do campo. O que estou a adicionar ao campo agora?"
+      }
+    },
+    "movements": {
+      "eyebrow": "Os movimentos do campo",
+      "titleLead": "Quatro lentes —",
+      "titleEmphasis": "não quatro etapas",
+      "warning": "<critical>Crítico:</critical> Os movimentos não são fases de progresso nem categorias diagnósticas. São lentes de leitura. A mesma criança pode precisar de movimentos diferentes ao longo do mesmo dia. O adulto não “passa” de um movimento para o outro — lê o que o campo está a pedir agora.",
+      "movementLabel": "Movimento {number}",
+      "transversalLabel": "Movimento Transversal",
+      "transversalBadge": "Pertence ao campo do adulto — não ao desenvolvimento da criança",
+      "transversalDesc": "Garante coerência entre todos os adultos envolvidos — educadores, família, terapeutas. Não é liderança. É coerência de leitura ao longo do tempo. O adulto-eixo tem autoridade de observação: vê o dia real da criança que nenhum relatório clínico captura.",
+      "transversalQuote": "O adulto não se torna especialista. Torna-se eixo. É ele quem percebe micromudanças que não aparecem em relatórios."
+    },
+    "whatIsNot": {
+      "eyebrow": "Posicionamento",
+      "title": "O que o RDF <em>é</em> — e o que não é",
+      "intro": "Esta distinção importa. O RDF é frequentemente confundido com uma terapia ou método. É outra coisa: opera um nível antes — na leitura que precede qualquer decisão de resposta.",
+      "isNotLabel": "O RDF não é",
+      "isLabel": "O RDF é"
+    },
+    "axiom": {
+      "eyebrow": "Para quem quer aprofundar",
+      "title": "A fundamentação <em>científica</em>",
+      "intro": "O RDF não é uma intuição — tem base científica sólida em cinco pilares de investigação. Para quem quer saber mais.",
+      "pillarsTitle": "Os cinco pilares científicos",
+      "pillarsIntro": "O RDF não é uma intuição estruturada. Cada movimento do campo e cada princípio operacional tem base em investigação publicada. Os cinco pilares abaixo são as fundações científicas do framework.",
+      "approachesTitle": "Relação com outras abordagens",
+      "approachesIntro": "O RDF não compete com as abordagens existentes. Opera um nível antes — a leitura do campo que precede qualquer decisão de resposta. Esta distinção elimina a necessidade de escolher entre frameworks.",
+      "tableApproach": "Abordagem",
+      "tableLevel": "Nível de operação",
+      "tableRelation": "Relação com o RDF",
+      "canonical": "A formulação canónica: <strong>o RDF é o nível anterior à decisão de resposta.</strong> Não substitui o que o profissional já sabe. Organiza a leitura que precede o que o profissional vai decidir fazer.",
+      "glossaryTitle": "Glossário RDF",
+      "glossaryIntro": "O RDF tem uma linguagem própria — precisa e partilhável. Este glossário é o ponto de entrada. Nos cursos, a linguagem é aprofundada em contexto profissional e familiar."
+    },
+    "cta": {
+      "eyebrow": "O princípio",
+      "body": "A lente está disponível nesta página. O que os cursos aprofundam é a aplicação — com ferramentas, casos reais e reflexão guiada. Para profissionais e para famílias.",
+      "coursesNote": "2 cursos · para profissionais e famílias",
+      "button": "Conhecer os cursos"
+    },
+    "heroDiagram": {
+      "nodes": {
+        "crianca": {
+          "label": "Criança",
+          "role": "ponto de partida"
+        },
+        "adulto": {
+          "label": "Adulto",
+          "role": "lê e ajusta"
+        },
+        "ambiente": {
+          "label": "Ambiente",
+          "role": "modula o campo"
+        }
+      },
+      "centerLine1": "Campo",
+      "centerLine2": "Relacional",
+      "centerSubLine1": "onde o desenvolvimento",
+      "centerSubLine2": "acontece",
+      "replay": "repetir"
+    },
+    "data": {
+      "question": "O que está a acontecer entre esta criança e o ambiente — e onde o adulto se encaixa agora?",
+      "axiom": "Desenvolvimento não se resolve. Desenvolvimento acompanha-se.",
+      "elements": {
+        "child": {
+          "title": "A Criança",
+          "subtitle": "partida",
+          "role": "O comportamento é sempre efeito — nunca ponto de partida",
+          "desc": "O RDF começa pela criança — mas não pelo comportamento que mostra. Começa pelo estado interno que produz esse comportamento.",
+          "reads": [
+            "Estado regulatório — regulado, mobilizado, sobrecarregado, hipoactivado",
+            "Perfil sensorial — o que chega forte, o que chega suave",
+            "Capacidade disponível — o que o campo consegue processar agora",
+            "Energia — não é preguiça, é capacidade real disponível"
+          ],
+          "quote": "\"O que se vê do lado de fora costuma ser chamado de comportamento. O que não se vê é o esforço imenso para manter alguma continuidade por dentro.\""
+        },
+        "environment": {
+          "title": "O Ambiente",
+          "subtitle": "participa",
+          "role": "O espaço modula o campo antes de qualquer instrução",
+          "desc": "O ambiente não é o pano de fundo — é um participante activo que facilita ou sobrecarrega o sistema nervoso antes de qualquer palavra.",
+          "reads": [
+            "Estimulação sensorial — luz, som, densidade, temperatura",
+            "Organização espacial — bordas, previsibilidade, pontos de apoio",
+            "Previsibilidade da rotina — o que o corpo já sabe que vem a seguir",
+            "Exigências do momento — o que está a ser pedido agora"
+          ],
+          "quote": "\"Ao entrar em um espaço, permita que o olhar percorra o ambiente devagar. Às vezes, ajustar um único detalhe já devolve conforto.\""
+        },
+        "adult": {
+          "title": "O Adulto",
+          "subtitle": "lê e ajusta",
+          "role": "Presença é a intervenção — antes de qualquer técnica",
+          "desc": "O adulto lê-se a si próprio por último — porque é o mais fácil de ignorar.",
+          "reads": [
+            "Presença corporal e ritmo — o que o corpo comunica antes das palavras",
+            "Tom de voz e velocidade — o SN da criança lê isto directamente",
+            "Expectativas transmitidas — o que está implícito na minha presença",
+            "Estado emocional próprio — a minha regulação é a minha intervenção"
+          ],
+          "quote": "\"A regulação do próprio adulto é a intervenção. Um sistema nervoso maduro que empresta organização.\""
+        }
+      },
+      "movements": {
+        "m1": {
+          "title": "Habitar o Mundo",
+          "role": "Ser Chão",
+          "when": "Quando o campo pede regulação",
+          "desc": "O adulto torna-se presença reguladora antes de qualquer instrução. Regulação ANTES de instrução — sempre. Nunca insistir em tarefa com campo desregulado.",
+          "items": [
+            "Reduzir estimulação antes de qualquer instrução verbal",
+            "Ajustar o ritmo e a proximidade do próprio corpo",
+            "Oferecer previsibilidade — não explicação",
+            "Permanecer quando tudo acelera — presença é a intervenção"
+          ],
+          "quote": "\"Ser chão é tudo o que o outro precisa para voltar a existir no espaço.\""
+        },
+        "m2": {
+          "title": "Agir no Mundo",
+          "role": "Ser Estrutura",
+          "when": "Quando o campo pede estrutura",
+          "desc": "Oferece enquadramento que permite a acção. Empresta o começo sem fazer pela criança. Três momentos: iniciar, sustentar, terminar.",
+          "items": [
+            "Iniciar — emprestar o primeiro passo sem fazer o caminho inteiro",
+            "Sustentar — tornar-se presença âncora quando a acção se dissolve",
+            "Terminar — sinalizar transições antes de chegarem",
+            "Estrutura que liberta ≠ rigidez que prende"
+          ],
+          "quote": "\"Emprestar o começo não é fazer pela criança. É entrar exactamente onde o peso está maior.\""
+        },
+        "m3": {
+          "title": "Encontrar o Outro",
+          "role": "Ser Mediador",
+          "when": "Quando o campo pede relação",
+          "desc": "Medeia o encontro sem forçar nem substituir. Três níveis: outro como obstáculo → referência → mente própria.",
+          "items": [
+            "Nível 1: outro como obstáculo funcional — não forçar interacção",
+            "Nível 2: outro como referência responsiva — dar tempo à observação",
+            "Nível 3: outro como mente própria — mediar o encontro",
+            "Nunca aplicar mediação de Nível 3 a uma criança no Nível 1"
+          ],
+          "quote": "\"O outro não começa a existir quando é compreendido. Começa a existir quando interfere.\""
+        },
+        "m4": {
+          "title": "Coordenar o Campo",
+          "role": "Ser Eixo",
+          "when": "Movimento transversal — pertence ao adulto",
+          "desc": "Garante coerência entre todos os adultos. Não é liderança — é coerência de leitura.",
+          "items": [
+            "Eixo entre educadores, família e terapeutas",
+            "Tem autoridade de observação que nenhum relatório clínico tem",
+            "Vê o dia real da criança — o entre que os outros não vêem",
+            "Não é o mais qualificado — é o que tem os dados que os outros não têm"
+          ],
+          "quote": "\"O adulto não se torna especialista. Torna-se eixo.\""
+        }
+      },
+      "definition": {
+        "isNot": [
+          "uma terapia",
+          "um protocolo de intervenção",
+          "um método de modificação comportamental",
+          "um sistema de avaliação ou diagnóstico",
+          "um substituto das abordagens existentes (PBS, ABA, DIR...)",
+          "uma sequência de etapas a percorrer"
+        ],
+        "is": [
+          "uma lente de leitura do campo relacional",
+          "uma linguagem comum entre adultos",
+          "o nível anterior à decisão de resposta",
+          "uma metodologia aprofundável via formação",
+          "o que precede qualquer intervenção — não o que a substitui",
+          "uma forma de ler que muda o que se oferece"
+        ]
+      },
+      "pillars": [
+        {
+          "label": "Pilar 1",
+          "title": "Neurodiversidade e Diagnóstico",
+          "refs": "DSM-5-TR (APA, 2022) · Happé & Frith (2006) · Baron-Cohen (2002)",
+          "desc": "O RDF parte da premissa de que o diagnóstico é informação — não destino. As investigações de Happé e Baron-Cohen sobre coerência central e cognição autística mostram que as diferenças de processamento não são défices a corrigir, mas perfis distintos de organização neurológica. O DSM-5-TR é usado como referência nosológica, não como mapa de resposta. O RDF opera depois do diagnóstico — e antes da intervenção."
+        },
+        {
+          "label": "Pilar 2",
+          "title": "Processamento Sensorial",
+          "refs": "Winnie Dunn (1997, 2007)",
+          "desc": "O ambiente é um participante activo no campo relacional — não um pano de fundo. Os limiares sensoriais de cada criança (hiperresponsividade, hiporresponsividade, procura sensorial, evitamento) determinam o que o sistema nervoso processa antes de qualquer instrução verbal chegar. O trabalho de Winnie Dunn sobre perfis sensoriais fundamenta a leitura ambiental no RDF: ajustar o espaço é intervir."
+        },
+        {
+          "label": "Pilar 3",
+          "title": "Regulação do Sistema Nervoso Autónomo",
+          "refs": "Stephen W. Porges — The Polyvagal Theory (2011)",
+          "desc": "A Teoria Polyvagal de Porges descreve como o sistema nervoso autónomo organiza os estados fisiológicos em três níveis: segurança (sistema ventrovagal), mobilização (sistema simpático) e imobilização (dorsal vagal). A aprendizagem, a atenção e a relação social só são possíveis a partir de um estado de segurança neurológica. Esta é a base científica do Movimento 1 do RDF — regulação antes de instrução, sempre."
+        },
+        {
+          "label": "Pilar 4",
+          "title": "Vinculação e Desenvolvimento Relacional",
+          "refs": "Bowlby (1969, 1973) · Ainsworth et al. (1978) · Greenspan & Wieder (2006)",
+          "desc": "A teoria da vinculação de Bowlby e Ainsworth estabelece que o adulto funciona como base segura — condição do desenvolvimento relacional, não apenas apoio emocional. O adulto regulado regula o sistema nervoso da criança através da presença. Greenspan e Wieder (DIR/Floortime) aprofundam como os níveis de desenvolvimento relacional se constroem sequencialmente — base científica do Movimento 3 do RDF e dos três níveis de mediação."
+        },
+        {
+          "label": "Pilar 5",
+          "title": "Desenvolvimento Sociocognitivo e Co-regulação",
+          "refs": "Vygotsky (1978) · Tomasello (1999, 2014) · Siegel (1999, 2012) · Schore (2003)",
+          "desc": "Vygotsky demonstrou que o desenvolvimento ocorre na zona de desenvolvimento proximal — entre o que a criança consegue sozinha e o que consegue com presença adulta. Tomasello aprofundou o papel da atenção conjunta como fundação da cognição social. Siegel e Schore mostraram que a co-regulação é um processo neurobiológico: o sistema nervoso do adulto organiza o sistema nervoso da criança. O adulto não é um mediador externo — é uma condição do desenvolvimento."
+        }
+      ],
+      "approaches": [
+        {
+          "name": "PBS / PBIS",
+          "level": "Resposta comportamental — suporte positivo ao comportamento",
+          "relation": "O RDF opera antes: lê o campo que produz o comportamento antes de qualquer plano de suporte."
+        },
+        {
+          "name": "ABA",
+          "level": "Modificação comportamental — antecedente, comportamento, consequência",
+          "relation": "O RDF não substitui nem compete: precede a leitura. Um campo bem lido informa melhores decisões de qualquer metodologia."
+        },
+        {
+          "name": "DIR / Floortime",
+          "level": "Interacção afectiva — seguir a criança, construir relação",
+          "relation": "Partilha a premissa relacional do RDF. O Movimento 3 (Ser Mediador) tem base directa na progressão DIR. Complementares."
+        },
+        {
+          "name": "Teoria Polyvagal",
+          "level": "Regulação do sistema nervoso autónomo",
+          "relation": "Base científica directa do Movimento 1. O RDF operacionaliza a Teoria Polyvagal em contexto educativo e familiar."
+        },
+        {
+          "name": "Processamento Sensorial",
+          "level": "Perfis sensoriais e limiares de activação",
+          "relation": "Base da leitura ambiental no RDF. Perfil sensorial informa o que o ambiente está a oferecer ao sistema nervoso."
+        },
+        {
+          "name": "Regulação Emocional",
+          "level": "Estado emocional — estratégias de autorregulação",
+          "relation": "O RDF opera um nível antes: regulação do campo (adulto + ambiente) cria as condições para que a regulação emocional seja possível."
+        }
+      ],
+      "glossary": [
+        {
+          "term": "Campo Relacional",
+          "alt": "Relational Field",
+          "def": "O espaço que emerge quando criança, ambiente e adulto estão em relação simultânea. Não é um lugar físico — é onde o desenvolvimento acontece. O campo é lido, não diagnosticado."
+        },
+        {
+          "term": "Leitura do Campo",
+          "alt": "Field Reading",
+          "def": "Observar e interpretar o que está a acontecer entre os três elementos — criança, ambiente, adulto — antes de qualquer decisão de resposta. É o acto profissional central do RDF."
+        },
+        {
+          "term": "Movimentos do Campo",
+          "alt": "Field Movements",
+          "def": "Tipos de necessidade que emergem no campo: regulação, estrutura, relação. São lentes de leitura — não etapas sequenciais, não categorias diagnósticas. A mesma criança pode precisar de movimentos diferentes ao longo do mesmo dia."
+        },
+        {
+          "term": "Ser Chão",
+          "alt": "Being Ground",
+          "def": "O papel do adulto no Movimento 1. Tornar-se presença reguladora antes de qualquer instrução verbal. Regulação do campo antes de qualquer tarefa."
+        },
+        {
+          "term": "Ser Estrutura",
+          "alt": "Being Structure",
+          "def": "O papel do adulto no Movimento 2. Oferecer enquadramento que permite a acção — não controlo, mas contenção que liberta. Emprestar o começo sem fazer pela criança."
+        },
+        {
+          "term": "Ser Mediador",
+          "alt": "Being Mediator",
+          "def": "O papel do adulto no Movimento 3. Mediar o encontro entre a criança e o outro sem forçar nem substituir. Entrar no campo sem tomar o espaço da criança."
+        },
+        {
+          "term": "Ser Eixo",
+          "alt": "Being Axis",
+          "def": "O papel do adulto no Movimento Transversal. Garantir coerência de leitura entre todos os adultos envolvidos — educadores, família, terapeutas. Não é liderança. É coerência ao longo do tempo."
+        },
+        {
+          "term": "Co-regulação",
+          "alt": "Co-regulation",
+          "def": "O sistema nervoso do adulto organiza o sistema nervoso da criança através da presença. Não é uma técnica — é uma condição neurobiológica. A regulação do adulto é a intervenção."
+        },
+        {
+          "term": "Arquivo de Campo",
+          "alt": "Field Archive",
+          "def": "Registo estruturado de observações feitas por pais e profissionais de apoio ao longo do tempo. Partilhável com terapeutas e equipas. O TA vê o dia real da criança que nenhum relatório clínico captura."
+        }
+      ]
+    },
+    "diagramPage": {
+      "heroLabel": "RDF · Framework Interactivo",
+      "heroTitle": "O Campo Relacional",
+      "heroSubtitle": "Clica em cada movimento para explorar o que o campo está a pedir — e o que o adulto pode oferecer.",
+      "externalLabels": {
+        "childLabel": "CRIANÇA",
+        "childSub": "ponto de partida",
+        "adultLabel": "ADULTO",
+        "adultSub": "leitor do campo",
+        "environmentLabel": "AMBIENTE",
+        "environmentSub": "participante"
+      },
+      "movements": {
+        "m1": {
+          "codigo": "M1 · Regulação",
+          "titulo": "Habitar o Mundo",
+          "subtitulo": "Ser Chão",
+          "nodeTitle": "Habitar\no Mundo",
+          "paragraphs": [
+            "Quando o campo pede regulação, o adulto torna-se chão. O sistema nervoso da criança precisa de encontrar estabilidade antes de qualquer outra coisa.",
+            "O adulto não instrui — regula. A presença é a intervenção. Não há técnica que substitua o adulto regulado que simplesmente fica.",
+            "Fundamento: Teoria Polyvagal (Porges) — o sistema nervoso autónomo precisa de estado de segurança neurofisiológica antes de qualquer aprendizagem ser possível."
+          ],
+          "audience": ["Famílias", "Teaching Assistants"]
+        },
+        "m2": {
+          "codigo": "M2 · Estrutura",
+          "titulo": "Agir no Mundo",
+          "subtitulo": "Abrir Caminho",
+          "nodeTitle": "Agir\nno Mundo",
+          "paragraphs": [
+            "Quando o campo pede estrutura, o adulto torna-se estrutura. A criança precisa de previsibilidade e organização para poder agir.",
+            "O adulto oferece o enquadramento que permite a acção — não como controlo, mas como contenção que liberta. A rotina não é rigidez — é chão previsível.",
+            "A diferença entre corrigir o comportamento e organizar o campo que o produziu."
+          ],
+          "audience": ["Famílias", "Teaching Assistants", "Professores"]
+        },
+        "m3": {
+          "codigo": "M3 · Relação",
+          "titulo": "Encontrar o Outro",
+          "subtitulo": "Sustentar o Encontro",
+          "nodeTitle": "Encontrar\no Outro",
+          "paragraphs": [
+            "Quando o campo pede relação, o adulto torna-se mediador do encontro. Este movimento tem uma progressão interna que é pedagogicamente crítica.",
+            "O outro como obstáculo funcional → o outro como referência responsiva → o outro como mente própria. Muitos adultos estão no primeiro ponto. Começar pela Teoria da Mente perde-os.",
+            "O RDF começa onde o campo está — não onde gostaríamos que estivesse."
+          ],
+          "audience": ["Famílias", "Teaching Assistants", "Terapeutas"]
+        },
+        "mt": {
+          "codigo": "MT · Transversal",
+          "titulo": "Coordenar o Campo",
+          "subtitulo": "Ser Eixo",
+          "nodeTitle": "Coordenar\no Campo",
+          "paragraphs": [
+            "Este movimento pertence ao campo do adulto — não ao desenvolvimento da criança. É transversal a todos os movimentos, não sequencial nem final.",
+            "O adulto que coordena o campo mantém coerência entre o que observa, o que decide e o que comunica — à família, à escola, aos terapeutas.",
+            "Na prática, é frequentemente a mãe, o pai ou o TA que cumpre esta função — garantindo que a leitura do campo é partilhada e coerente entre todos os adultos que acompanham a criança."
+          ],
+          "audience": ["Todos os públicos"]
+        }
+      },
+      "placeholder": "Clica em qualquer movimento do diagrama para explorar o que o campo está a pedir.",
+      "audienceTransversal": "Transversal a",
+      "audienceCourse": "Curso para",
+      "cta": "Entrar na lista de espera",
+      "statusTraining": "Formação em desenvolvimento",
+      "statusCourse": "Curso em desenvolvimento",
+      "capture": {
+        "eyebrow": "Formação GrowKind · Em breve",
+        "title": "Fica a saber primeiro",
+        "body": "Os cursos RDF — para famílias e para Teaching Assistants — abrem em breve. A lista de espera tem prioridade nas inscrições.",
+        "namePlaceholder": "O teu nome",
+        "emailPlaceholder": "O teu email",
+        "selectPlaceholder": "Eu sou...",
+        "optionParent": "Pai / Mãe",
+        "optionTA": "Teaching Assistant",
+        "optionTeacher": "Professor(a)",
+        "optionTherapist": "Psicólogo(a) / Terapeuta",
+        "optionOther": "Outro profissional",
+        "submit": "Entrar na lista de espera",
+        "footnote": "Sem pressão. Só o que importa — quando importar."
+      }
+    }
+  },
+  "about": {
+    "_note": "Página /sobre — preencher com a copy real."
+  },
+  "courses": {
+    "_note": "Páginas /cursos, /cursos/familias, /cursos/profissionais — preencher."
+  },
+  "legal": {
+    "_note": "privacidade/termos/cookies/devolucoes — conteúdo jurídico vem do cliente."
+  }
+}

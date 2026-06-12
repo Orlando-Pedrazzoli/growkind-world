@@ -1,5 +1,9 @@
 // next.config.ts
 import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
+
+// Liga o src/i18n/request.ts ao next-intl.
+const withNextIntl = createNextIntlPlugin();
 
 const nextConfig: NextConfig = {
   images: {
@@ -8,7 +12,6 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: 'lh3.googleusercontent.com' },
     ],
   },
-
   // Redirect 301: não-www → www (canónico)
   async redirects() {
     return [
@@ -20,7 +23,6 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-
   async headers() {
     return [
       {
@@ -39,4 +41,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// 👇 a ÚNICA mudança: envolver o teu config com o plugin.
+export default withNextIntl(nextConfig);

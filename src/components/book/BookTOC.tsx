@@ -2,9 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { BOOK_PARTS } from '@/lib/data/book';
+import { useTranslations } from 'next-intl';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookTOC() {
+  const t = useTranslations('book.toc');
+  const { parts } = useBookData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -22,7 +26,7 @@ export default function BookTOC() {
       >
         {/* Header */}
         <div className='text-center'>
-          <span className='eyebrow'>Estrutura da obra</span>
+          <span className='eyebrow'>{t('eyebrow')}</span>
           <h2
             className='mt-6 font-[family-name:var(--font-display)]'
             style={{
@@ -32,22 +36,21 @@ export default function BookTOC() {
               lineHeight: 1.15,
             }}
           >
-            O que encontra
+            {t('titleLead')}
             <br />
-            <em style={{ color: '#c4a44a' }}>dentro do livro</em>
+            <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
           </h2>
           <p
             className='mx-auto mt-4 max-w-xl text-[15px]'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            20 capítulos organizados em três partes — do sentir ao fazer, do
-            fazer à relação.
+            {t('subtitle')}
           </p>
         </div>
 
         {/* 3 Cards */}
         <div className='mt-14 grid gap-6 md:grid-cols-3'>
-          {BOOK_PARTS.map((part, index) => (
+          {parts.map((part, index) => (
             <motion.div
               key={part.number}
               className='flex flex-col p-8'

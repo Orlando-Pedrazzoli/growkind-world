@@ -1,6 +1,7 @@
 // src/app/sitemap.ts
 import type { MetadataRoute } from 'next';
 import { SEO_CONFIG } from '@/lib/seo';
+import { routing } from '@/i18n/routing';
 
 /**
  * Sitemap dinâmico nativo do Next.js 15.
@@ -8,6 +9,9 @@ import { SEO_CONFIG } from '@/lib/seo';
  *
  * lastModified usa data fixa por página para o Google confiar no campo.
  * Atualiza manualmente quando o conteúdo da página mudar realmente.
+ *
+ * hreflang: cada rota é listada com as suas versões PT e EN.
+ * Regra do localePrefix 'as-needed': PT fica na raiz, EN leva /en à frente.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SEO_CONFIG.baseUrl;
@@ -25,78 +29,105 @@ export default function sitemap(): MetadataRoute.Sitemap {
     legal: new Date('2026-01-01'),
   };
 
-  return [
+  // path '' = home. Mantém aqui os teus metadados por página.
+  const routes: Array<{
+    path: string;
+    lastModified: Date;
+    changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency'];
+    priority: number;
+  }> = [
     {
-      url: base,
+      path: '',
       lastModified: lastEdit.home,
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
-      url: `${base}/o-livro`,
+      path: '/o-livro',
       lastModified: lastEdit.livro,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${base}/rdf`,
+      path: '/rdf',
       lastModified: lastEdit.rdf,
       changeFrequency: 'monthly',
       priority: 0.9,
     },
     {
-      url: `${base}/rdf/diagrama`,
+      path: '/rdf/diagrama',
       lastModified: lastEdit.rdfDiagrama,
       changeFrequency: 'monthly',
       priority: 0.7,
     },
     {
-      url: `${base}/sobre`,
+      path: '/sobre',
       lastModified: lastEdit.sobre,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${base}/cursos`,
+      path: '/cursos',
       lastModified: lastEdit.cursos,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${base}/cursos/profissionais`,
+      path: '/cursos/profissionais',
       lastModified: lastEdit.cursosProfissionais,
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: `${base}/cursos/familias`,
+      path: '/cursos/familias',
       lastModified: lastEdit.cursosFamilias,
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: `${base}/privacidade`,
+      path: '/privacidade',
       lastModified: lastEdit.legal,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${base}/termos`,
+      path: '/termos',
       lastModified: lastEdit.legal,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${base}/cookies`,
+      path: '/cookies',
       lastModified: lastEdit.legal,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
     {
-      url: `${base}/devolucoes`,
+      path: '/devolucoes',
       lastModified: lastEdit.legal,
       changeFrequency: 'yearly',
       priority: 0.3,
     },
   ];
+
+  // Constrói a URL de um locale (PT sem prefixo, EN com /en).
+  const urlFor = (locale: string, path: string) =>
+    locale === routing.defaultLocale
+      ? `${base}${path}`
+      : `${base}/${locale}${path}`;
+
+  return routes.map(({ path, lastModified, changeFrequency, priority }) => ({
+    url: urlFor(routing.defaultLocale, path), // URL canónica = versão PT
+    lastModified,
+    changeFrequency,
+    priority,
+    alternates: {
+      languages: {
+        ...Object.fromEntries(
+          routing.locales.map(locale => [locale, urlFor(locale, path)]),
+        ),
+        'x-default': urlFor(routing.defaultLocale, path),
+      },
+    },
+  }));
 }

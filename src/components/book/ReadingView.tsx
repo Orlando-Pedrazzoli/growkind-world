@@ -7,6 +7,7 @@
 // ============================================================
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import type { Chapter, ContentBlock } from '@/lib/book-data/types';
 import { bookIndex, bookMeta } from '@/lib/book-data';
 
@@ -115,26 +116,23 @@ function BlockRenderer({ block }: { block: ContentBlock }) {
 
 // ── Paywall suave no final dos capítulos preview ──────────
 function PaywallGate() {
+  const t = useTranslations('book.reader');
+
   return (
     <div className='reading-paywall'>
       <div className='reading-paywall-fade' />
       <div className='reading-paywall-card'>
         <div className='reading-paywall-ornament'>✦</div>
-        <h3 className='reading-paywall-title'>Continue a leitura</h3>
-        <p className='reading-paywall-text'>
-          Aceda ao livro completo — todos os 20 capítulos, glossário
-          técnico-científico e nota de fundamentação científica.
-        </p>
+        <h3 className='reading-paywall-title'>{t('paywallTitle')}</h3>
+        <p className='reading-paywall-text'>{t('paywallText')}</p>
         <div className='reading-paywall-price'>
-          <span className='reading-paywall-amount'>14€</span>
-          <span className='reading-paywall-period'>acesso vitalício</span>
+          <span className='reading-paywall-amount'>{t('paywallAmount')}</span>
+          <span className='reading-paywall-period'>{t('paywallPeriod')}</span>
         </div>
         <a href='/comprar/ebook' className='reading-paywall-btn'>
-          Comprar acesso completo
+          {t('paywallButton')}
         </a>
-        <p className='reading-paywall-note'>
-          Acesso vitalício · Leitura no site
-        </p>
+        <p className='reading-paywall-note'>{t('paywallNote')}</p>
       </div>
     </div>
   );
@@ -146,6 +144,8 @@ export default function ReadingView({
   hasFullAccess,
   onChapterChange,
 }: ReadingViewProps) {
+  const t = useTranslations('book.reader');
+
   // Sidebar fechada inicialmente (será definida no useEffect com base em ecrã + preferência)
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
@@ -276,7 +276,7 @@ export default function ReadingView({
         <button
           className='reading-header-btn'
           onClick={toggleSidebar}
-          aria-label={sidebarOpen ? 'Fechar índice' : 'Abrir índice'}
+          aria-label={sidebarOpen ? t('closeIndex') : t('openIndex')}
           aria-expanded={sidebarOpen}
         >
           <IconMenu />
@@ -292,14 +292,14 @@ export default function ReadingView({
             <button
               className={`reading-font-btn ${fontSize === 'sm' ? 'active' : ''}`}
               onClick={() => setFontSize('sm')}
-              aria-label='Fonte pequena'
+              aria-label={t('fontSmall')}
             >
               A
             </button>
             <button
               className={`reading-font-btn reading-font-btn--lg ${fontSize === 'lg' ? 'active' : ''}`}
               onClick={() => setFontSize('lg')}
-              aria-label='Fonte grande'
+              aria-label={t('fontLarge')}
             >
               A
             </button>
@@ -310,17 +310,17 @@ export default function ReadingView({
             <button
               className={`reading-theme-btn theme-light-btn ${theme === 'light' ? 'active' : ''}`}
               onClick={() => setTheme('light')}
-              aria-label='Tema claro'
+              aria-label={t('themeLight')}
             />
             <button
               className={`reading-theme-btn theme-sepia-btn ${theme === 'sepia' ? 'active' : ''}`}
               onClick={() => setTheme('sepia')}
-              aria-label='Tema sépia'
+              aria-label={t('themeSepia')}
             />
             <button
               className={`reading-theme-btn theme-dark-btn ${theme === 'dark' ? 'active' : ''}`}
               onClick={() => setTheme('dark')}
-              aria-label='Tema escuro'
+              aria-label={t('themeDark')}
             />
           </div>
         </div>
@@ -354,11 +354,11 @@ export default function ReadingView({
           }}
         >
           <div className='reading-sidebar-header'>
-            <span className='reading-sidebar-title'>Índice</span>
+            <span className='reading-sidebar-title'>{t('index')}</span>
             <button
               className='reading-sidebar-close'
               onClick={closeSidebar}
-              aria-label='Fechar índice'
+              aria-label={t('closeIndex')}
             >
               ✕
             </button>
@@ -426,7 +426,7 @@ export default function ReadingView({
           {/* Título do capítulo */}
           <div className='reading-chapter-header'>
             <div className='reading-chapter-meta'>
-              {chapter.estimatedMinutes} min de leitura
+              {t('readingTime', { minutes: chapter.estimatedMinutes })}
             </div>
             <h1 className='reading-chapter-title'>{chapter.title}</h1>
             {chapter.subtitle && (
@@ -456,7 +456,7 @@ export default function ReadingView({
           {!isGated && (
             <div className='reading-chapter-nav'>
               <div className='reading-chapter-nav-rule' />
-              <p className='reading-chapter-nav-label'>Continuar</p>
+              <p className='reading-chapter-nav-label'>{t('continue')}</p>
             </div>
           )}
         </div>

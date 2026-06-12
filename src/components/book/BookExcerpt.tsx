@@ -2,9 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { BOOK_EXCERPT } from '@/lib/data/book';
+import { useTranslations } from 'next-intl';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookExcerpt() {
+  const t = useTranslations('book.excerpt');
+  const { excerpt } = useBookData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -22,7 +26,7 @@ export default function BookExcerpt() {
       >
         {/* Header */}
         <div className='text-center'>
-          <span className='eyebrow'>Conheça o livro</span>
+          <span className='eyebrow'>{t('eyebrow')}</span>
           <h2
             className='mt-6 font-[family-name:var(--font-display)]'
             style={{
@@ -32,13 +36,14 @@ export default function BookExcerpt() {
               lineHeight: 1.15,
             }}
           >
-            Leia o <em style={{ color: '#c4a44a' }}>início</em>
+            {t('titleLead')}{' '}
+            <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
           </h2>
           <p
             className='mt-3 text-[15px]'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            A introdução — para sentir, antes de decidir.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -47,12 +52,12 @@ export default function BookExcerpt() {
           className='mt-14 text-center text-[11px] font-medium uppercase tracking-[0.14em]'
           style={{ color: 'rgba(30,30,30,0.35)' }}
         >
-          Introdução · Um convite para ver de novo
+          {t('chapterLabel')}
         </p>
 
         {/* Texto do excerto */}
         <div className='mt-10'>
-          {BOOK_EXCERPT.map((paragraph, i) => {
+          {excerpt.map((paragraph, i) => {
             // Primeiro paragrafo com drop cap
             if (i === 0) {
               const firstLetter = paragraph.charAt(0);
@@ -80,8 +85,8 @@ export default function BookExcerpt() {
                 className='mt-7 font-[family-name:var(--font-display)] text-[18px] leading-[1.9] md:text-[20px]'
                 style={{
                   color:
-                    i >= BOOK_EXCERPT.length - 3
-                      ? `rgba(30,30,30,${0.5 - (i - (BOOK_EXCERPT.length - 3)) * 0.12})`
+                    i >= excerpt.length - 3
+                      ? `rgba(30,30,30,${0.5 - (i - (excerpt.length - 3)) * 0.12})`
                       : 'rgba(30,30,30,0.7)',
                 }}
               >

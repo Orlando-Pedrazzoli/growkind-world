@@ -2,9 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { RDF_QUESTION } from '@/lib/data/rdf';
+import { useTranslations } from 'next-intl';
+import { useRdfData } from '@/lib/data/rdf';
 
 export default function RDFQuestion() {
+  const t = useTranslations('rdf.question');
+  const { question } = useRdfData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -25,7 +29,7 @@ export default function RDFQuestion() {
           className='text-[11px] font-semibold uppercase tracking-[0.14em]'
           style={{ color: '#8b6914' }}
         >
-          A pergunta central
+          {t('eyebrow')}
         </span>
 
         {/* Pergunta */}
@@ -38,7 +42,7 @@ export default function RDFQuestion() {
             lineHeight: 1.3,
           }}
         >
-          &ldquo;{RDF_QUESTION}&rdquo;
+          &ldquo;{question}&rdquo;
         </h2>
 
         {/* Separador */}
@@ -56,9 +60,7 @@ export default function RDFQuestion() {
           className='mx-auto mt-8 max-w-lg text-[15px] leading-relaxed md:text-[16px]'
           style={{ color: 'var(--color-gk-cinza)' }}
         >
-          Esta pergunta é o ponto de partida de toda a leitura RDF. Não começa
-          pelo que fazer. Começa pelo que está a acontecer. É uma inversão
-          simples — mas muda tudo o que vem depois.
+          {t('body')}
         </p>
       </motion.div>
     </section>

@@ -1,9 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function SeccaoLivro() {
+  const t = useTranslations('home.origin');
+
   return (
     <section
       id='onde-comeca'
@@ -20,7 +23,7 @@ export default function SeccaoLivro() {
       >
         {/* Eyebrow */}
         <motion.span variants={revealItem} className='eyebrow'>
-          Onde tudo começa
+          {t('eyebrow')}
         </motion.span>
 
         {/* Separador */}
@@ -34,40 +37,33 @@ export default function SeccaoLivro() {
           }}
         />
 
-        {/* Conteudo — sub-container que escalona cada parágrafo */}
+        {/* Conteudo — \n no JSON preserva as quebras de linha */}
         <motion.div
           variants={revealContainer}
           className='mt-10 max-w-2xl md:mt-16'
         >
           <motion.p
             variants={revealItem}
-            className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
+            className='whitespace-pre-line font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-creme)' }}
           >
-            Durante muito tempo, a pergunta foi sempre a mesma:
-            <br />
-            como ensinamos a criança a adaptar-se ao mundo?
+            {t('body1')}
           </motion.p>
 
           <motion.p
             variants={revealItem}
-            className='mt-8 text-xl leading-relaxed md:mt-10 md:text-2xl'
+            className='mt-8 whitespace-pre-line text-xl leading-relaxed md:mt-10 md:text-2xl'
             style={{ color: 'rgba(255,255,255,0.75)' }}
           >
-            O GrowKind nasce de outra pergunta:
-            <br />
-            como organizamos o mundo para que ele faça sentido
-            <br />
-            para diferentes formas de existir?
+            {t('body2')}
           </motion.p>
 
           <motion.p
             variants={revealItem}
-            className='mt-8 font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:mt-10 md:text-2xl'
+            className='mt-8 whitespace-pre-line font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:mt-10 md:text-2xl'
             style={{ color: 'var(--color-gk-ocre)' }}
           >
-            Não é uma pergunta pequena.
-            <br />É uma pergunta que muda tudo.
+            {t('body3')}
           </motion.p>
         </motion.div>
       </motion.div>

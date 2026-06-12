@@ -1,9 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function OQueFazemos() {
+  const t = useTranslations('home.doing');
+
   return (
     <section
       className='w-full'
@@ -19,7 +22,7 @@ export default function OQueFazemos() {
       >
         {/* Eyebrow */}
         <motion.span variants={revealItem} className='eyebrow'>
-          O que fazemos
+          {t('eyebrow')}
         </motion.span>
 
         {/* Separador alinhado a esquerda */}
@@ -43,7 +46,7 @@ export default function OQueFazemos() {
             className='text-lg leading-relaxed'
             style={{ color: 'var(--color-gk-black)' }}
           >
-            A GrowKind nasce para fazer essa tradução.
+            {t('body1')}
           </motion.p>
 
           <motion.p
@@ -51,8 +54,7 @@ export default function OQueFazemos() {
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(30,30,30,0.7)' }}
           >
-            Um território vivo onde o desenvolvimento pode ser acompanhado com
-            rigor, tempo e atenção ao real.
+            {t('body2')}
           </motion.p>
 
           <motion.p
@@ -60,25 +62,21 @@ export default function OQueFazemos() {
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(30,30,30,0.7)' }}
           >
-            Aqui o olhar encontra organização. Os profissionais encontram uma
-            linguagem comum. E quem acompanha a criança encontra sustentação
-            para o dia a dia real.
+            {t('body3')}
           </motion.p>
         </motion.div>
 
-        {/* Blockquote */}
+        {/* Blockquote — \n no JSON preserva a quebra */}
         <motion.blockquote
           variants={revealItem}
           className='mt-8 max-w-3xl border-l-2 pl-6 md:mt-10 md:pl-8'
           style={{ borderColor: 'var(--color-gk-ocre)' }}
         >
           <p
-            className='font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
+            className='whitespace-pre-line font-[family-name:var(--font-display)] text-xl leading-relaxed italic md:text-2xl'
             style={{ color: 'var(--color-gk-green-dark)' }}
           >
-            O desenvolvimento não acontece apenas dentro da criança.
-            <br />
-            Ele emerge no campo que se forma entre criança, adulto e ambiente.
+            {t('quote')}
           </p>
         </motion.blockquote>
 
@@ -88,9 +86,7 @@ export default function OQueFazemos() {
             className='text-lg leading-relaxed'
             style={{ color: 'rgba(30,30,30,0.7)' }}
           >
-            Quando esse campo encontra organização, o desenvolvimento deixa de
-            ser um problema a resolver e passa a ser um processo que pode ser
-            acompanhado.
+            {t('closing')}
           </p>
         </motion.div>
       </motion.div>

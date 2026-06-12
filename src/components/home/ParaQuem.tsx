@@ -1,29 +1,19 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
-const items = [
-  {
-    titulo: 'Para pais e famílias',
-    descricao: 'Que querem compreender antes de agir.',
-  },
-  {
-    titulo: 'Para educadores',
-    descricao: 'Que ensinam sem apagar quem a criança é.',
-  },
-  {
-    titulo: 'Para profissionais',
-    descricao: 'Que sabem que o desenvolvimento começa antes da técnica.',
-  },
-  {
-    titulo: 'Para todos',
-    descricao:
-      'Que acreditam que acompanhar é mais exigente — e mais poderoso — do que corrigir.',
-  },
-];
-
 export default function ParaQuem() {
+  const t = useTranslations('home.forWhom');
+
+  const items = [
+    { titulo: t('parentsTitle'), descricao: t('parentsBody') },
+    { titulo: t('educatorsTitle'), descricao: t('educatorsBody') },
+    { titulo: t('prosTitle'), descricao: t('prosBody') },
+    { titulo: t('allTitle'), descricao: t('allBody') },
+  ];
+
   return (
     <section className='w-full' style={{ backgroundColor: '#0d1f13' }}>
       <motion.div
@@ -36,7 +26,7 @@ export default function ParaQuem() {
       >
         {/* Eyebrow */}
         <motion.span variants={revealItem} className='eyebrow'>
-          Para quem é
+          {t('eyebrow')}
         </motion.span>
 
         {/* Separador */}

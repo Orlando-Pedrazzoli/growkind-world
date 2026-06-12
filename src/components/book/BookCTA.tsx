@@ -3,9 +3,14 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
-import { BOOK_EDITIONS } from '@/lib/data/book';
+import { useTranslations } from 'next-intl';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookCTA() {
+  const t = useTranslations('book.cta');
+  const te = useTranslations('book.editions');
+  const { editions } = useBookData();
+
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -27,7 +32,7 @@ export default function BookCTA() {
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
         transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <span className='eyebrow'>Continue a leitura</span>
+        <span className='eyebrow'>{t('eyebrow')}</span>
 
         <h2
           className='mt-5 font-[family-name:var(--font-display)]'
@@ -38,20 +43,20 @@ export default function BookCTA() {
             lineHeight: 1.2,
           }}
         >
-          Onde o Mundo Nasce <em style={{ color: '#c4a44a' }}>Entre Nós</em>
+          {t('titleLead')}{' '}
+          <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
         </h2>
 
         <p
           className='mt-3 text-[15px]'
           style={{ color: 'var(--color-gk-cinza)' }}
         >
-          20 capítulos. Três partes. Uma lente que não se desfaz após a última
-          página.
+          {t('subtitle')}
         </p>
 
         {/* Botoes inline */}
         <div className='mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
-          {BOOK_EDITIONS.map(edition => {
+          {editions.map(edition => {
             const isExternal = edition.href.startsWith('http');
             const Icon = edition.icon;
 
@@ -102,8 +107,10 @@ export default function BookCTA() {
               >
                 <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
                 <span>
-                  {edition.format === 'kindle' ? 'Kindle' : 'Físico Amazon'} —{' '}
-                  {edition.price}
+                  {edition.format === 'kindle'
+                    ? te('kindle')
+                    : te('physicalAmazon')}{' '}
+                  — {edition.price}
                 </span>
               </Component>
             );
@@ -114,7 +121,7 @@ export default function BookCTA() {
           className='mt-5 text-[13px] italic'
           style={{ color: 'rgba(30,30,30,0.35)' }}
         >
-          Devolução em 7 dias · eBook: acesso imediato
+          {t('note')}
         </p>
       </motion.div>
     </div>

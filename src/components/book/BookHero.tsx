@@ -3,10 +3,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
-import { BOOK_EDITIONS } from '@/lib/data/book';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookHero() {
+  const t = useTranslations('book.hero');
+  const tBook = useTranslations('book');
+  const { editions } = useBookData();
+
   return (
     <section
       className='-mt-20 md:-mt-24'
@@ -30,7 +35,7 @@ export default function BookHero() {
               display: 'inline-block',
             }}
           >
-            João Pereira · GrowKind World · 2026
+            {t('authorLine')}
           </p>
 
           {/* Titulo */}
@@ -42,9 +47,9 @@ export default function BookHero() {
               fontWeight: 400,
             }}
           >
-            Onde o Mundo
+            {t('titleLead')}
             <br />
-            <em style={{ color: '#c4a44a' }}>Nasce Entre Nós</em>
+            <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
           </h1>
 
           {/* Subtitulo */}
@@ -52,7 +57,7 @@ export default function BookHero() {
             className='mt-4 font-[family-name:var(--font-display)] text-lg italic md:text-xl'
             style={{ color: 'rgba(240,232,208,0.6)' }}
           >
-            Um caminho partilhado no autismo infantil
+            {t('subtitle')}
           </p>
 
           {/* Descricao bold */}
@@ -60,7 +65,7 @@ export default function BookHero() {
             className='mt-8 text-[15px] font-semibold leading-relaxed md:text-base'
             style={{ color: '#f0e8d0' }}
           >
-            Não é um manual. É um deslocamento de olhar.
+            {t('tagline')}
           </p>
 
           {/* Descricao corpo */}
@@ -68,14 +73,12 @@ export default function BookHero() {
             className='mt-4 max-w-lg text-[15px] leading-relaxed'
             style={{ color: 'rgba(240,232,208,0.65)' }}
           >
-            Nem todo comportamento pede correção. Alguns pedem leitura, tempo e
-            presença. Este livro acompanha o desenvolvimento como processo vivo
-            — algo que acontece no corpo, no tempo e na relação.
+            {t('description')}
           </p>
 
           {/* Botoes de compra (BOOK_EDITIONS) */}
           <div className='mt-10 flex max-w-[420px] flex-col gap-3'>
-            {BOOK_EDITIONS.map(edition => {
+            {editions.map(edition => {
               const isExternal = edition.href.startsWith('http');
               const Icon = edition.icon;
               const btnClasses =
@@ -170,7 +173,7 @@ export default function BookHero() {
             style={{ color: 'rgba(240,232,208,0.7)' }}
           >
             <span className='underline-offset-4 group-hover:underline'>
-              Ler os primeiros capítulos · grátis
+              {tBook('previewLink')}
             </span>
             <ArrowRight
               size={14}
@@ -179,20 +182,22 @@ export default function BookHero() {
             />
           </Link>
 
-          {/* Credito autor */}
+          {/* Credito autor — <author> vira o link no JSON */}
           <p
             className='mt-6 text-[13px] italic'
             style={{ color: 'rgba(240,232,208,0.4)' }}
           >
-            Por{' '}
-            <Link
-              href='/sobre'
-              className='underline underline-offset-2 transition-colors hover:text-[#c4a44a]'
-              style={{ color: 'rgba(240,232,208,0.6)' }}
-            >
-              João Pereira
-            </Link>{' '}
-            · Fundador, GrowKind World
+            {t.rich('byAuthor', {
+              author: chunks => (
+                <Link
+                  href='/sobre'
+                  className='underline underline-offset-2 transition-colors hover:text-[#c4a44a]'
+                  style={{ color: 'rgba(240,232,208,0.6)' }}
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
           </p>
         </motion.div>
 
@@ -209,7 +214,7 @@ export default function BookHero() {
         >
           <Image
             src='/images/book-cover.jpg'
-            alt='Capa do livro Onde o Mundo Nasce Entre Nós — João Pereira'
+            alt={t('coverAlt')}
             width={800}
             height={1200}
             priority

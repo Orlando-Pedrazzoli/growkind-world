@@ -4,11 +4,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Slide {
   id: string;
-  alt: string;
+  altKey: 'slideHome' | 'slideBook' | 'slideRdf';
   desktop: string;
   mobile: string;
   href: string | null;
@@ -17,21 +18,21 @@ interface Slide {
 const SLIDES: Slide[] = [
   {
     id: 'home',
-    alt: 'GrowKind World — Um mundo criado a partir da experiência neurodivergente',
+    altKey: 'slideHome',
     desktop: '/images/hero-home.jpg',
     mobile: '/images/hero-mobile.png',
     href: null,
   },
   {
     id: 'livro',
-    alt: 'Onde o Mundo Nasce Entre Nós — o livro de João Pereira',
+    altKey: 'slideBook',
     desktop: '/images/hero-livro.jpg',
     mobile: '/images/hero-livro-mobile.jpg',
     href: '/o-livro',
   },
   {
     id: 'rdf',
-    alt: 'Relational Development Framework (RDF) — uma nova forma de olhar o desenvolvimento',
+    altKey: 'slideRdf',
     desktop: '/images/hero-rdf.jpg',
     mobile: '/images/hero-rdf-mobile.jpg',
     href: '/rdf',
@@ -41,15 +42,13 @@ const SLIDES: Slide[] = [
 const AUTOPLAY_MS = 5000;
 
 export default function Hero() {
+  const t = useTranslations('home.hero');
+
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const slideCount = SLIDES.length;
 
-  const goTo = useCallback(
-    (next: number) => setIndex((next + slideCount) % slideCount),
-    [slideCount],
-  );
   const goNext = useCallback(
     () => setIndex(i => (i + 1) % slideCount),
     [slideCount],
@@ -79,8 +78,8 @@ export default function Hero() {
   return (
     <section
       id='hero'
-      aria-roledescription='carrossel'
-      aria-label='Destaques GrowKind World'
+      aria-roledescription={t('carouselRole')}
+      aria-label={t('carouselLabel')}
       className='relative -mt-20 overflow-hidden md:-mt-24'
       style={{ backgroundColor: '#1b140c' }}
       onMouseEnter={() => setIsHovered(true)}
@@ -90,10 +89,20 @@ export default function Hero() {
       onKeyDown={onKeyDown}
     >
       <div aria-live='polite' aria-atomic='true' className='sr-only'>
-        {`Slide ${index + 1} de ${slideCount}: ${SLIDES[index].alt}`}
+        {t('slideStatus', {
+          current: index + 1,
+          total: slideCount,
+          alt: t(SLIDES[index].altKey),
+        })}
       </div>
 
-      <div className='relative aspect-[4/5] w-full sm:aspect-[16/10] md:aspect-[16/9]'>
+      {/*
+        Proporções fixas — sem max-h, para o enquadramento ser idêntico em qualquer largura:
+        - mobile: 1:1  → imagens 1080×1080 (encaixe exato)
+        - sm:     16/7 → meio-termo em tablets
+        - md+:    12/5 (2.4:1) → imagens 1920×800 (encaixe exato, zero corte)
+      */}
+      <div className='relative aspect-square w-full sm:aspect-[16/7] md:aspect-[12/5]'>
         {SLIDES.map((slide, i) => {
           const isActive = i === index;
           return (
@@ -106,6 +115,7 @@ export default function Hero() {
             >
               <SlideMedia
                 slide={slide}
+                alt={t(slide.altKey)}
                 isActive={isActive}
                 priority={i === 0}
               />
@@ -119,7 +129,7 @@ export default function Hero() {
       <button
         type='button'
         onClick={goPrev}
-        aria-label='Slide anterior'
+        aria-label={t('prevSlide')}
         className='absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-5'
       >
         <ChevronLeft className='h-6 w-6' />
@@ -127,7 +137,7 @@ export default function Hero() {
       <button
         type='button'
         onClick={goNext}
-        aria-label='Próximo slide'
+        aria-label={t('nextSlide')}
         className='absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-5'
       >
         <ChevronRight className='h-6 w-6' />
@@ -138,10 +148,12 @@ export default function Hero() {
 
 function SlideMedia({
   slide,
+  alt,
   isActive,
   priority,
 }: {
   slide: Slide;
+  alt: string;
   isActive: boolean;
   priority: boolean;
 }) {
@@ -149,7 +161,7 @@ function SlideMedia({
     <>
       <Image
         src={slide.desktop}
-        alt={slide.alt}
+        alt={alt}
         fill
         priority={priority}
         sizes='100vw'
@@ -157,7 +169,7 @@ function SlideMedia({
       />
       <Image
         src={slide.mobile}
-        alt={slide.alt}
+        alt={alt}
         fill
         priority={priority}
         sizes='100vw'
@@ -171,7 +183,7 @@ function SlideMedia({
   return (
     <Link
       href={slide.href}
-      aria-label={slide.alt}
+      aria-label={alt}
       tabIndex={isActive ? 0 : -1}
       className='absolute inset-0 block focus:outline-none'
     >

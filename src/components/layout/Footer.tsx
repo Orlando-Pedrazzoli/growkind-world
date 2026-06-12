@@ -5,14 +5,16 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useTranslations } from 'next-intl';
 import { Instagram, Facebook, Linkedin, Lock } from 'lucide-react';
 
-const legalLinks = [
-  { label: 'Privacidade', href: '/privacidade' },
-  { label: 'Termos', href: '/termos' },
-  { label: 'Cookies', href: '/cookies' },
-  { label: 'Devoluções', href: '/devolucoes' },
-];
+// Slugs das rotas legais (não localizados) + chave de tradução do label
+const LEGAL_LINKS = [
+  { key: 'privacy', href: '/privacidade' },
+  { key: 'terms', href: '/termos' },
+  { key: 'cookies', href: '/cookies' },
+  { key: 'returns', href: '/devolucoes' },
+] as const;
 
 const socialLinks = [
   {
@@ -47,6 +49,8 @@ function shouldHideFooter(pathname: string | null): boolean {
 }
 
 export default function Footer() {
+  const t = useTranslations('footer');
+
   const pathname = usePathname();
   const { data: session } = useSession();
   const ano = new Date().getFullYear();
@@ -69,7 +73,7 @@ export default function Footer() {
         <Link href='/' className='flex items-center gap-3'>
           <Image
             src='/images/logo-growkind.jpg'
-            alt='GrowKind World Logo'
+            alt={t('logoAlt')}
             width={36}
             height={36}
             className='rounded-full'
@@ -89,7 +93,7 @@ export default function Footer() {
           </span>
         </Link>
 
-        {/* Redes sociais */}
+        {/* Redes sociais — nomes próprios, não traduzir */}
         <div className='flex items-center gap-5'>
           {socialLinks.map(social => (
             <a
@@ -112,7 +116,7 @@ export default function Footer() {
         className='mt-3 text-xs tracking-wider'
         style={{ color: 'rgba(255,255,255,0.6)' }}
       >
-        @growkindworld · growkindworld.com · © {ano}
+        {t('tagline')} · © {ano}
       </p>
 
       {/* Links legais */}
@@ -122,16 +126,16 @@ export default function Footer() {
       >
         <nav
           className='flex flex-wrap gap-x-6 gap-y-2'
-          aria-label='Links legais'
+          aria-label={t('legalAria')}
         >
-          {legalLinks.map(link => (
+          {LEGAL_LINKS.map(link => (
             <Link
               key={link.href}
               href={link.href}
               className='text-[12px] font-medium uppercase tracking-wider transition-opacity duration-300 hover:opacity-100'
               style={{ color: 'var(--color-gk-green-dark)', opacity: 0.7 }}
             >
-              {link.label}
+              {t(link.key)}
             </Link>
           ))}
         </nav>
@@ -139,7 +143,7 @@ export default function Footer() {
           className='ml-auto text-[11px]'
           style={{ color: 'rgba(255,255,255,0.5)' }}
         >
-          Todos os direitos reservados
+          {t('rights')}
         </p>
       </div>
 
@@ -149,7 +153,7 @@ export default function Footer() {
           className='text-center text-[11px] tracking-wide'
           style={{ color: 'rgba(255,255,255,0.45)' }}
         >
-          Desenvolvido por{' '}
+          {t('developedBy')}{' '}
           <a
             href='https://pedrazzolidigital.com/'
             target='_blank'
@@ -165,7 +169,7 @@ export default function Footer() {
         {isAdmin && (
           <Link
             href='/admin'
-            aria-label='Painel de administração'
+            aria-label={t('adminPanel')}
             className='transition-opacity duration-300 hover:opacity-100'
             style={{ opacity: 0.35 }}
           >

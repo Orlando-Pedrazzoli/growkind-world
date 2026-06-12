@@ -3,9 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem, revealFade } from '@/lib/motion';
 
 export default function FrameworkRDF() {
+  const t = useTranslations('home.rdfSection');
+
   return (
     <section id='rdf' className='w-full' style={{ backgroundColor: '#ffffff' }}>
       <motion.div
@@ -36,10 +39,10 @@ export default function FrameworkRDF() {
           <motion.div variants={revealContainer} className='max-w-md'>
             {/* Eyebrow */}
             <motion.span variants={revealItem} className='eyebrow'>
-              Framework · GrowKind World
+              {t('eyebrow')}
             </motion.span>
 
-            {/* Titulo */}
+            {/* Titulo — nome próprio do framework, igual em PT e EN */}
             <motion.h2
               variants={revealItem}
               className='mt-6'
@@ -52,15 +55,13 @@ export default function FrameworkRDF() {
               <em style={{ color: 'var(--color-gk-ocre)' }}>Framework</em>
             </motion.h2>
 
-            {/* Subtitulo italico */}
+            {/* Subtitulo italico — \n no JSON preserva a quebra */}
             <motion.p
               variants={revealItem}
-              className='mt-6 font-[family-name:var(--font-display)] text-xl italic leading-relaxed'
+              className='mt-6 whitespace-pre-line font-[family-name:var(--font-display)] text-xl italic leading-relaxed'
               style={{ color: 'rgba(30,30,30,0.7)' }}
             >
-              Uma forma de ler o que está a acontecer
-              <br />
-              antes de qualquer decisão de resposta.
+              {t('subtitle')}
             </motion.p>
 
             {/* Paragrafos — sub-container que escalona cada parágrafo */}
@@ -70,17 +71,14 @@ export default function FrameworkRDF() {
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(30,30,30,0.7)' }}
               >
-                O RDF não é uma terapia. Não é um protocolo. É uma lente — uma
-                forma de organizar como o adulto observa, lê e se posiciona no
-                campo relacional da criança.
+                {t('body')}
               </motion.p>
               <motion.p
                 variants={revealItem}
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(30,30,30,0.7)' }}
               >
-                O desenvolvimento não se resolve. O desenvolvimento
-                acompanha-se.
+                {t('closing')}
               </motion.p>
             </motion.div>
 
@@ -96,7 +94,7 @@ export default function FrameworkRDF() {
                   width: 'fit-content',
                 }}
               >
-                Conheça o RDF
+                {t('cta')}
               </Link>
             </motion.div>
           </motion.div>

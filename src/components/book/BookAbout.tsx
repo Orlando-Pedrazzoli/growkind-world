@@ -2,9 +2,13 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { BOOK_AUDIENCES, BOOK_QUOTE } from '@/lib/data/book';
+import { useTranslations } from 'next-intl';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookAbout() {
+  const t = useTranslations('book.about');
+  const { audiences, quote } = useBookData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -22,7 +26,7 @@ export default function BookAbout() {
       >
         {/* Coluna esquerda — texto */}
         <div>
-          <span className='eyebrow'>O que é este livro</span>
+          <span className='eyebrow'>{t('eyebrow')}</span>
 
           <h2
             className='mt-6 font-[family-name:var(--font-display)]'
@@ -33,38 +37,19 @@ export default function BookAbout() {
               lineHeight: 1.15,
             }}
           >
-            Um deslocamento
+            {t('titleLead')}
             <br />
-            <em style={{ color: '#c4a44a' }}>de olhar</em>
+            <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
           </h2>
 
           <div
             className='mt-10 space-y-6 text-[16px] leading-[1.8] md:text-[17px]'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            {/* Item 10: primeiro parágrafo reescrito (sem duplicar a frase
-                "acompanha o desenvolvimento como processo vivo..." que já
-                aparece no BookHero acima) */}
-            <p>
-              Não é um livro sobre o autismo enquanto diagnóstico. É um livro
-              sobre o que acontece antes da intervenção — sobre o que pede para
-              ser lido antes de ser corrigido.
-            </p>
-            <p>
-              Cada gesto, repetição ou pausa é lido como tentativa de manter
-              equilíbrio. Nada aqui é tratado como erro a eliminar, mas como
-              movimento que pede compreensão.
-            </p>
-            <p>
-              Ao longo da leitura, o adulto deixa de buscar respostas rápidas e
-              passa a coordenar processos. Não para controlar. Mas para
-              sustentar.
-            </p>
-            <p>
-              Se, ao final, você não tiver soluções imediatas — mas um olhar
-              mais afinado e uma presença mais segura ao lado da criança — então
-              este livro cumpriu seu papel.
-            </p>
+            <p>{t('body1')}</p>
+            <p>{t('body2')}</p>
+            <p>{t('body3')}</p>
+            <p>{t('body4')}</p>
           </div>
         </div>
 
@@ -82,12 +67,12 @@ export default function BookAbout() {
               className='font-[family-name:var(--font-display)] text-xl italic leading-relaxed md:text-2xl'
               style={{ color: '#8b6914' }}
             >
-              &ldquo;{BOOK_QUOTE}&rdquo;
+              &ldquo;{quote}&rdquo;
             </p>
           </div>
 
           {/* Cards de publico */}
-          {BOOK_AUDIENCES.map(audience => (
+          {audiences.map(audience => (
             <div
               key={audience.title}
               className='flex items-start gap-4 p-5'

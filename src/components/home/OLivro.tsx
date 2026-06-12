@@ -3,9 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem, revealFade } from '@/lib/motion';
 
 export default function OLivro() {
+  const t = useTranslations('home.bookSection');
+
   return (
     <section
       id='livro'
@@ -31,7 +34,7 @@ export default function OLivro() {
           >
             <Image
               src='/images/book-cover.jpg'
-              alt='Onde o Mundo Nasce Entre Nós — João Pereira'
+              alt={t('coverAlt')}
               width={1000}
               height={1502}
               className='w-full'
@@ -43,7 +46,7 @@ export default function OLivro() {
           <motion.div variants={revealContainer} className='flex-1'>
             {/* Eyebrow */}
             <motion.span variants={revealItem} className='eyebrow'>
-              O Livro
+              {t('eyebrow')}
             </motion.span>
 
             {/* Separador */}
@@ -57,15 +60,13 @@ export default function OLivro() {
               }}
             />
 
-            {/* Titulo */}
+            {/* Titulo — \n no JSON preserva a quebra */}
             <motion.h2
               variants={revealItem}
-              className='mt-6 italic md:mt-8'
+              className='mt-6 whitespace-pre-line italic md:mt-8'
               style={{ color: 'var(--color-gk-creme)' }}
             >
-              Onde o Mundo
-              <br />
-              Nasce Entre Nós
+              {t('title')}
             </motion.h2>
 
             {/* Paragrafos — sub-container que escalona cada parágrafo */}
@@ -78,7 +79,7 @@ export default function OLivro() {
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
-                Não é um manual. É um deslocamento de olhar.
+                {t('body1')}
               </motion.p>
 
               <motion.p
@@ -86,9 +87,7 @@ export default function OLivro() {
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
-                Em vez de explicar o autismo como diagnóstico, este livro
-                acompanha o desenvolvimento como processo vivo — algo que
-                acontece no corpo, no tempo e na relação.
+                {t('body2')}
               </motion.p>
 
               <motion.p
@@ -96,9 +95,7 @@ export default function OLivro() {
                 className='text-lg leading-relaxed'
                 style={{ color: 'rgba(255,255,255,0.65)' }}
               >
-                Cada gesto, repetição ou pausa é lido como tentativa de manter
-                equilíbrio. Nada aqui é tratado como erro a eliminar, mas como
-                movimento que pede compreensão.
+                {t('body3')}
               </motion.p>
             </motion.div>
 
@@ -112,7 +109,7 @@ export default function OLivro() {
                   color: '#ffffff',
                 }}
               >
-                Descobrir o Livro
+                {t('cta')}
               </Link>
             </motion.div>
           </motion.div>

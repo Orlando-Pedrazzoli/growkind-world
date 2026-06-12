@@ -3,10 +3,16 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
-import { BOOK_EDITIONS } from '@/lib/data/book';
+import { useBookData } from '@/lib/data/book';
 
 export default function BookFinalCTA() {
+  const t = useTranslations('book.finalCta');
+  const te = useTranslations('book.editions');
+  const tBook = useTranslations('book');
+  const { editions } = useBookData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
@@ -32,9 +38,9 @@ export default function BookFinalCTA() {
             lineHeight: 1.2,
           }}
         >
-          Comece por
+          {t('titleLead')}
           <br />
-          <em style={{ color: '#c4a44a' }}>ver diferente.</em>
+          <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
         </h2>
 
         {/* Subtitulo */}
@@ -42,13 +48,12 @@ export default function BookFinalCTA() {
           className='mx-auto mt-6 max-w-lg text-[16px] leading-relaxed'
           style={{ color: 'rgba(240,232,208,0.55)' }}
         >
-          Não é preciso ter todas as respostas. Basta estar disposto a fazer uma
-          pergunta diferente — e deixar que ela mude o que você oferece.
+          {t('subtitle')}
         </p>
 
         {/* Botoes de compra (BOOK_EDITIONS) */}
         <div className='mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center'>
-          {BOOK_EDITIONS.map(edition => {
+          {editions.map(edition => {
             const isExternal = edition.href.startsWith('http');
             const Icon = edition.icon;
 
@@ -94,8 +99,10 @@ export default function BookFinalCTA() {
               >
                 <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
                 <span>
-                  {edition.format === 'kindle' ? 'Kindle' : 'Físico Amazon'} —{' '}
-                  {edition.price}
+                  {edition.format === 'kindle'
+                    ? te('kindle')
+                    : te('physicalAmazon')}{' '}
+                  — {edition.price}
                 </span>
               </Component>
             );
@@ -110,7 +117,7 @@ export default function BookFinalCTA() {
             style={{ color: 'rgba(240,232,208,0.7)' }}
           >
             <span className='underline-offset-4 group-hover:underline'>
-              Ler os primeiros capítulos · grátis
+              {tBook('previewLink')}
             </span>
             <ArrowRight
               size={14}
@@ -125,7 +132,7 @@ export default function BookFinalCTA() {
           className='mt-5 text-[13px] italic'
           style={{ color: 'rgba(240,232,208,0.35)' }}
         >
-          Acesso imediato · Devolução em 7 dias
+          {t('note')}
         </p>
       </motion.div>
     </section>

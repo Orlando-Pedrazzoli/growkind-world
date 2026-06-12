@@ -1,8 +1,14 @@
 // ============================================
 // GrowKind World — Dados da página /o-livro
 // Textos aprovados pelo João Pereira
+//
+// i18n: os TEXTOS vivem em messages/pt.json e en.json
+// (namespace book.data). Este ficheiro guarda apenas a
+// ESTRUTURA (ícones, preços, hrefs, formatos) e expõe o
+// hook useBookData() que junta as duas partes.
 // ============================================
 
+import { useTranslations } from 'next-intl';
 import { BookOpen, Tablet, Book, type LucideIcon } from 'lucide-react';
 
 export interface BookEdition {
@@ -15,51 +21,6 @@ export interface BookEdition {
   style: 'primary' | 'secondary' | 'ghost';
 }
 
-// ─────────────────────────────────────────────────────────────────
-// EDIÇÕES ACTIVAS — apresentadas em /o-livro (BookHero + BookFinalCTA)
-// ─────────────────────────────────────────────────────────────────
-//
-// NOTA Maio 2026 (Item 2 — Revisão João Pereira):
-// As edições Amazon (Kindle e Físico) estão temporariamente
-// desactivadas até o livro ser publicado e os ISBN existirem.
-// Para reactivar: mover os objectos de BOOK_EDITIONS_PENDING para
-// BOOK_EDITIONS, e substituir 'XXXXXXXXX' pelos ISBN reais.
-// ─────────────────────────────────────────────────────────────────
-
-export const BOOK_EDITIONS: BookEdition[] = [
-  {
-    format: 'ebook',
-    label: 'Comprar o eBook',
-    sublabel: 'Acesso imediato · Leitura no site',
-    price: '€14',
-    icon: BookOpen,
-    href: '/comprar/ebook',
-    style: 'primary',
-  },
-];
-
-// Edições à espera de ISBN — não aparecem no site até serem movidas para BOOK_EDITIONS
-export const BOOK_EDITIONS_PENDING: BookEdition[] = [
-  {
-    format: 'kindle',
-    label: 'Kindle · Amazon',
-    sublabel: 'Leitura no Kindle ou app Amazon',
-    price: '€9.99',
-    icon: Tablet,
-    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN Kindle real
-    style: 'secondary',
-  },
-  {
-    format: 'physical',
-    label: 'Livro Físico · Amazon',
-    sublabel: 'Envio para PT, BR e resto do mundo',
-    price: '€19.99',
-    icon: Book,
-    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN físico real
-    style: 'ghost',
-  },
-];
-
 export interface BookPart {
   number: string;
   label: string;
@@ -68,91 +29,94 @@ export interface BookPart {
   chapters: string[];
 }
 
-export const BOOK_PARTS: BookPart[] = [
-  {
-    number: 'I',
-    label: 'PARTE I',
-    title: 'Quando o mundo começa por dentro',
-    subtitle: 'A experiência antes da ação',
-    chapters: [
-      'Quando o mundo muda de lugar',
-      'Quando o mundo se sente primeiro',
-      'Quando o corpo aprende onde está',
-      'Quando o mundo perde direção',
-      'Quando o mundo não faz sentido',
-    ],
-  },
-  {
-    number: 'II',
-    label: 'PARTE II',
-    title: 'Quando sentir não é o bastante',
-    subtitle: 'Organizar para agir',
-    chapters: [
-      'Quando compreender não basta',
-      'Quando o começo não se sustenta',
-      'Quando a ação precisa de bordas',
-      'Quando a palavra dá direção',
-      'Quando o ritmo organiza o dia',
-      'Quando o interesse dá direção',
-    ],
-  },
-  {
-    number: 'III',
-    label: 'PARTE III',
-    title: 'Quando o mundo deixa de responder do mesmo jeito',
-    subtitle: 'A construção da relação',
-    chapters: [
-      'Quando a palavra cria ponte',
-      'Quando o sentir ganha nome',
-      'Quando a autonomia emerge',
-      'Quando a identidade pode existir',
-      'Quando o outro começa a ser referência',
-      'Quando o outro ganha mente',
-    ],
-  },
-];
-
 export interface BookAudience {
   icon: string;
   title: string;
   description: string;
 }
 
-export const BOOK_AUDIENCES: BookAudience[] = [
+// ─────────────────────────────────────────────────────────────────
+// EDIÇÕES — estrutura (sem textos; labels/sublabels vêm do dicionário)
+// ─────────────────────────────────────────────────────────────────
+//
+// NOTA Maio 2026 (Item 2 — Revisão João Pereira):
+// As edições Amazon (Kindle e Físico) estão temporariamente
+// desactivadas até o livro ser publicado e os ISBN existirem.
+// Para reactivar: adicionar 'kindle' e/ou 'physical' a
+// ACTIVE_FORMATS, e substituir 'XXXXXXXXX' pelos ISBN reais.
+// ─────────────────────────────────────────────────────────────────
+
+type EditionConfig = Omit<BookEdition, 'label' | 'sublabel'>;
+
+const EDITIONS_CONFIG: EditionConfig[] = [
   {
-    icon: '👨‍👩‍👧',
-    title: 'Para pais e famílias',
-    description:
-      'Que querem compreender antes de agir — e acompanhar antes de corrigir.',
+    format: 'ebook',
+    price: '€14',
+    icon: BookOpen,
+    href: '/comprar/ebook',
+    style: 'primary',
   },
   {
-    icon: '🏫',
-    title: 'Para educadores',
-    description:
-      'Que ensinam sem apagar quem a criança é — e que buscam uma lente profissional sólida.',
+    format: 'kindle',
+    price: '€9.99',
+    icon: Tablet,
+    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN Kindle real
+    style: 'secondary',
   },
   {
-    icon: '🩺',
-    title: 'Para profissionais',
-    description:
-      'Que sabem que o desenvolvimento começa antes da técnica — e que querem coordenar em vez de fragmentar.',
+    format: 'physical',
+    price: '€19.99',
+    icon: Book,
+    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN físico real
+    style: 'ghost',
   },
 ];
 
-export const BOOK_EXCERPT = [
-  'Há uma pergunta que atravessa este livro inteiro — não como tema a resolver, mas como orientação para o olhar.',
-  'O que está acontecendo quando a criança age como age?',
-  'Não "como faço isso parar?" — mas "o que isso está contando?"',
-  'É uma distinção simples. Mas muda tudo.',
-  'Quando a pergunta é "como faço isso parar?", o comportamento vira problema. O adulto vira solucionador. E a criança vira alguém que precisa ser corrigida.',
-  'Quando a pergunta é "o que isso está contando?", o comportamento vira mensagem. O adulto vira leitor. E a criança vira alguém que está tentando, com os recursos que tem, manter algo organizado por dentro.',
-  'Este livro se constrói a partir dessa segunda pergunta.',
-  'Não é um manual. Não oferece protocolos nem listas de estratégias. Não promete transformar a criança em alguém mais fácil de acompanhar. O que propõe é mais exigente — e, na minha experiência, mais duradouro: um deslocamento de olhar.',
-  'Ao longo de quase três décadas acompanhando crianças autistas, famílias e educadores — no Brasil, em Portugal, no Reino Unido — aprendi que o maior obstáculo raramente está na criança. Está na distância entre o que ela vive e a linguagem que os adultos ao redor usam para explicar o que veem.',
-  'Essa distância produz mal-entendidos. Intervenções que chegam no momento errado. Exigências que chegam antes de o campo estar pronto para recebê-las. Adultos exaustos que tentam resolver o que precisaria ser acompanhado.',
-  'Este livro é uma tentativa de reduzir essa distância.',
-  'Cada capítulo acompanha um momento do desenvolvimento — não como etapa a cumprir, mas como território a reconhecer. Há coisas que o corpo da criança comunica antes de qualquer palavra. Há coisas que o ambiente oferece ou retira antes de qualquer instrução. Há coisas que a presença do adulto transmite antes de qualquer técnica.',
-  'É nesse "antes" que este livro se instala.',
-];
+// Só os formatos listados aqui aparecem no site
+const ACTIVE_FORMATS: BookEdition['format'][] = ['ebook'];
 
-export const BOOK_QUOTE = 'O desenvolvimento não se resolve. Ele se acompanha.';
+// Estrutura das partes (números romanos) e dos públicos (ícones)
+const PART_KEYS = ['part1', 'part2', 'part3'] as const;
+const PART_NUMBERS = ['I', 'II', 'III'];
+
+const AUDIENCE_CONFIG = [
+  { icon: '👨‍👩‍👧', key: 'families' },
+  { icon: '🏫', key: 'educators' },
+  { icon: '🩺', key: 'professionals' },
+] as const;
+
+// ─────────────────────────────────────────────────────────────────
+// Hook — devolve todos os dados do livro já no idioma ativo
+// Uso: const { editions, parts, audiences, excerpt, quote } = useBookData();
+// ─────────────────────────────────────────────────────────────────
+export function useBookData() {
+  const t = useTranslations('book.data');
+
+  const editions: BookEdition[] = EDITIONS_CONFIG.filter(cfg =>
+    ACTIVE_FORMATS.includes(cfg.format),
+  ).map(cfg => ({
+    ...cfg,
+    label: t(`editions.${cfg.format}.label`),
+    sublabel: t(`editions.${cfg.format}.sublabel`),
+  }));
+
+  const parts: BookPart[] = PART_KEYS.map((key, i) => ({
+    number: PART_NUMBERS[i],
+    label: t(`parts.${key}.label`),
+    title: t(`parts.${key}.title`),
+    subtitle: t(`parts.${key}.subtitle`),
+    chapters: t.raw(`parts.${key}.chapters`) as string[],
+  }));
+
+  const audiences: BookAudience[] = AUDIENCE_CONFIG.map(({ icon, key }) => ({
+    icon,
+    title: t(`audiences.${key}.title`),
+    description: t(`audiences.${key}.description`),
+  }));
+
+  const excerpt = t.raw('excerpt') as string[];
+
+  const quote = t('quote');
+
+  return { editions, parts, audiences, excerpt, quote };
+}

@@ -3,9 +3,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
 export default function Aterrissagem() {
+  const t = useTranslations('home.hero');
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
@@ -33,11 +36,9 @@ export default function Aterrissagem() {
           className='text-[var(--color-gk-white)]'
           style={{ fontSize: 'clamp(1.25rem, 5vw, 2.75rem)' }}
         >
-          Um mundo criado a partir da
+          {t('titleLead')}
           <br />
-          <em className='text-[var(--color-gk-ocre)]'>
-            experiência neurodivergente.
-          </em>
+          <em className='text-[var(--color-gk-ocre)]'>{t('titleEmphasis')}</em>
         </motion.h2>
 
         {/* Separador */}
@@ -57,8 +58,7 @@ export default function Aterrissagem() {
           className='mx-auto mt-6 max-w-2xl text-lg leading-relaxed md:mt-8'
           style={{ color: 'rgba(255,255,255,0.65)' }}
         >
-          Para pais e profissionais que valorizam compreensão antes da
-          intervenção.
+          {t('subtitle')}
         </motion.p>
 
         {/* Botoes — sub-container que escalona os dois CTAs */}
@@ -75,7 +75,7 @@ export default function Aterrissagem() {
               color: '#ffffff',
             }}
           >
-            A nossa história
+            {t('ctaStory')}
           </motion.button>
           <motion.button
             variants={revealItem}
@@ -83,7 +83,7 @@ export default function Aterrissagem() {
             className='inline-block cursor-pointer rounded-full border-[1.5px] border-white/40 bg-transparent px-10 py-4 text-[14px] font-medium uppercase tracking-widest transition-all duration-300 hover:border-white/70 hover:bg-white/5'
             style={{ color: '#ffffff' }}
           >
-            Os nossos princípios
+            {t('ctaPrinciples')}
           </motion.button>
         </motion.div>
       </motion.div>

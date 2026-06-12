@@ -2,15 +2,19 @@
 
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { RDF_MOVEMENTS } from '@/lib/data/rdf';
+import { useTranslations } from 'next-intl';
+import { useRdfData } from '@/lib/data/rdf';
 
 export default function RDFMovements() {
+  const t = useTranslations('rdf.movements');
+  const { movements } = useRdfData();
+
   const ref = useRef<HTMLElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   // Movimentos 1-3 em grid, Transversal (4) full-width
-  const mainMovements = RDF_MOVEMENTS.filter(m => m.number <= 3);
-  const transversal = RDF_MOVEMENTS.find(m => m.number === 4)!;
+  const mainMovements = movements.filter(m => m.number <= 3);
+  const transversal = movements.find(m => m.number === 4)!;
 
   return (
     <section
@@ -30,7 +34,7 @@ export default function RDFMovements() {
             className='text-[11px] font-semibold uppercase tracking-[0.14em]'
             style={{ color: '#8b6914' }}
           >
-            Os movimentos do campo
+            {t('eyebrow')}
           </span>
           <h2
             className='mt-6 font-[family-name:var(--font-display)]'
@@ -41,12 +45,12 @@ export default function RDFMovements() {
               lineHeight: 1.15,
             }}
           >
-            Quatro lentes —{' '}
-            <em style={{ color: '#c4a44a' }}>não quatro etapas</em>
+            {t('titleLead')}{' '}
+            <em style={{ color: '#c4a44a' }}>{t('titleEmphasis')}</em>
           </h2>
         </div>
 
-        {/* Aviso critico */}
+        {/* Aviso critico — <critical> vira o strong via JSON */}
         <div
           className='mx-auto mt-10 flex max-w-[800px] items-start gap-4 p-5'
           style={{
@@ -60,12 +64,13 @@ export default function RDFMovements() {
             className='text-[13px] leading-relaxed'
             style={{ color: 'var(--color-gk-cinza)' }}
           >
-            <strong style={{ color: 'var(--color-gk-black)' }}>Crítico:</strong>{' '}
-            Os movimentos não são fases de progresso nem categorias
-            diagnósticas. São lentes de leitura. A mesma criança pode precisar
-            de movimentos diferentes ao longo do mesmo dia. O adulto não
-            &ldquo;passa&rdquo; de um movimento para o outro — lê o que o campo
-            está a pedir agora.
+            {t.rich('warning', {
+              critical: chunks => (
+                <strong style={{ color: 'var(--color-gk-black)' }}>
+                  {chunks}
+                </strong>
+              ),
+            })}
           </p>
         </div>
 
@@ -100,7 +105,7 @@ export default function RDFMovements() {
                   className='text-[11px] font-semibold uppercase tracking-[0.1em]'
                   style={{ color: 'var(--color-gk-cinza)' }}
                 >
-                  Movimento {mov.number}
+                  {t('movementLabel', { number: mov.number })}
                 </span>
               </div>
 
@@ -187,7 +192,7 @@ export default function RDFMovements() {
                 className='text-[11px] font-semibold uppercase tracking-[0.1em]'
                 style={{ color: 'var(--color-gk-cinza)' }}
               >
-                Movimento Transversal
+                {t('transversalLabel')}
               </span>
             </div>
 
@@ -214,7 +219,7 @@ export default function RDFMovements() {
                 borderRadius: '6px',
               }}
             >
-              Pertence ao campo do adulto — não ao desenvolvimento da criança
+              {t('transversalBadge')}
             </span>
 
             {/* Descricao */}
@@ -222,10 +227,7 @@ export default function RDFMovements() {
               className='mt-5 text-[14px] leading-relaxed'
               style={{ color: 'rgba(30,30,30,0.65)' }}
             >
-              Garante coerência entre todos os adultos envolvidos — educadores,
-              família, terapeutas. Não é liderança. É coerência de leitura ao
-              longo do tempo. O adulto-eixo tem autoridade de observação: vê o
-              dia real da criança que nenhum relatório clínico captura.
+              {t('transversalDesc')}
             </p>
           </div>
 
@@ -238,8 +240,7 @@ export default function RDFMovements() {
               className='max-w-sm font-[family-name:var(--font-display)] text-lg italic leading-relaxed'
               style={{ color: 'rgba(240,232,208,0.75)' }}
             >
-              &ldquo;O adulto não se torna especialista. Torna-se eixo. É ele
-              quem percebe micromudanças que não aparecem em relatórios.&rdquo;
+              &ldquo;{t('transversalQuote')}&rdquo;
             </p>
           </div>
         </motion.div>

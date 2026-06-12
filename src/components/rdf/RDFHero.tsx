@@ -1,10 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { RDF_AXIOM } from '@/lib/data/rdf';
+import { useTranslations } from 'next-intl';
+import { useRdfData } from '@/lib/data/rdf';
 import RDFHeroDiagram from '@/components/rdf/RDFHeroDiagram';
 
 export default function RDFHero() {
+  const t = useTranslations('rdf.hero');
+  const { axiom } = useRdfData();
+
   return (
     <section
       className='-mt-20 md:-mt-24'
@@ -30,10 +34,10 @@ export default function RDFHero() {
               display: 'inline-block',
             }}
           >
-            Framework · GrowKind World
+            {t('eyebrow')}
           </p>
 
-          {/* Titulo */}
+          {/* Titulo — nome próprio do framework, igual em PT e EN */}
           <h1
             className='font-[family-name:var(--font-display)] leading-[1.05]'
             style={{
@@ -61,19 +65,18 @@ export default function RDFHero() {
               className='font-[family-name:var(--font-display)] text-[17px] italic leading-relaxed md:text-[19px]'
               style={{ color: 'rgba(240,232,208,0.7)' }}
             >
-              &ldquo;O que se vê do lado de fora costuma ser chamado de
-              comportamento. O que não se vê é o esforço imenso para manter
-              alguma continuidade por dentro.&rdquo;
+              &ldquo;{t('entryQuote')}&rdquo;
             </p>
           </div>
 
+          {/* Mudança de pergunta — <em> nas duas perguntas via JSON */}
           <p
             className='mt-5 max-w-lg text-[15px] leading-relaxed md:text-[16px]'
             style={{ color: 'rgba(240,232,208,0.55)' }}
           >
-            A pergunta deixa de ser <em>&ldquo;como faço isso parar?&rdquo;</em>{' '}
-            e começa a transformar-se em{' '}
-            <em>&ldquo;o que isso está a contar?&rdquo;</em>
+            {t.rich('questionShift', {
+              em: chunks => <em>{chunks}</em>,
+            })}
           </p>
 
           {/* Descricao tecnica */}
@@ -81,9 +84,7 @@ export default function RDFHero() {
             className='mt-8 max-w-lg text-[16px] leading-relaxed md:text-[17px]'
             style={{ color: 'rgba(240,232,208,0.65)' }}
           >
-            Uma forma de ler o que está a acontecer entre a criança e o ambiente
-            — antes de qualquer decisão de resposta. Não é terapia. Não é
-            protocolo. É uma lente.
+            {t('description')}
           </p>
 
           {/* Citacao com borda esquerda */}
@@ -95,7 +96,7 @@ export default function RDFHero() {
               className='font-[family-name:var(--font-display)] text-xl italic leading-relaxed md:text-2xl'
               style={{ color: 'rgba(240,232,208,0.6)' }}
             >
-              &ldquo;{RDF_AXIOM}&rdquo;
+              &ldquo;{axiom}&rdquo;
             </p>
           </div>
         </motion.div>

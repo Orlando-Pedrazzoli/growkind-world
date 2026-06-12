@@ -3,34 +3,31 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+// 👇 Link e usePathname vêm AGORA do i18n (aplicam o prefixo /en automaticamente).
+import { Link, usePathname } from '@/i18n/navigation';
 import UserMenu from '@/components/auth/UserMenu';
+import LanguageToggle from './LanguageToggle';
 
+// href fixo + chave de tradução (o texto deixa de estar hardcoded).
 const navItems = [
-  { label: 'O PROJECTO', href: '/' },
-  { label: 'O LIVRO', href: '/o-livro' },
-  { label: 'RDF', href: '/rdf' },
-  { label: 'CURSOS', href: '/cursos' },
-  { label: 'O AUTOR', href: '/sobre' },
-];
+  { key: 'home', href: '/' },
+  { key: 'book', href: '/o-livro' },
+  { key: 'rdf', href: '/rdf' },
+  { key: 'courses', href: '/cursos' },
+  { key: 'about', href: '/sobre' },
+] as const;
 
 /**
  * Rotas com fundo branco/claro no topo ("páginas de aplicação").
- * Nestas rotas, a navbar deve estar SEMPRE opaca com links escuros,
- * independentemente do scroll.
+ * NOTA: o usePathname do i18n devolve o caminho SEM o prefixo de locale,
+ * por isso estas comparações funcionam igual em PT e em /en.
  */
 const APP_ROUTE_PREFIXES = ['/login', '/registar', '/a-minha-conta', '/admin'];
-
-/**
- * Rotas onde o Header não deve aparecer de todo — experiências imersivas
- * que têm o seu próprio chrome (ex: leitor do livro com sidebar de capítulos,
- * controlos de fonte e tema próprios).
- */
 const HIDE_HEADER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
 
 function isAppRoute(pathname: string | null): boolean {
@@ -49,6 +46,7 @@ function shouldHideHeader(pathname: string | null): boolean {
 
 function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   const { data: session, status } = useSession();
+  const t = useTranslations('nav');
 
   if (status === 'loading') return null;
 
@@ -61,14 +59,14 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
           className='flex cursor-pointer items-center gap-3 border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
         >
           <User size={18} strokeWidth={1.8} />
-          Entrar
+          {t('login')}
         </Link>
         <Link
           href='/registar'
           onClick={onNavigate}
           className='flex cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
         >
-          Criar conta
+          {t('register')}
         </Link>
       </>
     );
@@ -81,7 +79,8 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
         onClick={onNavigate}
         className='flex cursor-pointer items-center gap-3 border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
       >
-        <User size={18} strokeWidth={1.8} />A minha conta
+        <User size={18} strokeWidth={1.8} />
+        {t('account')}
       </Link>
       <button
         onClick={() => {
@@ -91,7 +90,7 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
         className='flex w-full cursor-pointer items-center gap-3 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-red-600'
       >
         <LogOut size={18} strokeWidth={1.8} />
-        Sair
+        {t('logout')}
       </button>
     </>
   );
@@ -99,25 +98,22 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
 
 export default function Header() {
   const pathname = usePathname();
+  const t = useTranslations('nav');
   const [menuAberto, setMenuAberto] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Detectar rotas que escondem o Header (leitor imersivo)
   const hidden = useMemo(() => shouldHideHeader(pathname), [pathname]);
-
   const forcedOpaque = useMemo(() => isAppRoute(pathname), [pathname]);
 
   useEffect(() => {
     function handleScroll() {
       setScrolled(window.scrollY > 60);
     }
-
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // SE rota imersiva → não renderizar nada
   if (hidden) return null;
 
   const isTransparent = !forcedOpaque && !scrolled && !menuAberto;
@@ -141,10 +137,10 @@ export default function Header() {
         {/* Logo + Nome (esquerda) */}
         <Link href='/' className='flex items-center gap-3'>
           <Image
-            src='/images/logo-growkind.jpg'
+            src='/images/logo-growkind3.png'
             alt='GrowKind World Logo'
-            width={48}
-            height={48}
+            width={58}
+            height={58}
             className='rounded-full'
           />
           <span
@@ -186,14 +182,19 @@ export default function Header() {
               }}
               className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-70'
             >
-              {item.label}
+              {t(item.key)}
             </Link>
           ))}
         </nav>
 
-        {/* User icon (direita) + Hamburger mobile */}
+        {/* Direita: toggle de idioma + UserMenu (desktop) + hamburger (mobile) */}
         <div className='flex items-center gap-4'>
-          {/* UserMenu desktop — ícone muda cor com scroll ou rota */}
+          {/* Toggle de idioma — desktop */}
+          <div className='hidden md:block'>
+            <LanguageToggle variant={isTransparent ? 'onDark' : 'onLight'} />
+          </div>
+
+          {/* UserMenu desktop */}
           <div className='hidden md:block'>
             <UserMenu
               iconColor={isTransparent ? '#FFFFFF' : '#1A5C2A'}
@@ -256,11 +257,16 @@ export default function Header() {
                   onClick={() => setMenuAberto(false)}
                   className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
                 >
-                  {item.label}
+                  {t(item.key)}
                 </Link>
               ))}
-              {/* Links de conta — diretos, sem dropdown */}
+
               <MobileAccountLinks onNavigate={() => setMenuAberto(false)} />
+
+              {/* Toggle de idioma — mobile (fundo branco => onLight) */}
+              <div className='pt-5'>
+                <LanguageToggle variant='onLight' />
+              </div>
             </div>
           </motion.nav>
         )}

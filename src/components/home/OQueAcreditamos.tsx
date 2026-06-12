@@ -1,51 +1,53 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem } from '@/lib/motion';
 
-const cards = [
-  {
-    num: '01',
-    titulo: 'O desenvolvimento começa pelo ambiente.',
-    corpo: (
-      <>
-        <p>Antes de qualquer currículo, antes de qualquer intervenção,</p>
-        <p className='italic' style={{ color: 'var(--color-gk-ocre)' }}>
-          o mundo precisa de ser habitável.
-        </p>
-        <p>Seguro. Previsível. Com ritmo próprio.</p>
-      </>
-    ),
-  },
-  {
-    num: '02',
-    titulo: 'A experiência vem antes da instrução.',
-    corpo: (
-      <>
-        <p className='italic'>Antes da palavra, há o gesto.</p>
-        <p className='italic'>Antes do conceito, há a experiência.</p>
-        <p className='italic'>Antes de corrigir, precisamos compreender.</p>
-      </>
-    ),
-  },
-  {
-    num: '03',
-    titulo: 'O mundo vem antes do currículo.',
-    corpo: (
-      <>
-        <p>
-          Nenhum conteúdo faz sentido se o mundo ainda é vivido como
-          fragmentado.
-        </p>
-        <p className='italic' style={{ color: 'var(--color-gk-ocre)' }}>
-          O GrowKind constrói primeiro o território.
-        </p>
-      </>
-    ),
-  },
-];
-
 export default function OQueAcreditamos() {
+  const t = useTranslations('home.believe');
+
+  // Cards construídos dentro do componente para usar as traduções,
+  // preservando o styling por linha (itálico + destaque ocre)
+  const cards = [
+    {
+      num: '01',
+      titulo: t('item1Title'),
+      corpo: (
+        <>
+          <p>{t('item1Line1')}</p>
+          <p className='italic' style={{ color: 'var(--color-gk-ocre)' }}>
+            {t('item1Highlight')}
+          </p>
+          <p>{t('item1Line2')}</p>
+        </>
+      ),
+    },
+    {
+      num: '02',
+      titulo: t('item2Title'),
+      corpo: (
+        <>
+          <p className='italic'>{t('item2Line1')}</p>
+          <p className='italic'>{t('item2Line2')}</p>
+          <p className='italic'>{t('item2Line3')}</p>
+        </>
+      ),
+    },
+    {
+      num: '03',
+      titulo: t('item3Title'),
+      corpo: (
+        <>
+          <p>{t('item3Line1')}</p>
+          <p className='italic' style={{ color: 'var(--color-gk-ocre)' }}>
+            {t('item3Highlight')}
+          </p>
+        </>
+      ),
+    },
+  ];
+
   return (
     <section
       id='oque-acreditamos'
@@ -62,7 +64,7 @@ export default function OQueAcreditamos() {
       >
         {/* Eyebrow centrado */}
         <motion.div variants={revealItem} className='text-center'>
-          <span className='eyebrow'>O que acreditamos</span>
+          <span className='eyebrow'>{t('eyebrow')}</span>
         </motion.div>
 
         {/* Separador */}
