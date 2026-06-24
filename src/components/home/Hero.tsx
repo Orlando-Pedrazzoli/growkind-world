@@ -98,11 +98,11 @@ export default function Hero() {
 
       {/*
         Proporções fixas — sem max-h, para o enquadramento ser idêntico em qualquer largura:
-        - mobile: 1:1  → imagens 1080×1080 (encaixe exato)
+        - mobile: 3:4  → imagens 1080×1440 (encaixe exato, mais imersivo)
         - sm:     16/7 → meio-termo em tablets
         - md+:    12/5 (2.4:1) → imagens 1920×800 (encaixe exato, zero corte)
       */}
-      <div className='relative aspect-square w-full sm:aspect-[16/7] md:aspect-[12/5]'>
+      <div className='relative aspect-[3/4] w-full sm:aspect-[16/7] md:aspect-[12/5]'>
         {SLIDES.map((slide, i) => {
           const isActive = i === index;
           return (
