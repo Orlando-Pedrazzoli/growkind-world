@@ -196,20 +196,14 @@ export default function ReadingView({
     }
   }, []);
 
-  // Progresso de scroll
+  // Progresso de scroll (para a barra do topo)
   const handleScroll = useCallback(() => {
     if (!contentRef.current) return;
     const el = contentRef.current;
     const scrolled = el.scrollTop;
     const total = el.scrollHeight - el.clientHeight;
     setScrollProgress(total > 0 ? Math.round((scrolled / total) * 100) : 0);
-
-    // Guardar progresso (debounce implícito)
-    if (!isGated) {
-      const key = `gk-reading-${chapter.id}`;
-      localStorage.setItem(key, String(Math.round((scrolled / total) * 100)));
-    }
-  }, [chapter.id, isGated]);
+  }, []);
 
   useEffect(() => {
     const el = contentRef.current;
@@ -218,16 +212,15 @@ export default function ReadingView({
     return () => el.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
-  // Restaurar posição guardada
+  // Ao abrir/trocar de capítulo, começar SEMPRE no topo (scroll-to-top).
+  // O container de scroll é o mesmo entre capítulos (não remonta), por isso
+  // é preciso repor o scrollTop manualmente — senão mantém a posição do
+  // capítulo anterior e parece "abrir no fim".
   useEffect(() => {
-    const key = `gk-reading-${chapter.id}`;
-    const saved = localStorage.getItem(key);
-    if (saved && contentRef.current) {
-      const pct = Number(saved) / 100;
-      const total =
-        contentRef.current.scrollHeight - contentRef.current.clientHeight;
-      contentRef.current.scrollTop = total * pct;
+    if (contentRef.current) {
+      contentRef.current.scrollTop = 0;
     }
+    setScrollProgress(0);
   }, [chapter.id]);
 
   const fontSizeClass = {

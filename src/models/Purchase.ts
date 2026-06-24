@@ -4,7 +4,15 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export type ProductType = 'ebook' | 'curso-prof' | 'curso-fam';
 
+export type PurchaseStatus =
+  | 'pending'
+  | 'completed'
+  | 'failed'
+  | 'refunded'
+  | 'cancelled';
+
 export interface IPurchase extends Document {
+  _id: mongoose.Types.ObjectId; // declarado -> .lean() tipa o _id corretamente
   userId: mongoose.Types.ObjectId;
   userEmail: string;
   product: ProductType;
@@ -12,7 +20,7 @@ export interface IPurchase extends Document {
   stripePaymentIntentId?: string;
   amount: number;
   currency: string;
-  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  status: PurchaseStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -53,7 +61,7 @@ const PurchaseSchema = new Schema<IPurchase>(
     },
     status: {
       type: String,
-      enum: ['pending', 'completed', 'failed', 'refunded'],
+      enum: ['pending', 'completed', 'failed', 'refunded', 'cancelled'],
       default: 'pending',
     },
   },

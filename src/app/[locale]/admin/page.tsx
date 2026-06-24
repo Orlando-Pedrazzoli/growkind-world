@@ -1,18 +1,30 @@
+// src/app/[locale]/admin/page.tsx
 import { connectDB } from '@/lib/db';
 import User from '@/models/User';
-import { Users, BookOpen, GraduationCap, Award } from 'lucide-react';
+import Purchase from '@/models/Purchase';
+import { productLabel, formatMoney } from '@/lib/products';
+import { Users, Euro, ShoppingBag, Clock } from 'lucide-react';
 
 async function getStats() {
   await connectDB();
 
-  const totalUsers = await User.countDocuments();
-  const recentUsers = await User.countDocuments({
-    createdAt: { $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) },
-  });
+  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+
+  const [totalUsers, recentUsers, completed, pendingCount] = await Promise.all([
+    User.countDocuments(),
+    User.countDocuments({ createdAt: { $gte: weekAgo } }),
+    Purchase.find({ status: 'completed' }).select('amount').lean(),
+    Purchase.countDocuments({ status: 'pending' }),
+  ]);
+
+  const revenue = completed.reduce((sum, p) => sum + (p.amount || 0), 0);
 
   return {
     totalUsers,
     recentUsers,
+    revenue,
+    salesCount: completed.length,
+    pendingCount,
   };
 }
 
@@ -22,30 +34,30 @@ export default async function AdminDashboard() {
   const cards = [
     {
       label: 'Utilizadores',
-      value: stats.totalUsers,
+      value: String(stats.totalUsers),
       sub: `+${stats.recentUsers} esta semana`,
       icon: Users,
       color: 'var(--color-gk-green-dark)',
     },
     {
-      label: 'Capítulos Livro',
-      value: '—',
-      sub: 'Por configurar',
-      icon: BookOpen,
+      label: 'Receita',
+      value: formatMoney(stats.revenue),
+      sub: 'Total recebido',
+      icon: Euro,
       color: 'var(--color-rdf-m2)',
     },
     {
-      label: 'Cursos',
-      value: '—',
-      sub: 'Por configurar',
-      icon: GraduationCap,
+      label: 'Vendas',
+      value: String(stats.salesCount),
+      sub: 'Pedidos pagos',
+      icon: ShoppingBag,
       color: 'var(--color-rdf-m3)',
     },
     {
-      label: 'Certificados',
-      value: '—',
-      sub: 'Por configurar',
-      icon: Award,
+      label: 'Pendentes',
+      value: String(stats.pendingCount),
+      sub: 'A aguardar pagamento',
+      icon: Clock,
       color: 'var(--color-gk-ocre)',
     },
   ];
@@ -90,6 +102,12 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
+      {/* Últimas vendas */}
+      <div className='mt-10'>
+        <h2 className='text-[clamp(1.125rem,2vw,1.375rem)]'>Últimas vendas</h2>
+        <RecentPurchasesTable />
+      </div>
+
       {/* Recent users */}
       <div className='mt-10'>
         <h2 className='text-[clamp(1.125rem,2vw,1.375rem)]'>
@@ -97,6 +115,79 @@ export default async function AdminDashboard() {
         </h2>
         <RecentUsersTable />
       </div>
+    </div>
+  );
+}
+
+async function RecentPurchasesTable() {
+  await connectDB();
+
+  const purchases = await Purchase.find()
+    .sort({ createdAt: -1 })
+    .limit(8)
+    .lean();
+
+  if (purchases.length === 0) {
+    return (
+      <p className='mt-4 text-[14px] text-[var(--color-gk-cinza)]'>
+        Ainda não há vendas.
+      </p>
+    );
+  }
+
+  const emails = [...new Set(purchases.map(p => p.userEmail))];
+  const users = await User.find({ email: { $in: emails } })
+    .select('name email')
+    .lean();
+  const nameByEmail = new Map(users.map(u => [u.email, u.name]));
+
+  const statusLabel: Record<string, string> = {
+    completed: 'Pago',
+    pending: 'Pendente',
+    failed: 'Falhou',
+    refunded: 'Reembolsado',
+  };
+
+  return (
+    <div className='mt-4 overflow-x-auto'>
+      <table className='w-full text-left'>
+        <thead>
+          <tr className='border-b border-[var(--color-gk-green-dark)]/10'>
+            {['Cliente', 'Produto', 'Valor', 'Estado', 'Data'].map(h => (
+              <th
+                key={h}
+                className='pb-3 text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-gk-cinza)]'
+              >
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {purchases.map(p => (
+            <tr
+              key={String(p._id)}
+              className='border-b border-[var(--color-gk-green-dark)]/5'
+            >
+              <td className='py-3 text-[14px] text-[var(--color-gk-black)]'>
+                {nameByEmail.get(p.userEmail) || p.userEmail}
+              </td>
+              <td className='py-3 text-[13px] text-[var(--color-gk-cinza)]'>
+                {productLabel(p.product)}
+              </td>
+              <td className='py-3 text-[14px] font-medium text-[var(--color-gk-black)]'>
+                {formatMoney(p.amount, p.currency)}
+              </td>
+              <td className='py-3 text-[13px] text-[var(--color-gk-cinza)]'>
+                {statusLabel[p.status] ?? p.status}
+              </td>
+              <td className='py-3 text-[13px] text-[var(--color-gk-cinza)]'>
+                {new Date(p.createdAt).toLocaleDateString('pt-PT')}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

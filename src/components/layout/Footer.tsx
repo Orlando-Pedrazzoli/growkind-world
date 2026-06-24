@@ -1,12 +1,12 @@
 'use client';
 
 import { useMemo } from 'react';
-import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useTranslations } from 'next-intl';
 import { Instagram, Facebook, Linkedin, Lock } from 'lucide-react';
+// 👇 Link e usePathname vêm do i18n (devolvem o caminho SEM o prefixo de locale).
+import { Link, usePathname } from '@/i18n/navigation';
 
 // Slugs das rotas legais (não localizados) + chave de tradução do label
 const LEGAL_LINKS = [
@@ -38,6 +38,9 @@ const socialLinks = [
  * Rotas onde o Footer não deve aparecer — experiências imersivas
  * que têm o seu próprio chrome (ex: leitor do livro).
  * Mantém-se sincronizado com HIDE_HEADER_PREFIXES em Header.tsx.
+ *
+ * NOTA: como usamos o usePathname do @/i18n/navigation, o `pathname` chega
+ * SEM o prefixo /en ou /pt, por isso estes prefixos batem certo nos dois idiomas.
  */
 const HIDE_FOOTER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
 
