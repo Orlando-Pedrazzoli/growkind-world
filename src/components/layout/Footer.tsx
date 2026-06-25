@@ -36,13 +36,17 @@ const socialLinks = [
 
 /**
  * Rotas onde o Footer não deve aparecer — experiências imersivas
- * que têm o seu próprio chrome (ex: leitor do livro).
+ * que têm o seu próprio chrome (ex: leitor do livro, painel admin).
  * Mantém-se sincronizado com HIDE_HEADER_PREFIXES em Header.tsx.
  *
  * NOTA: como usamos o usePathname do @/i18n/navigation, o `pathname` chega
  * SEM o prefixo /en ou /pt, por isso estes prefixos batem certo nos dois idiomas.
  */
-const HIDE_FOOTER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
+const HIDE_FOOTER_PREFIXES = [
+  '/livro/preview',
+  '/a-minha-conta/livro',
+  '/admin',
+];
 
 function shouldHideFooter(pathname: string | null): boolean {
   if (!pathname) return false;
@@ -59,7 +63,7 @@ export default function Footer() {
   const ano = new Date().getFullYear();
   const isAdmin = session?.user?.role === 'admin';
 
-  // Detectar rotas que escondem o Footer (leitor imersivo)
+  // Detectar rotas que escondem o Footer (leitor imersivo, admin)
   const hidden = useMemo(() => shouldHideFooter(pathname), [pathname]);
 
   // SE rota imersiva → não renderizar nada

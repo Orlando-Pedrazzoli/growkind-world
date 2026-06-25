@@ -1,9 +1,10 @@
-// src/app/cursos/familias/page.tsx
+// src/app/[locale]/cursos/familias/page.tsx
 import type { Metadata } from 'next';
 import { buildPageMetadata, courseJsonLd } from '@/lib/seo';
 import JsonLd from '@/components/seo/JsonLd';
 import CursoDetalhe from '@/components/cursos/CursoDetalhe';
 import { cursoFamilias } from '@/lib/data/cursos';
+import { getPrice } from '@/lib/prices';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'GrowKind Famílias — Formação para Pais e Cuidadores',
@@ -17,7 +18,10 @@ export const metadata: Metadata = buildPageMetadata({
   noIndex: true,
 });
 
-export default function CursoFamiliasPage() {
+export default async function CursoFamiliasPage() {
+  // Preço real (BD) para o JSON-LD ficar igual ao cobrado. Formato schema.org: "58.00"
+  const price = ((await getPrice('curso-fam')) / 100).toFixed(2);
+
   return (
     <>
       <JsonLd
@@ -26,7 +30,7 @@ export default function CursoFamiliasPage() {
           description: cursoFamilias.descricao,
           path: '/cursos/familias',
           coverImage: cursoFamilias.capaPrincipal,
-          price: '58.00',
+          price,
           audience: cursoFamilias.publico,
         })}
       />

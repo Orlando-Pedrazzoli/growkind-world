@@ -3,6 +3,7 @@
 import {
   LayoutDashboard,
   Receipt,
+  Tag,
   Users,
   BookOpen,
   GraduationCap,
@@ -13,6 +14,7 @@ import { Link, usePathname } from '@/i18n/navigation';
 const navItems = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { label: 'Pedidos', href: '/admin/pedidos', icon: Receipt },
+  { label: 'Preços', href: '/admin/precos', icon: Tag },
   { label: 'Utilizadores', href: '/admin/utilizadores', icon: Users },
   { label: 'Livro', href: '/admin/livro', icon: BookOpen },
   { label: 'Cursos', href: '/admin/cursos', icon: GraduationCap },

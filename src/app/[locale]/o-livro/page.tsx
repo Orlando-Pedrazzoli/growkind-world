@@ -8,8 +8,9 @@ import BookAbout from '@/components/book/BookAbout';
 import BookTOC from '@/components/book/BookTOC';
 import BookExcerpt from '@/components/book/BookExcerpt';
 import BookFinalCTA from '@/components/book/BookFinalCTA';
+import { getPrice } from '@/lib/prices';
+import { formatMoney } from '@/lib/products';
 
-// Metadata dinâmico por idioma (substitui o export const metadata)
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('book.meta');
 
@@ -27,15 +28,19 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default function LivroPage() {
+export default async function LivroPage() {
+  // Preço do ebook (BD) — sincronizado com o checkout. Passa por prop aos
+  // componentes (que são client e não podem chamar getPrice diretamente).
+  const ebookPrice = formatMoney(await getPrice('ebook'));
+
   return (
     <>
       <JsonLd data={bookJsonLd()} />
-      <BookHero />
+      <BookHero ebookPrice={ebookPrice} />
       <BookAbout />
       <BookTOC />
       <BookExcerpt />
-      <BookFinalCTA />
+      <BookFinalCTA ebookPrice={ebookPrice} />
     </>
   );
 }

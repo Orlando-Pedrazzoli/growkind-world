@@ -6,6 +6,8 @@ import { auth } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import Purchase from '@/models/Purchase';
 import type { Curso } from '@/lib/data/cursos';
+import { getPrice } from '@/lib/prices';
+import { formatMoney } from '@/lib/products';
 import ModuloCard from './ModuloCard';
 import CursoDetalheCTA from './CursoDetalheCTA';
 
@@ -49,6 +51,9 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
   const isOwned = isLoggedIn
     ? await userHasCourse(session!.user!.email!, curso.productKey)
     : false;
+
+  // 👇 Preço atual (BD) — sincronizado com o que o Stripe vai cobrar.
+  const precoFmt = formatMoney(await getPrice(curso.productKey));
 
   return (
     <article>
@@ -135,7 +140,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               <div className='mt-10'>
                 <CursoDetalheCTA
                   productKey={curso.productKey}
-                  precoEur={curso.precoEur}
+                  precoEur={precoFmt}
                   accentColor={curso.accentColor}
                   isLoggedIn={isLoggedIn}
                   cursoSlug={curso.slug}

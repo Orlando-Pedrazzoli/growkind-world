@@ -7,7 +7,9 @@ import { useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
 import { useBookData } from '@/lib/data/book';
 
-export default function BookHero() {
+// ebookPrice (opcional) vem da página (server) e sincroniza o preço mostrado
+// do ebook com o que o Stripe cobra. As edições Kindle/Físico (Amazon) não mudam.
+export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
   const t = useTranslations('book.hero');
   const tBook = useTranslations('book');
   const { editions } = useBookData();
@@ -81,10 +83,14 @@ export default function BookHero() {
             {editions.map(edition => {
               const isExternal = edition.href.startsWith('http');
               const Icon = edition.icon;
+              const isPrimary = edition.style === 'primary';
+              // ebook (primary) usa o preço da BD; restantes mantêm o seu.
+              const displayPrice =
+                isPrimary && ebookPrice ? ebookPrice : edition.price;
               const btnClasses =
                 'flex items-center justify-between px-6 py-4 text-[14px] font-medium transition-all duration-300';
 
-              if (edition.style === 'primary') {
+              if (isPrimary) {
                 return (
                   <Link
                     key={edition.format}
@@ -116,7 +122,7 @@ export default function BookHero() {
                       className='font-[family-name:var(--font-display)] text-xl'
                       style={{ fontWeight: 400 }}
                     >
-                      {edition.price}
+                      {displayPrice}
                     </span>
                   </Link>
                 );

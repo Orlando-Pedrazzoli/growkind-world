@@ -28,7 +28,12 @@ const navItems = [
  * por isso estas comparações funcionam igual em PT e em /en.
  */
 const APP_ROUTE_PREFIXES = ['/login', '/registar', '/a-minha-conta', '/admin'];
-const HIDE_HEADER_PREFIXES = ['/livro/preview', '/a-minha-conta/livro'];
+// 👇 /admin tem o seu próprio layout (sidebar) — esconde a navbar pública.
+const HIDE_HEADER_PREFIXES = [
+  '/livro/preview',
+  '/a-minha-conta/livro',
+  '/admin',
+];
 
 function isAppRoute(pathname: string | null): boolean {
   if (!pathname) return false;

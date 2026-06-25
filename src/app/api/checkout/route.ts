@@ -7,6 +7,7 @@ import Purchase from '@/models/Purchase';
 import User from '@/models/User';
 import { isAdminEmail } from '@/lib/access';
 import { cursosPorProductKey } from '@/lib/data/cursos';
+import { getPrice } from '@/lib/prices';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-02-24.acacia',
@@ -17,19 +18,18 @@ type ProductRequest = 'ebook' | 'curso-prof' | 'curso-fam';
 interface ProductCatalogEntry {
   name: string;
   description: string;
-  amount: number; // cêntimos
   successPath: string;
   cancelPath: string;
   alreadyOwnedRedirect: string;
 }
 
+// Nome/descrição/rotas. O PREÇO já não vem daqui — vem de getPrice() (BD).
 function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
   switch (product) {
     case 'ebook':
       return {
         name: 'Onde o Mundo Nasce Entre Nós — eBook',
         description: 'Livro digital · Acesso vitalício no site',
-        amount: 1400,
         successPath: '/comprar/sucesso?session_id={CHECKOUT_SESSION_ID}',
         cancelPath: '/o-livro',
         alreadyOwnedRedirect: '/a-minha-conta/livro',
@@ -39,7 +39,6 @@ function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
       return {
         name: `${c.nome} — Curso Completo`,
         description: 'Acesso aos módulos 2, 3 e 4 · Para Profissionais',
-        amount: c.preco,
         successPath:
           '/comprar/sucesso?session_id={CHECKOUT_SESSION_ID}&product=curso-prof',
         cancelPath: '/cursos/profissionais',
@@ -51,7 +50,6 @@ function getProductCatalog(product: ProductRequest): ProductCatalogEntry {
       return {
         name: `${c.nome} — Curso Completo`,
         description: 'Acesso aos módulos 2, 3 e 4 · Para Famílias',
-        amount: c.preco,
         successPath:
           '/comprar/sucesso?session_id={CHECKOUT_SESSION_ID}&product=curso-fam',
         cancelPath: '/cursos/familias',
@@ -92,11 +90,7 @@ export async function POST(req: NextRequest) {
 
     const catalog = getProductCatalog(product);
 
-    // ─────────────────────────────────────────────────────
-    // ADMIN BYPASS — admins têm acesso a tudo sem passar pelo Stripe.
-    // O frontend (/comprar/ebook/page.tsx) já trata `redirect` no JSON,
-    // levando o admin direto ao conteúdo.
-    // ─────────────────────────────────────────────────────
+    // ── ADMIN BYPASS — admins têm acesso a tudo sem passar pelo Stripe. ──
     if (isAdminEmail(session.user.email)) {
       console.log(
         `[CHECKOUT] Admin bypass: ${session.user.email} → ${product}`,
@@ -139,6 +133,9 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 👇 Preço lido da BD (com fallback para os defaults do código).
+    const amount = await getPrice(product);
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: 'payment',
       payment_method_types: ['card'],
@@ -151,7 +148,7 @@ export async function POST(req: NextRequest) {
               name: catalog.name,
               description: catalog.description,
             },
-            unit_amount: catalog.amount,
+            unit_amount: amount,
           },
           quantity: 1,
         },
@@ -170,7 +167,7 @@ export async function POST(req: NextRequest) {
       userEmail: session.user.email.toLowerCase(),
       product,
       stripeSessionId: checkoutSession.id,
-      amount: catalog.amount,
+      amount, // grava o valor efetivamente cobrado
       currency: 'eur',
       status: 'pending',
     });

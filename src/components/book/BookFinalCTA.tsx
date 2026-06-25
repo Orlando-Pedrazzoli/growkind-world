@@ -7,7 +7,9 @@ import { useTranslations } from 'next-intl';
 import { ArrowRight } from 'lucide-react';
 import { useBookData } from '@/lib/data/book';
 
-export default function BookFinalCTA() {
+// ebookPrice (opcional) vem da página (server) e sincroniza o preço mostrado
+// do ebook com o que o Stripe cobra. As edições Kindle/Físico (Amazon) não mudam.
+export default function BookFinalCTA({ ebookPrice }: { ebookPrice?: string }) {
   const t = useTranslations('book.finalCta');
   const te = useTranslations('book.editions');
   const tBook = useTranslations('book');
@@ -56,8 +58,12 @@ export default function BookFinalCTA() {
           {editions.map(edition => {
             const isExternal = edition.href.startsWith('http');
             const Icon = edition.icon;
+            const isPrimary = edition.style === 'primary';
+            // ebook (primary) usa o preço da BD; restantes mantêm o seu.
+            const displayPrice =
+              isPrimary && ebookPrice ? ebookPrice : edition.price;
 
-            if (edition.style === 'primary') {
+            if (isPrimary) {
               return (
                 <Link
                   key={edition.format}
@@ -71,7 +77,7 @@ export default function BookFinalCTA() {
                 >
                   <Icon size={16} strokeWidth={1.8} aria-hidden='true' />
                   <span>
-                    {edition.label} — {edition.price}
+                    {edition.label} — {displayPrice}
                   </span>
                 </Link>
               );
