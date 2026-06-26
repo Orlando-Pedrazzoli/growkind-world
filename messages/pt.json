@@ -100,8 +100,10 @@
     },
     "newsletter": {
       "eyebrow": "Acompanha o processo",
-      "title": "Entra na lista.\nRecebe em primeira mão.",
-      "body": "O lançamento do livro e dos cursos acontece primeiro para quem está na lista.\nSem pressão. Só o que importa.",
+      "title": "Já podes começar.",
+      "body": "O livro já está disponível. O primeiro módulo do curso é gratuito — entra agora. Fica na lista para receber o que vem a seguir.",
+      "ctaBook": "Ler o Livro",
+      "ctaCourse": "Começar o Curso Zero",
       "emailPlaceholder": "O teu email",
       "cta": "Quero entrar",
       "submitting": "A enviar...",
@@ -740,10 +742,142 @@
     }
   },
   "about": {
-    "_note": "Página /sobre — preencher com a copy real."
+    "hero": {
+      "eyebrow": "Sobre o autor",
+      "name": "João Pereira",
+      "role": "Educador, terapeuta e fundador da GrowKind World.",
+      "subtitle": "Três décadas de trabalho com crianças autistas, famílias e educadores — em Portugal, no Brasil e no Reino Unido. Uma pergunta constante: como é que os adultos podem acompanhar melhor o que está acontecendo?",
+      "photoAlt": "João Pereira — Educador e terapeuta educacional",
+      "countries": ["Portugal", "Brasil", "Reino Unido"]
+    },
+    "origin": {
+      "eyebrow": "De onde vem este trabalho",
+      "headline": "Uma pergunta que nunca saiu do caminho",
+      "prose1": [
+        "Trabalhei em contextos muito diferentes ao longo da vida. Mudei de país, de língua, de sistema educacional.",
+        "Trabalhei em escolas públicas e privadas. Com famílias com muitos recursos e com famílias sem nenhum. Em equipas multidisciplinares muito bem coordenadas — e em outras onde cada profissional trabalhava como se a criança fosse apenas sua.",
+        "Mas havia algo que se repetia em todos esses contextos, independentemente do país ou do nível socioeconómico:"
+      ],
+      "quote": "O silêncio que se instala quando um diagnóstico chega —<br></br>e ninguém sabe, verdadeiramente, o que fazer com ele.",
+      "prose2": [
+        "Vi pais confusos diante de relatórios que não conversavam entre si. Vi professores sobrecarregados a tentar aplicar estratégias desconectadas da realidade da sala de aula. Vi profissionais competentes, mas fragmentados — cada um a olhar para uma parte da criança, raramente para o todo.",
+        "E vi, principalmente, crianças a tentar existir no meio de tudo isso."
+      ],
+      "prose3Lead": "Foi esta observação repetida que me levou a perceber que o maior abismo não estava entre a criança e o mundo — estava entre a experiência vivida e a linguagem usada para a explicar.",
+      "prose3Emphasis": "Faltava tradução."
+    },
+    "rdf": {
+      "eyebrow": "O Relational Development Framework",
+      "headline": "Uma lente, não um método",
+      "prose": [
+        "O RDF não nasceu de uma teoria. Nasceu de anos de observação directa — do que funcionava, do que não funcionava, e de perceber que o problema raramente estava na técnica.",
+        "A técnica existia. O que faltava era uma forma de ler o que estava a acontecer antes de qualquer decisão de resposta.",
+        "O RDF é isso: uma lente. Uma forma de organizar como o adulto observa, lê e se posiciona no campo relacional da criança."
+      ],
+      "principiosIntro": "Assenta em três princípios que atravessam todo o trabalho da GrowKind:",
+      "principios": [
+        {
+          "num": "01",
+          "titulo": "Regulação antes de instrução.",
+          "descricao": "O corpo precisa de estar organizado antes de qualquer aprendizagem."
+        },
+        {
+          "num": "02",
+          "titulo": "Relação antes de correcção.",
+          "descricao": "O vínculo é o contexto, não o resultado."
+        },
+        {
+          "num": "03",
+          "titulo": "Processo antes de performance.",
+          "descricao": "O desenvolvimento acompanha-se — não se resolve."
+        }
+      ]
+    },
+    "paraQuem": {
+      "eyebrow": "Para quem é este trabalho",
+      "headline": "Escrevo para quem está dentro do processo",
+      "intro": "Não escrevo para quem observa de fora. Escrevo para quem está dentro — e que muitas vezes sentem que falta algo além da técnica.",
+      "audiencias": [
+        {
+          "titulo": "Pais",
+          "descricao": "Que querem compreender, não apenas aplicar."
+        },
+        {
+          "titulo": "Professores",
+          "descricao": "Que sentem que há mais do que o currículo."
+        },
+        {
+          "titulo": "Profissionais",
+          "descricao": "Que preferem trabalhar em parceria — não em hierarquia."
+        }
+      ],
+      "closingText": "E escrevo porque acredito, de forma muito concreta, que quando o adulto passa a ver, a criança deixa de carregar sozinha o peso de se adaptar ao mundo.",
+      "closingTagline": "Desenvolvimento não se resolve. Desenvolvimento se acompanha."
+    },
+    "cta": {
+      "eyebrow": "O trabalho continua aqui",
+      "headline": "Se chegaste aqui,<br></br>já tens a pergunta certa.",
+      "body1": "O livro, o RDF e os cursos da GrowKind são extensões do mesmo trabalho — adaptados para diferentes contextos e diferentes formas de acompanhar.",
+      "body2": "O próximo passo é escolher por onde entrar.",
+      "emailBtn": "Entrar na lista — receber em primeira mão",
+      "emailNote": "Acesso antecipado ao livro e aos recursos GrowKind.",
+      "secondaryBook": "Descobrir o livro",
+      "secondaryRdf": "Conhecer o RDF"
+    }
   },
   "courses": {
-    "_note": "Páginas /cursos, /cursos/familias, /cursos/profissionais — preencher."
+    "hero": {
+      "eyebrow": "Cursos",
+      "titleLine1": "Desenvolvimento não se resolve.",
+      "titleLine2": "Desenvolvimento acompanha-se.",
+      "subtitle": "Formações pensadas para quem acompanha — com ferramentas, casos reais e reflexão guiada. Para profissionais e para famílias."
+    },
+    "list": {
+      "eyebrow": "Curso Zero · M1 gratuito",
+      "title": "Dois percursos. Uma mesma lente.",
+      "intro": "Escolha o percurso que corresponde ao seu lugar — em sala de aula ou em casa. O primeiro módulo de cada curso é gratuito.",
+      "modulesLabel": "Módulos",
+      "modulesValue": "4 · M1 grátis",
+      "priceLabel": "Investimento",
+      "priceValue": "{price} completo",
+      "exploreCta": "Explorar curso",
+      "exploreAria": "Explorar curso {name}",
+      "bridgeEyebrow": "Entretanto",
+      "bridgeTitle": "Ainda não leu o livro?",
+      "bridgeBody": "Os cursos aprofundam o que o livro abre. Ler é o primeiro passo — mesmo que seja só por uma tarde.",
+      "bridgeCta": "Conhecer o livro"
+    },
+    "items": {
+      "profissionais": {
+        "subtitulo": "Para Profissionais",
+        "publico": "Educadores, teaching assistants e profissionais de apoio educativo",
+        "descricao": "Compreender o Relational Development Framework — a lente, os princípios, os movimentos — com profundidade teórica e aplicação guiada no contexto da sala de aula e do apoio educativo.",
+        "intro": [
+          "Um percurso em quatro módulos para quem acompanha crianças neurodivergentes em contexto educativo. Não é uma formação sobre técnicas — é um deslocamento de olhar.",
+          "Cada módulo instala uma lente de observação nova, construída sobre a anterior. No fim, o adulto não se torna especialista. Torna-se eixo."
+        ]
+      },
+      "familias": {
+        "subtitulo": "Para famílias",
+        "publico": "Pais, mães e cuidadores de crianças neurodivergentes",
+        "descricao": "Acompanhar uma criança neurodivergente no dia-a-dia. Ferramentas práticas, casos reais e espaço para perguntas. Um percurso pensado para quem vive o desenvolvimento de dentro.",
+        "intro": [
+          "Um percurso em quatro módulos para quem acompanha, todos os dias, uma criança neurodivergente. Não é um manual. É um deslocamento de olhar.",
+          "Cada módulo parte do que já sente — porque o seu corpo já sabe o que a teoria vai confirmar."
+        ]
+      }
+    },
+    "detail": {
+      "backToCourses": "Cursos",
+      "owned": "Curso adquirido",
+      "modulesTitle": "Os quatro módulos",
+      "modulesAllUnlocked": "{count} módulos · todos desbloqueados",
+      "modulesPartial": "1 gratuito · 3 com a compra",
+      "purchaseNote": "Módulo 1 gratuito · Módulos 2, 3 e 4 incluídos na compra do curso completo",
+      "ctaOwn": "Adquirir curso completo · {price}",
+      "ctaLogin": "Entrar para adquirir · {price}",
+      "ctaLoading": "A abrir checkout..."
+    }
   },
   "legal": {
     "_note": "privacidade/termos/cookies/devolucoes — conteúdo jurídico vem do cliente."

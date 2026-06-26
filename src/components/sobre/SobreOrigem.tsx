@@ -1,6 +1,12 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 export default function SobreOrigem() {
+  const t = useTranslations('about.origin');
+  const prose1 = t.raw('prose1') as string[];
+  const prose2 = t.raw('prose2') as string[];
+
   return (
     <section className='sobre-origem section-padding'>
       <div className='sobre-origem__inner page-width'>
@@ -12,56 +18,34 @@ export default function SobreOrigem() {
 
         <div className='sobre-origem__body'>
           <p className='eyebrow' style={{ marginBottom: '14px' }}>
-            De onde vem este trabalho
+            {t('eyebrow')}
           </p>
-          <h2 className='sobre-origem__headline'>
-            Uma pergunta que nunca saiu do caminho
-          </h2>
+          <h2 className='sobre-origem__headline'>{t('headline')}</h2>
 
           <div className='sobre-origem__prose'>
-            <p>
-              Trabalhei em contextos muito diferentes ao longo da vida. Mudei de
-              país, de língua, de sistema educacional.
-            </p>
-            <p>
-              Trabalhei em escolas públicas e privadas. Com famílias com muitos
-              recursos e com famílias sem nenhum. Em equipas multidisciplinares
-              muito bem coordenadas — e em outras onde cada profissional
-              trabalhava como se a criança fosse apenas sua.
-            </p>
-            <p>
-              Mas havia algo que se repetia em todos esses contextos,
-              independentemente do país ou do nível socioeconómico:
-            </p>
+            {prose1.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
 
           <blockquote className='sobre-origem__quote'>
             <span className='sobre-origem__quote-mark' aria-hidden='true'>
               &ldquo;
             </span>
-            O silêncio que se instala quando um diagnóstico chega —<br />e
-            ninguém sabe, verdadeiramente, o que fazer com ele.
+            {t.rich('quote', {
+              br: () => <br />,
+            })}
           </blockquote>
 
           <div className='sobre-origem__prose'>
+            {prose2.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
             <p>
-              Vi pais confusos diante de relatórios que não conversavam entre
-              si. Vi professores sobrecarregados a tentar aplicar estratégias
-              desconectadas da realidade da sala de aula. Vi profissionais
-              competentes, mas fragmentados — cada um a olhar para uma parte da
-              criança, raramente para o todo.
-            </p>
-            <p>
-              E vi, principalmente, crianças a tentar existir no meio de tudo
-              isso.
-            </p>
-            <p>
-              Foi esta observação repetida que me levou a perceber que o maior
-              abismo não estava entre a criança e o mundo — estava entre a
-              experiência vivida e a linguagem usada para a explicar.
+              {t('prose3Lead')}
               <strong className='sobre-origem__emphasis'>
                 {' '}
-                Faltava tradução.
+                {t('prose3Emphasis')}
               </strong>
             </p>
           </div>

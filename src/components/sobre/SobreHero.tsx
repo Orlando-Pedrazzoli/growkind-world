@@ -1,8 +1,12 @@
 'use client';
 
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 
 export default function SobreHero() {
+  const t = useTranslations('about.hero');
+  const paises = t.raw('countries') as string[];
+
   return (
     <section className='sobre-hero'>
       <div className='sobre-hero__inner page-width'>
@@ -11,7 +15,7 @@ export default function SobreHero() {
           <div className='sobre-hero__image-wrapper'>
             <Image
               src='/images/joao-profile.jpeg'
-              alt='João Pereira — Educador e terapeuta educacional'
+              alt={t('photoAlt')}
               fill
               sizes='(max-width: 768px) 180px, 220px'
               className='sobre-hero__photo'
@@ -22,19 +26,12 @@ export default function SobreHero() {
 
         {/* Texto centrado */}
         <div className='sobre-hero__text-col'>
-          <p className='eyebrow sobre-hero__eyebrow'>Sobre o autor</p>
-          <h1 className='sobre-hero__name'>João Pereira</h1>
-          <p className='sobre-hero__role'>
-            Educador, terapeuta e fundador da GrowKind World.
-          </p>
-          <p className='sobre-hero__subtitle'>
-            Três décadas de trabalho com crianças autistas, famílias e
-            educadores — em Portugal, no Brasil e no Reino Unido. Uma pergunta
-            constante: como é que os adultos podem acompanhar melhor o que está
-            acontecendo?
-          </p>
+          <p className='eyebrow sobre-hero__eyebrow'>{t('eyebrow')}</p>
+          <h1 className='sobre-hero__name'>{t('name')}</h1>
+          <p className='sobre-hero__role'>{t('role')}</p>
+          <p className='sobre-hero__subtitle'>{t('subtitle')}</p>
           <div className='sobre-hero__tags'>
-            {['Portugal', 'Brasil', 'Reino Unido'].map(pais => (
+            {paises.map(pais => (
               <span key={pais} className='sobre-hero__tag'>
                 {pais}
               </span>

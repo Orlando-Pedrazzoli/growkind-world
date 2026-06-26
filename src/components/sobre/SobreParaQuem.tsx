@@ -1,21 +1,14 @@
 'use client';
 
-const audiencias = [
-  {
-    titulo: 'Pais',
-    descricao: 'Que querem compreender, não apenas aplicar.',
-  },
-  {
-    titulo: 'Professores',
-    descricao: 'Que sentem que há mais do que o currículo.',
-  },
-  {
-    titulo: 'Profissionais',
-    descricao: 'Que preferem trabalhar em parceria — não em hierarquia.',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export default function SobreParaQuem() {
+  const t = useTranslations('about.paraQuem');
+  const audiencias = t.raw('audiencias') as {
+    titulo: string;
+    descricao: string;
+  }[];
+
   return (
     <section className='sobre-paraquem section-padding'>
       <div className='sobre-paraquem__inner page-width'>
@@ -27,16 +20,11 @@ export default function SobreParaQuem() {
 
         <div className='sobre-paraquem__body'>
           <p className='eyebrow' style={{ marginBottom: '14px' }}>
-            Para quem é este trabalho
+            {t('eyebrow')}
           </p>
-          <h2 className='sobre-paraquem__headline'>
-            Escrevo para quem está dentro do processo
-          </h2>
+          <h2 className='sobre-paraquem__headline'>{t('headline')}</h2>
 
-          <p className='sobre-paraquem__intro'>
-            Não escrevo para quem observa de fora. Escrevo para quem está dentro
-            — e que muitas vezes sentem que falta algo além da técnica.
-          </p>
+          <p className='sobre-paraquem__intro'>{t('intro')}</p>
 
           {/* lista de audiências */}
           <ul className='sobre-paraquem__list'>
@@ -63,13 +51,9 @@ export default function SobreParaQuem() {
 
           {/* frase de encerramento com destaque ocre */}
           <blockquote className='sobre-paraquem__closing'>
-            <p className='sobre-paraquem__closing-text'>
-              E escrevo porque acredito, de forma muito concreta, que quando o
-              adulto passa a ver, a criança deixa de carregar sozinha o peso de
-              se adaptar ao mundo.
-            </p>
+            <p className='sobre-paraquem__closing-text'>{t('closingText')}</p>
             <footer className='sobre-paraquem__tagline'>
-              Desenvolvimento não se resolve. Desenvolvimento se acompanha.
+              {t('closingTagline')}
             </footer>
           </blockquote>
         </div>

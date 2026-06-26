@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { ShoppingBag } from 'lucide-react';
 
 interface CursoDetalheCTAProps {
@@ -22,6 +23,7 @@ export default function CursoDetalheCTA({
   cursoSlug,
 }: CursoDetalheCTAProps) {
   const router = useRouter();
+  const t = useTranslations('courses.detail');
   const [loading, setLoading] = useState(false);
 
   async function handleClick() {
@@ -71,10 +73,10 @@ export default function CursoDetalheCTA({
     >
       <ShoppingBag size={16} strokeWidth={2} />
       {loading
-        ? 'A abrir checkout...'
+        ? t('ctaLoading')
         : isLoggedIn
-          ? `Adquirir curso completo · ${precoEur}`
-          : `Entrar para adquirir · ${precoEur}`}
+          ? t('ctaOwn', { price: precoEur })
+          : t('ctaLogin', { price: precoEur })}
     </button>
   );
 }

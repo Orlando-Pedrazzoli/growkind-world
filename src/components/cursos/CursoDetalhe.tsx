@@ -1,7 +1,8 @@
 // src/components/cursos/CursoDetalhe.tsx
 
-import Link from 'next/link';
 import { ArrowLeft, Users, GraduationCap, Check } from 'lucide-react';
+import { getTranslations } from 'next-intl/server';
+import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 import Purchase from '@/models/Purchase';
@@ -42,8 +43,14 @@ async function userHasCourse(
 }
 
 export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
+  const t = await getTranslations('courses');
   const Icon = curso.slug === 'profissionais' ? GraduationCap : Users;
   const accentTextDark = ACCENT_TEXT[curso.slug] || GOLD_DARK;
+
+  // Textos traduzidos do curso (i18n por slug)
+  const subtitulo = t(`items.${curso.slug}.subtitulo`);
+  const publico = t(`items.${curso.slug}.publico`);
+  const intro = t.raw(`items.${curso.slug}.intro`) as string[];
 
   // Verificar estado do utilizador no servidor
   const session = await auth();
@@ -52,7 +59,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
     ? await userHasCourse(session!.user!.email!, curso.productKey)
     : false;
 
-  // 👇 Preço atual (BD) — sincronizado com o que o Stripe vai cobrar.
+  // Preço atual (BD) — sincronizado com o que o Stripe vai cobrar.
   const precoFmt = formatMoney(await getPrice(curso.productKey));
 
   return (
@@ -78,7 +85,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               style={{ color: 'rgba(240,232,208,0.6)' }}
             >
               <ArrowLeft size={14} strokeWidth={1.8} />
-              Cursos
+              {t('detail.backToCourses')}
             </Link>
           </div>
 
@@ -98,7 +105,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               className='mb-4 text-[11px] font-medium uppercase tracking-[0.16em]'
               style={{ color: curso.accentColor }}
             >
-              {curso.subtitulo}
+              {subtitulo}
             </p>
 
             <h1
@@ -112,11 +119,11 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               className='mb-8 max-w-2xl text-[15px] uppercase tracking-[0.1em]'
               style={{ color: 'rgba(240,232,208,0.65)' }}
             >
-              {curso.publico}
+              {publico}
             </p>
 
             <div className='max-w-2xl space-y-5 text-[17px] leading-[1.75] md:text-[18px]'>
-              {curso.intro.map((p, i) => (
+              {intro.map((p, i) => (
                 <p key={i} style={{ color: 'rgba(240,232,208,0.8)' }}>
                   {p}
                 </p>
@@ -134,7 +141,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
                 }}
               >
                 <Check size={16} strokeWidth={2.2} />
-                Curso adquirido
+                {t('detail.owned')}
               </div>
             ) : (
               <div className='mt-10'>
@@ -149,8 +156,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
                   className='mt-3 text-[12px]'
                   style={{ color: 'rgba(240,232,208,0.5)' }}
                 >
-                  Módulo 1 gratuito · Módulos 2, 3 e 4 incluídos na compra do
-                  curso completo
+                  {t('detail.purchaseNote')}
                 </p>
               </div>
             )}
@@ -172,12 +178,14 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               className='text-[11px] font-semibold uppercase tracking-[0.16em]'
               style={{ color: accentTextDark }}
             >
-              Os quatro módulos
+              {t('detail.modulesTitle')}
             </h2>
             <span className='text-[12px]' style={{ color: TEXT_MUTED }}>
               {isOwned
-                ? `${curso.modulos.length} módulos · todos desbloqueados`
-                : `1 gratuito · 3 com a compra`}
+                ? t('detail.modulesAllUnlocked', {
+                    count: curso.modulos.length,
+                  })
+                : t('detail.modulesPartial')}
             </span>
           </div>
 

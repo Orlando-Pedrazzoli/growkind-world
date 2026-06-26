@@ -100,6 +100,33 @@ export default function CapturaLista() {
           {t('body')}
         </motion.p>
 
+        {/* Botões de ação — acima do formulário */}
+        <motion.div
+          variants={revealItem}
+          className='mt-8 flex w-full max-w-lg flex-col gap-3 sm:flex-row sm:justify-center md:mt-10'
+        >
+          <Link
+            href='/o-livro'
+            className='btn-ghost flex-1 text-center'
+            style={{
+              borderColor: 'rgba(255,255,255,0.25)',
+              color: 'rgba(255,255,255,0.85)',
+            }}
+          >
+            {t('ctaBook')}
+          </Link>
+          <Link
+            href='/cursos'
+            className='flex-1 cursor-pointer px-7 py-3.5 text-center text-[13px] font-medium uppercase tracking-[0.1em] text-white transition-all duration-300 hover:brightness-110'
+            style={{
+              backgroundColor: 'var(--color-gk-ocre)',
+              borderRadius: '8px',
+            }}
+          >
+            {t('ctaCourse')}
+          </Link>
+        </motion.div>
+
         {/* Formulario funcional */}
         {state === 'success' ? (
           // ─── Estado: sucesso ─────────────────────────────────────────

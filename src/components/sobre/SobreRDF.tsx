@@ -1,25 +1,16 @@
 'use client';
 
-const principios = [
-  {
-    num: '01',
-    titulo: 'Regulação antes de instrução.',
-    descricao:
-      'O corpo precisa de estar organizado antes de qualquer aprendizagem.',
-  },
-  {
-    num: '02',
-    titulo: 'Relação antes de correcção.',
-    descricao: 'O vínculo é o contexto, não o resultado.',
-  },
-  {
-    num: '03',
-    titulo: 'Processo antes de performance.',
-    descricao: 'O desenvolvimento acompanha-se — não se resolve.',
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export default function SobreRDF() {
+  const t = useTranslations('about.rdf');
+  const prose = t.raw('prose') as string[];
+  const principios = t.raw('principios') as {
+    num: string;
+    titulo: string;
+    descricao: string;
+  }[];
+
   return (
     <section className='sobre-rdf section-padding'>
       <div className='sobre-rdf__inner page-width'>
@@ -31,31 +22,20 @@ export default function SobreRDF() {
 
         <div className='sobre-rdf__body'>
           <p className='eyebrow' style={{ marginBottom: '14px' }}>
-            O Relational Development Framework
+            {t('eyebrow')}
           </p>
-          <h2 className='sobre-rdf__headline'>Uma lente, não um método</h2>
+          <h2 className='sobre-rdf__headline'>{t('headline')}</h2>
 
           <div className='sobre-rdf__prose'>
-            <p>
-              O RDF não nasceu de uma teoria. Nasceu de anos de observação
-              directa — do que funcionava, do que não funcionava, e de perceber
-              que o problema raramente estava na técnica.
-            </p>
-            <p>
-              A técnica existia. O que faltava era uma forma de ler o que estava
-              a acontecer antes de qualquer decisão de resposta.
-            </p>
-            <p>
-              O RDF é isso: uma lente. Uma forma de organizar como o adulto
-              observa, lê e se posiciona no campo relacional da criança.
-            </p>
+            {prose.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
           </div>
 
           {/* Princípios */}
           <div className='sobre-rdf__principios'>
             <p className='sobre-rdf__intro-principios'>
-              Assenta em três princípios que atravessam todo o trabalho da
-              GrowKind:
+              {t('principiosIntro')}
             </p>
             <div className='sobre-rdf__grid'>
               {principios.map(p => (

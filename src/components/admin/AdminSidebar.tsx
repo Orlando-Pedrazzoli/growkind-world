@@ -1,25 +1,7 @@
 'use client';
 
-import {
-  LayoutDashboard,
-  Receipt,
-  Tag,
-  Users,
-  BookOpen,
-  GraduationCap,
-  Settings,
-} from 'lucide-react';
 import { Link, usePathname } from '@/i18n/navigation';
-
-const navItems = [
-  { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
-  { label: 'Pedidos', href: '/admin/pedidos', icon: Receipt },
-  { label: 'Preços', href: '/admin/precos', icon: Tag },
-  { label: 'Utilizadores', href: '/admin/utilizadores', icon: Users },
-  { label: 'Livro', href: '/admin/livro', icon: BookOpen },
-  { label: 'Cursos', href: '/admin/cursos', icon: GraduationCap },
-  { label: 'Definições', href: '/admin/definicoes', icon: Settings },
-];
+import { adminNavItems, isAdminLinkActive } from './adminNav';
 
 export default function AdminSidebar({ userName }: { userName: string }) {
   const pathname = usePathname();
@@ -36,11 +18,8 @@ export default function AdminSidebar({ userName }: { userName: string }) {
 
       {/* Nav */}
       <nav className='flex flex-col gap-1 p-3'>
-        {navItems.map(item => {
-          const isActive =
-            pathname === item.href ||
-            (item.href !== '/admin' && pathname.startsWith(`${item.href}/`));
-
+        {adminNavItems.map(item => {
+          const isActive = isAdminLinkActive(pathname, item.href);
           return (
             <Link
               key={item.href}

@@ -1,46 +1,41 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 
 export default function SobreCTA() {
+  const t = useTranslations('about.cta');
+
   return (
     <section className='sobre-cta section-padding'>
       <div className='sobre-cta__inner page-width'>
         <div className='sobre-cta__text'>
-          <p className='eyebrow sobre-cta__eyebrow'>O trabalho continua aqui</p>
+          <p className='eyebrow sobre-cta__eyebrow'>{t('eyebrow')}</p>
           <h2 className='sobre-cta__headline'>
-            Se chegaste aqui,
-            <br />
-            já tens a pergunta certa.
+            {t.rich('headline', {
+              br: () => <br />,
+            })}
           </h2>
-          <p className='sobre-cta__body'>
-            O livro, o RDF e os cursos da GrowKind são extensões do mesmo
-            trabalho — adaptados para diferentes contextos e diferentes formas
-            de acompanhar.
-          </p>
-          <p className='sobre-cta__body'>
-            O próximo passo é escolher por onde entrar.
-          </p>
+          <p className='sobre-cta__body'>{t('body1')}</p>
+          <p className='sobre-cta__body'>{t('body2')}</p>
         </div>
 
         <div className='sobre-cta__actions'>
           {/* CTA principal — email, destaque ocre conforme globals.
-              Item 9 corrigido: #captura → #lista (id real da secção CapturaLista) */}
+              #lista = id real da secção CapturaLista na home */}
           <Link href='/#lista' className='sobre-cta__email-btn'>
-            Entrar na lista — receber em primeira mão
+            {t('emailBtn')}
             <span aria-hidden='true'> →</span>
           </Link>
-          <p className='sobre-cta__email-note'>
-            Acesso antecipado ao livro e aos recursos GrowKind.
-          </p>
+          <p className='sobre-cta__email-note'>{t('emailNote')}</p>
 
           {/* CTAs secundários — usa classes btn-ghost do globals.css */}
           <div className='sobre-cta__secondary'>
             <Link href='/o-livro' className='btn-ghost'>
-              Descobrir o livro
+              {t('secondaryBook')}
             </Link>
             <Link href='/rdf' className='btn-ghost'>
-              Conhecer o RDF
+              {t('secondaryRdf')}
             </Link>
           </div>
         </div>
