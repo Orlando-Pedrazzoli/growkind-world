@@ -8,6 +8,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import type { Chapter, ContentBlock } from '@/lib/book-data/types';
 import { bookIndex, bookMeta } from '@/lib/book-data';
 
@@ -266,6 +267,24 @@ export default function ReadingView({
             : undefined
         }
       >
+        {/* Voltar à conta — esquerda */}
+        <Link
+          href='/a-minha-conta'
+          className='reading-header-btn reading-back-btn'
+          aria-label={t('back')}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            textDecoration: 'none',
+            color: 'currentColor',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <IconArrowLeft />
+          <span className='reading-back-label'>{t('back')}</span>
+        </Link>
+
         <button
           className='reading-header-btn'
           onClick={toggleSidebar}
@@ -454,6 +473,15 @@ export default function ReadingView({
           )}
         </div>
       </main>
+
+      {/* Esconde o texto "Voltar" em ecrãs estreitos — fica só a seta */}
+      <style>{`
+        @media (max-width: 640px) {
+          .reading-back-label {
+            display: none;
+          }
+        }
+      `}</style>
     </div>
   );
 }
@@ -465,6 +493,23 @@ function IconMenu() {
       <rect x='2' y='5' width='16' height='1.5' rx='0.75' />
       <rect x='2' y='9.25' width='16' height='1.5' rx='0.75' />
       <rect x='2' y='13.5' width='10' height='1.5' rx='0.75' />
+    </svg>
+  );
+}
+
+function IconArrowLeft() {
+  return (
+    <svg
+      width='18'
+      height='18'
+      viewBox='0 0 20 20'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='1.8'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='M12.5 4L6.5 10l6 6' />
     </svg>
   );
 }

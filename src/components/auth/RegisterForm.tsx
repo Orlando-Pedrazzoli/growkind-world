@@ -5,20 +5,18 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { safeNext } from '@/lib/safeRedirect';
 
 export default function RegisterForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth');
 
-  // Valida e captura o destino pretendido após registo
   const nextUrl = safeNext(searchParams.get('next'), '/');
-
-  // Para Google OAuth
   const googleCallbackUrl = nextUrl;
 
-  // Para o link "Entrar" — preserva o ?next=
   const loginHref =
     nextUrl === '/' ? '/login' : `/login?next=${encodeURIComponent(nextUrl)}`;
 
@@ -43,12 +41,11 @@ export default function RegisterForm() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || 'Erro ao criar conta');
+        setError(data.error || t('errorCreate'));
         setLoading(false);
         return;
       }
 
-      // Auto-login após registo
       const result = await signIn('credentials', {
         email,
         password,
@@ -56,14 +53,13 @@ export default function RegisterForm() {
       });
 
       if (result?.error) {
-        // Se auto-login falhar, manda para login mas preserva o destino
         router.push(loginHref);
       } else {
         router.push(nextUrl);
         router.refresh();
       }
     } catch {
-      setError('Erro de conexão. Tenta novamente.');
+      setError(t('errorConnection'));
       setLoading(false);
     }
   }
@@ -99,14 +95,14 @@ export default function RegisterForm() {
             fill='#EA4335'
           />
         </svg>
-        Registar com Google
+        {t('registerGoogle')}
       </button>
 
       {/* Divisor */}
       <div className='my-8 flex items-center gap-4'>
         <div className='h-px flex-1 bg-[var(--color-gk-green-dark)]/10' />
         <span className='text-[11px] uppercase tracking-[0.14em] text-[var(--color-gk-cinza)]'>
-          ou
+          {t('or')}
         </span>
         <div className='h-px flex-1 bg-[var(--color-gk-green-dark)]/10' />
       </div>
@@ -115,7 +111,7 @@ export default function RegisterForm() {
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
         <input
           type='text'
-          placeholder='Nome completo'
+          placeholder={t('fullName')}
           value={name}
           onChange={e => setName(e.target.value)}
           required
@@ -123,7 +119,7 @@ export default function RegisterForm() {
         />
         <input
           type='email'
-          placeholder='Email'
+          placeholder={t('email')}
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
@@ -131,7 +127,7 @@ export default function RegisterForm() {
         />
         <input
           type='password'
-          placeholder='Password (mínimo 8 caracteres)'
+          placeholder={t('passwordHint')}
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
@@ -146,18 +142,18 @@ export default function RegisterForm() {
           disabled={loading}
           className='btn-primary mt-2 w-full text-center'
         >
-          {loading ? 'A criar...' : 'Criar conta'}
+          {loading ? t('creating') : t('createAccount')}
         </button>
       </form>
 
       {/* Link login */}
       <p className='mt-8 text-center text-[14px] text-[var(--color-gk-cinza)]'>
-        Já tens conta?{' '}
+        {t('hasAccount')}{' '}
         <Link
           href={loginHref}
           className='font-medium text-[var(--color-gk-green-dark)] underline underline-offset-2'
         >
-          Entrar
+          {t('login')}
         </Link>
       </p>
     </div>

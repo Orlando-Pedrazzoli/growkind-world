@@ -13,7 +13,11 @@
     "login": "Entrar",
     "register": "Criar conta",
     "logout": "Sair",
-    "languageLabel": "Idioma"
+    "languageLabel": "Idioma",
+    "myCourses": "Os meus cursos",
+    "myBook": "O meu livro",
+    "accountMenu": "Menu da conta — {name}",
+    "signInOrRegister": "Entrar ou criar conta"
   },
   "home": {
     "hero": {
@@ -213,7 +217,8 @@
       "paywallAmount": "14€",
       "paywallPeriod": "acesso vitalício",
       "paywallButton": "Comprar acesso completo",
-      "paywallNote": "Acesso vitalício · Leitura no site"
+      "paywallNote": "Acesso vitalício · Leitura no site",
+      "back": "Voltar"
     },
     "data": {
       "editions": {
@@ -849,22 +854,90 @@
     },
     "items": {
       "profissionais": {
+        "cardName": {
+          "prefix": "GrowKind",
+          "emphasis": "TA"
+        },
         "subtitulo": "Para Profissionais",
         "publico": "Educadores, teaching assistants e profissionais de apoio educativo",
         "descricao": "Compreender o Relational Development Framework — a lente, os princípios, os movimentos — com profundidade teórica e aplicação guiada no contexto da sala de aula e do apoio educativo.",
         "intro": [
           "Um percurso em quatro módulos para quem acompanha crianças neurodivergentes em contexto educativo. Não é uma formação sobre técnicas — é um deslocamento de olhar.",
           "Cada módulo instala uma lente de observação nova, construída sobre a anterior. No fim, o adulto não se torna especialista. Torna-se eixo."
-        ]
+        ],
+        "modulos": {
+          "m1": {
+            "titulo": "Antes de qualquer técnica",
+            "linha1": "Antes de qualquer",
+            "linha2": "técnica",
+            "emphasis": "primeira",
+            "lead": "A lente antes de qualquer intervenção. Três situações reais de sala de aula — responda com o que faria de verdade."
+          },
+          "m2": {
+            "titulo": "O que você está vendo, exactamente",
+            "linha1": "O que você está",
+            "linha2": "vendo, exactamente",
+            "emphasis": "segunda",
+            "lead": "Ver vs. observar — no corpo. O instrumento para registar a resposta, de forma transferível entre todos os adultos em torno da criança."
+          },
+          "m3": {
+            "titulo": "A sua presença já é a intervenção",
+            "linha1": "A sua presença",
+            "linha2": "já é a intervenção",
+            "emphasis": "primeira",
+            "lead": "Não começa com teoria. Começa com o que já sabe fazer — mas ainda não sabe que é co-regulação."
+          },
+          "m4": {
+            "titulo": "O adulto não se torna especialista. Torna-se eixo.",
+            "linha1": "O adulto não se torna",
+            "linha2": "especialista. Torna-se eixo.",
+            "emphasis": "segunda",
+            "lead": "Integração dos três módulos anteriores. Antes de ver como se articulam — teste o que já ficou automático."
+          }
+        }
       },
       "familias": {
+        "cardName": {
+          "prefix": "GrowKind",
+          "emphasis": "Famílias"
+        },
         "subtitulo": "Para famílias",
         "publico": "Pais, mães e cuidadores de crianças neurodivergentes",
         "descricao": "Acompanhar uma criança neurodivergente no dia-a-dia. Ferramentas práticas, casos reais e espaço para perguntas. Um percurso pensado para quem vive o desenvolvimento de dentro.",
         "intro": [
           "Um percurso em quatro módulos para quem acompanha, todos os dias, uma criança neurodivergente. Não é um manual. É um deslocamento de olhar.",
           "Cada módulo parte do que já sente — porque o seu corpo já sabe o que a teoria vai confirmar."
-        ]
+        ],
+        "modulos": {
+          "m1": {
+            "titulo": "Você não estava fazendo errado",
+            "linha1": "Você não estava",
+            "linha2": "fazendo errado",
+            "emphasis": "segunda",
+            "lead": "Três situações reais. Responda com o que faria de verdade — não com o que acha que devia fazer."
+          },
+          "m2": {
+            "titulo": "Os três elementos — a criança, o ambiente e você",
+            "linha1": "Os três elementos —",
+            "linha2": "a criança, o ambiente e você",
+            "emphasis": "segunda",
+            "lead": "Uma forma de ver o que acontece à volta do comportamento — sem o reduzir a culpa, a falha ou a diagnóstico."
+          },
+          "m3": {
+            "titulo": "Quando o seu filho perde o chão",
+            "linha1": "Quando o seu filho",
+            "linha2": "perde o chão",
+            "emphasis": "segunda",
+            "lead": "Não começa com teoria. Começa com o que já sente — porque o seu corpo já sabe o que o módulo vai confirmar."
+          },
+          "m4": {
+            "titulo": "Não é uma técnica nova. É um modo diferente de permanecer.",
+            "linha1": "Não é uma técnica nova.",
+            "linha2": "É um modo diferente de permanecer.",
+            "emphasis": "segunda",
+            "lead": "Antes de continuar — uma situação real. Para verificar o que os três módulos anteriores já instalaram no seu olhar."
+          }
+        }
       }
     },
     "detail": {
@@ -877,7 +950,59 @@
       "ctaOwn": "Adquirir curso completo · {price}",
       "ctaLogin": "Entrar para adquirir · {price}",
       "ctaLoading": "A abrir checkout..."
+    },
+    "module": {
+      "label": "Módulo",
+      "free": "Grátis",
+      "start": "Começar",
+      "startFree": "Começar gratuitamente",
+      "continue": "Continuar",
+      "included": "Incluído no curso",
+      "unlockedAria": "Módulo desbloqueado",
+      "lockedAria": "Módulo bloqueado"
     }
+  },
+  "account": {
+    "eyebrow": "Área pessoal",
+    "title": "A minha conta",
+    "links": {
+      "coursesTitle": "Os meus cursos",
+      "coursesDesc": "Acede aos cursos em que estás inscrito.",
+      "bookTitle": "O meu livro",
+      "bookDesc": "Lê o livro directamente na plataforma."
+    },
+    "details": {
+      "title": "Dados da conta",
+      "name": "Nome",
+      "email": "Email",
+      "memberSince": "Membro desde"
+    },
+    "courses": {
+      "eyebrow": "Formação",
+      "title": "Os meus cursos",
+      "emptyTitle": "Ainda não tens cursos",
+      "emptyBody": "Explora os percursos disponíveis. O primeiro módulo de cada curso é gratuito.",
+      "emptyCta": "Ver cursos",
+      "moduleLabel": "Módulo {num}"
+    }
+  },
+  "auth": {
+    "loginGoogle": "Entrar com Google",
+    "registerGoogle": "Registar com Google",
+    "or": "ou",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "Password (mínimo 8 caracteres)",
+    "fullName": "Nome completo",
+    "login": "Entrar",
+    "loggingIn": "A entrar...",
+    "createAccount": "Criar conta",
+    "creating": "A criar...",
+    "noAccount": "Ainda não tens conta?",
+    "hasAccount": "Já tens conta?",
+    "errorCredentials": "Email ou password incorrectos",
+    "errorCreate": "Erro ao criar conta",
+    "errorConnection": "Erro de conexão. Tenta novamente."
   },
   "legal": {
     "_note": "privacidade/termos/cookies/devolucoes — conteúdo jurídico vem do cliente."

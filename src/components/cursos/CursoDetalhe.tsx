@@ -1,7 +1,7 @@
 // src/components/cursos/CursoDetalhe.tsx
 
 import { ArrowLeft, Users, GraduationCap, Check } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getMessages } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
@@ -44,13 +44,28 @@ async function userHasCourse(
 
 export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
   const t = await getTranslations('courses');
+  const messages = (await getMessages()) as unknown as {
+    courses: {
+      items: Record<
+        string,
+        {
+          cardName: { prefix: string; emphasis: string };
+          subtitulo: string;
+          publico: string;
+          intro: string[];
+        }
+      >;
+    };
+  };
   const Icon = curso.slug === 'profissionais' ? GraduationCap : Users;
   const accentTextDark = ACCENT_TEXT[curso.slug] || GOLD_DARK;
 
-  // Textos traduzidos do curso (i18n por slug)
-  const subtitulo = t(`items.${curso.slug}.subtitulo`);
-  const publico = t(`items.${curso.slug}.publico`);
-  const intro = t.raw(`items.${curso.slug}.intro`) as string[];
+  // Textos traduzidos do curso — mensagens cruas indexadas em JS
+  const item = messages.courses.items[curso.slug];
+  const nome = `${item.cardName.prefix} ${item.cardName.emphasis}`;
+  const subtitulo = item.subtitulo;
+  const publico = item.publico;
+  const intro = item.intro;
 
   // Verificar estado do utilizador no servidor
   const session = await auth();
@@ -112,7 +127,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
               className='mb-6 font-[family-name:var(--font-display)] text-4xl leading-[1.05] md:text-5xl lg:text-6xl'
               style={{ color: CREAM_TEXT }}
             >
-              {curso.nome}
+              {nome}
             </h1>
 
             <p
@@ -195,7 +210,7 @@ export default async function CursoDetalhe({ curso }: CursoDetalheProps) {
                 key={modulo.slug}
                 modulo={modulo}
                 cursoSlug={curso.slug}
-                cursoNome={curso.nome}
+                cursoNome={nome}
                 accentColor={curso.accentColor}
                 accentTextColor={accentTextDark}
                 isOwned={isOwned}

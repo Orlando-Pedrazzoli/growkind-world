@@ -1,8 +1,10 @@
+// src/app/[locale]/a-minha-conta/page.tsx
 import type { Metadata } from 'next';
 import { auth } from '@/lib/auth';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
-import { GraduationCap, BookOpen, User, ArrowRight } from 'lucide-react';
+import { getTranslations, getLocale } from 'next-intl/server';
+import { GraduationCap, BookOpen, ArrowRight } from 'lucide-react';
+import { Link } from '@/i18n/navigation';
 
 export const metadata: Metadata = {
   title: 'A minha conta',
@@ -11,20 +13,22 @@ export const metadata: Metadata = {
 
 export default async function AccountPage() {
   const session = await auth();
-
   if (!session) redirect('/login');
+
+  const t = await getTranslations('account');
+  const locale = await getLocale();
 
   const quickLinks = [
     {
-      title: 'Os meus cursos',
-      description: 'Acede aos cursos em que estás inscrito.',
+      title: t('links.coursesTitle'),
+      description: t('links.coursesDesc'),
       href: '/a-minha-conta/cursos',
       icon: GraduationCap,
       color: 'var(--color-rdf-m2)',
     },
     {
-      title: 'O meu livro',
-      description: 'Lê o livro directamente na plataforma.',
+      title: t('links.bookTitle'),
+      description: t('links.bookDesc'),
       href: '/a-minha-conta/livro',
       icon: BookOpen,
       color: 'var(--color-gk-ocre)',
@@ -36,8 +40,8 @@ export default async function AccountPage() {
       <div className='content-width-wide'>
         {/* Header */}
         <div className='mb-12'>
-          <span className='eyebrow'>Área pessoal</span>
-          <h1 className='mt-4'>A minha conta</h1>
+          <span className='eyebrow'>{t('eyebrow')}</span>
+          <h1 className='mt-4'>{t('title')}</h1>
         </div>
 
         {/* User info card */}
@@ -71,8 +75,10 @@ export default async function AccountPage() {
               className='group flex items-start gap-5 border border-[var(--color-gk-green-dark)]/8 bg-white p-6 transition-all duration-300 hover:border-[var(--color-gk-green-dark)]/20 hover:shadow-sm md:p-8'
             >
               <div
-                className='flex h-12 w-12 flex-shrink-0 items-center justify-center'
-                style={{ backgroundColor: item.color, opacity: 0.12 }}
+                className='flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl'
+                style={{
+                  backgroundColor: `color-mix(in srgb, ${item.color} 14%, transparent)`,
+                }}
               >
                 <item.icon
                   size={24}
@@ -99,12 +105,14 @@ export default async function AccountPage() {
 
         {/* Account details */}
         <div className='mt-8 border border-[var(--color-gk-green-dark)]/8 bg-white p-6 md:p-8'>
-          <h3 className='text-[clamp(1rem,1.8vw,1.25rem)]'>Dados da conta</h3>
+          <h3 className='text-[clamp(1rem,1.8vw,1.25rem)]'>
+            {t('details.title')}
+          </h3>
           <div className='mt-6 space-y-4'>
             <div className='flex items-center justify-between border-b border-[var(--color-gk-green-dark)]/5 pb-4'>
               <div>
                 <p className='text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--color-gk-cinza)]'>
-                  Nome
+                  {t('details.name')}
                 </p>
                 <p className='mt-1 text-[15px] text-[var(--color-gk-black)]'>
                   {session.user.name}
@@ -114,7 +122,7 @@ export default async function AccountPage() {
             <div className='flex items-center justify-between border-b border-[var(--color-gk-green-dark)]/5 pb-4'>
               <div>
                 <p className='text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--color-gk-cinza)]'>
-                  Email
+                  {t('details.email')}
                 </p>
                 <p className='mt-1 text-[15px] text-[var(--color-gk-black)]'>
                   {session.user.email}
@@ -124,13 +132,13 @@ export default async function AccountPage() {
             <div className='flex items-center justify-between'>
               <div>
                 <p className='text-[12px] font-medium uppercase tracking-[0.1em] text-[var(--color-gk-cinza)]'>
-                  Membro desde
+                  {t('details.memberSince')}
                 </p>
                 <p className='mt-1 text-[15px] text-[var(--color-gk-black)]'>
-                  {new Date().toLocaleDateString('pt-PT', {
-                    month: 'long',
-                    year: 'numeric',
-                  })}
+                  {new Date().toLocaleDateString(
+                    locale === 'en' ? 'en-GB' : 'pt-PT',
+                    { month: 'long', year: 'numeric' },
+                  )}
                 </p>
               </div>
             </div>

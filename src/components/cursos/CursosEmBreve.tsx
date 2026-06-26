@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useMessages } from 'next-intl';
 import { ArrowRight, GraduationCap, Users } from 'lucide-react';
 import { todosOsCursos } from '@/lib/data/cursos';
 
@@ -21,7 +21,19 @@ const ICON_BY_SLUG = {
 
 export default function CursosEmBreve() {
   const t = useTranslations('courses.list');
-  const ti = useTranslations('courses.items');
+  const messages = useMessages() as unknown as {
+    courses: {
+      items: Record<
+        string,
+        {
+          cardName: { prefix: string; emphasis: string };
+          subtitulo: string;
+          publico: string;
+          descricao: string;
+        }
+      >;
+    };
+  };
 
   return (
     <section
@@ -73,6 +85,7 @@ export default function CursosEmBreve() {
             const Icon = ICON_BY_SLUG[curso.slug];
             const accent = curso.accentColor;
             const href = `/cursos/${curso.slug}`;
+            const item = messages.courses.items[curso.slug];
 
             return (
               <motion.article
@@ -112,24 +125,17 @@ export default function CursosEmBreve() {
                     className='text-[11px] font-medium uppercase tracking-[0.16em]'
                     style={{ color: accent }}
                   >
-                    {ti(`${curso.slug}.subtitulo`)}
+                    {item.subtitulo}
                   </span>
                 </div>
 
-                {/* Nome do curso (marca — igual em ambos os idiomas) */}
+                {/* Nome do curso (i18n) — prefixo + ênfase em itálico */}
                 <h3
                   className='relative z-10 mb-4 font-[family-name:var(--font-display)] text-3xl leading-[1.05] md:text-[34px]'
                   style={{ color: CREAM }}
                 >
-                  {curso.slug === 'profissionais' ? (
-                    <>
-                      GrowKind <em className='italic'>TA</em>
-                    </>
-                  ) : (
-                    <>
-                      GrowKind <em className='italic'>Famílias</em>
-                    </>
-                  )}
+                  {item.cardName.prefix}{' '}
+                  <em className='italic'>{item.cardName.emphasis}</em>
                 </h3>
 
                 {/* Descrição (i18n) */}
@@ -137,7 +143,7 @@ export default function CursosEmBreve() {
                   className='relative z-10 mb-7 flex-1 text-[14px] leading-[1.7] md:text-[15px]'
                   style={{ color: CREAM_DIM }}
                 >
-                  {ti(`${curso.slug}.publico`)}. {ti(`${curso.slug}.descricao`)}
+                  {item.publico}. {item.descricao}
                 </p>
 
                 {/* Meta — módulos + preço */}
@@ -182,7 +188,9 @@ export default function CursosEmBreve() {
                 {/* CTA */}
                 <Link
                   href={href}
-                  aria-label={t('exploreAria', { name: curso.nome })}
+                  aria-label={t('exploreAria', {
+                    name: `${item.cardName.prefix} ${item.cardName.emphasis}`,
+                  })}
                   className='relative z-10 inline-flex items-center justify-between gap-3 rounded-full px-6 py-3.5 text-[12px] font-medium uppercase tracking-[0.1em] transition-all duration-300 hover:brightness-110'
                   style={{
                     backgroundColor: accent,

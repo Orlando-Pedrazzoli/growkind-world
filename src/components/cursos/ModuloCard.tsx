@@ -4,6 +4,7 @@
 
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { useTranslations, useMessages } from 'next-intl';
 import { Lock, ArrowUpRight, Clock, Check, Sparkles } from 'lucide-react';
 import type { Modulo } from '@/lib/data/cursos';
 
@@ -13,7 +14,6 @@ interface ModuloCardProps {
   cursoNome: string;
   accentColor: string;
   accentTextColor: string;
-  // Estado a partir do servidor (página pai já fez auth + DB query)
   isOwned: boolean;
   isLoggedIn: boolean;
   index: number;
@@ -34,23 +34,37 @@ export default function ModuloCard({
   index,
 }: ModuloCardProps) {
   const router = useRouter();
+  const t = useTranslations('courses');
   const numeroFormatado = String(modulo.numero).padStart(2, '0');
 
-  // Estado do módulo:
-  // - free  : M1, gratuito (mas exige login para aceder)
-  // - owned : módulo pago e o utilizador comprou o curso
-  // - locked: módulo pago e o utilizador ainda não comprou
+  // Título estruturado (i18n) por slug do curso + slug do módulo.
+  // Lemos as mensagens cruas (sem type-checking de chaves) e indexamos
+  // em JS — evita a validação estrita de chaves do next-intl.
+  type ModuloI18n = {
+    titulo: string;
+    linha1: string;
+    linha2?: string;
+    emphasis?: 'primeira' | 'segunda' | 'none';
+    lead: string;
+  };
+  const messages = useMessages() as unknown as {
+    courses: {
+      items: Record<string, { modulos: Record<string, ModuloI18n> }>;
+    };
+  };
+  const mod = messages.courses.items[cursoSlug].modulos[modulo.slug];
+  const linha1 = mod.linha1;
+  const linha2 = mod.linha2 ?? '';
+  const emphasis = mod.emphasis ?? 'none';
+  const lead = mod.lead;
+
   const state: 'free' | 'owned' | 'locked' = modulo.gratuito
     ? 'free'
     : isOwned
       ? 'owned'
       : 'locked';
 
-  // Rota protegida para TODOS os módulos (inclusive M1 gratuito).
-  // A página /a-minha-conta/cursos/[curso]/[modulo] trata da autenticação.
   const moduloHref = `/a-minha-conta/cursos/${cursoSlug}/${modulo.slug}`;
-
-  // Clicável quando: é gratuito (vai pedir login) OU já é dono.
   const isClickable = state === 'free' || state === 'owned';
 
   function handleNavigate() {
@@ -62,15 +76,12 @@ export default function ModuloCard({
     router.push(moduloHref);
   }
 
-  // ─────────────────────────────────────────────────────────
-  // COLUNA LATERAL — índice visual da jornada
-  // ─────────────────────────────────────────────────────────
   const sideColumnBg =
     state === 'free'
       ? `linear-gradient(180deg, ${accentColor} 0%, ${accentColor}e6 100%)`
       : state === 'owned'
         ? `linear-gradient(180deg, ${accentColor}2e 0%, ${accentColor}52 100%)`
-        : `${accentColor}14`; // ~8% (locked)
+        : `${accentColor}14`;
 
   const numberColor = state === 'locked' ? 'rgba(26, 31, 24, 0.4)' : TEXT_DARK;
 
@@ -81,7 +92,6 @@ export default function ModuloCard({
         ? 'rgba(26, 31, 24, 0.55)'
         : 'rgba(26, 31, 24, 0.4)';
 
-  // Badge inferior da coluna (varia por estado)
   const sideBadge =
     state === 'free' ? (
       <span
@@ -93,14 +103,14 @@ export default function ModuloCard({
           className='text-[9.5px] font-semibold uppercase tracking-[0.1em]'
           style={{ color: TEXT_DARK }}
         >
-          Grátis
+          {t('module.free')}
         </span>
       </span>
     ) : state === 'owned' ? (
       <span
         className='mt-3.5 flex h-8 w-8 items-center justify-center rounded-full'
         style={{ backgroundColor: accentColor }}
-        aria-label='Módulo desbloqueado'
+        aria-label={t('module.unlockedAria')}
       >
         <Check size={16} strokeWidth={2.5} style={{ color: '#fff' }} />
       </span>
@@ -108,7 +118,7 @@ export default function ModuloCard({
       <span
         className='mt-3.5 flex h-8 w-8 items-center justify-center rounded-full'
         style={{ backgroundColor: 'rgba(26, 31, 24, 0.06)' }}
-        aria-label='Módulo bloqueado'
+        aria-label={t('module.lockedAria')}
       >
         <Lock
           size={14}
@@ -118,12 +128,9 @@ export default function ModuloCard({
       </span>
     );
 
-  // ─────────────────────────────────────────────────────────
-  // CONTEÚDO DO CARD
-  // ─────────────────────────────────────────────────────────
   const cardInner = (
     <>
-      {/* Coluna lateral — número gigante + label + badge */}
+      {/* Coluna lateral */}
       <div
         className='relative flex w-[110px] flex-shrink-0 flex-col items-center justify-center px-3 py-5 md:w-[120px]'
         style={{
@@ -136,7 +143,7 @@ export default function ModuloCard({
           className='mb-1 text-[10px] font-medium uppercase tracking-[0.14em]'
           style={{ color: labelColor }}
         >
-          Módulo
+          {t('module.label')}
         </span>
         <span
           className='font-[family-name:var(--font-display)] leading-none'
@@ -157,33 +164,30 @@ export default function ModuloCard({
           className='font-[family-name:var(--font-display)] text-[20px] leading-[1.2] md:text-[22px]'
           style={{ color: TEXT_DARK }}
         >
-          {modulo.tituloLinhas ? (
+          {emphasis === 'primeira' ? (
             <>
-              {modulo.tituloLinhas.emphasis === 'primeira' ? (
+              <em className='italic' style={{ color: accentTextColor }}>
+                {linha1}
+              </em>
+              {linha2 && <> {linha2}</>}
+            </>
+          ) : emphasis === 'segunda' ? (
+            <>
+              {linha1}
+              {linha2 && (
                 <>
+                  {' '}
                   <em className='italic' style={{ color: accentTextColor }}>
-                    {modulo.tituloLinhas.primeira}
+                    {linha2}
                   </em>
-                  {modulo.tituloLinhas.segunda && (
-                    <> {modulo.tituloLinhas.segunda}</>
-                  )}
-                </>
-              ) : (
-                <>
-                  {modulo.tituloLinhas.primeira}
-                  {modulo.tituloLinhas.segunda && (
-                    <>
-                      {' '}
-                      <em className='italic' style={{ color: accentTextColor }}>
-                        {modulo.tituloLinhas.segunda}
-                      </em>
-                    </>
-                  )}
                 </>
               )}
             </>
           ) : (
-            modulo.titulo
+            <>
+              {linha1}
+              {linha2 && <> {linha2}</>}
+            </>
           )}
         </h3>
 
@@ -191,10 +195,10 @@ export default function ModuloCard({
           className='text-[13.5px] leading-[1.6] md:text-[14px]'
           style={{ color: TEXT_BODY }}
         >
-          {modulo.lead}
+          {lead}
         </p>
 
-        {/* Linha inferior — duração + CTA contextual */}
+        {/* Linha inferior */}
         <div
           className='mt-2 flex items-center justify-between gap-3 border-t pt-3'
           style={{ borderColor: BORDER_SUBTLE }}
@@ -212,7 +216,7 @@ export default function ModuloCard({
               className='inline-flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-[0.08em] transition-all duration-300 group-hover:gap-2'
               style={{ color: accentTextColor }}
             >
-              {isLoggedIn ? 'Começar' : 'Começar gratuitamente'}
+              {isLoggedIn ? t('module.start') : t('module.startFree')}
               <ArrowUpRight size={15} strokeWidth={2} />
             </span>
           )}
@@ -222,7 +226,7 @@ export default function ModuloCard({
               className='inline-flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-[0.08em] transition-all duration-300 group-hover:gap-2'
               style={{ color: accentTextColor }}
             >
-              Continuar
+              {t('module.continue')}
               <ArrowUpRight size={15} strokeWidth={2} />
             </span>
           )}
@@ -233,7 +237,7 @@ export default function ModuloCard({
               style={{ color: TEXT_MUTED }}
             >
               <Lock size={12} strokeWidth={1.8} />
-              Incluído no curso
+              {t('module.included')}
             </span>
           )}
         </div>
@@ -241,9 +245,6 @@ export default function ModuloCard({
     </>
   );
 
-  // ─────────────────────────────────────────────────────────
-  // WRAPPER — botão clicável OU article estático (locked)
-  // ─────────────────────────────────────────────────────────
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}

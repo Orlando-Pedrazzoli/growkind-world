@@ -5,7 +5,8 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import {
   User,
   BookOpen,
@@ -15,18 +16,10 @@ import {
 } from 'lucide-react';
 
 interface UserMenuProps {
-  /** Cor base — usada quando navbar transparente (branco) ou opaca (verde escuro) */
   iconColor?: string;
-  /** Filtro CSS — sombra subtil quando header transparente */
   iconFilter?: string;
 }
 
-/**
- * Extrai a primeira palavra do nome (e capitaliza).
- * - "Andre Pedrazzoli" → "Andre"
- * - "maria silva santos" → "Maria"
- * - undefined / "" → null (faller deve cair para email)
- */
 function getFirstName(name?: string | null): string | null {
   if (!name) return null;
   const trimmed = name.trim();
@@ -36,11 +29,11 @@ function getFirstName(name?: string | null): string | null {
   return first.charAt(0).toUpperCase() + first.slice(1);
 }
 
-/**
- * Devolve um label compacto para usar na navbar.
- * Prioridade: primeiro nome → username do email → "Conta"
- */
-function getDisplayLabel(name?: string | null, email?: string | null): string {
+function getDisplayLabel(
+  name: string | null | undefined,
+  email: string | null | undefined,
+  fallback: string,
+): string {
   const first = getFirstName(name);
   if (first) return first;
   if (email) {
@@ -49,15 +42,9 @@ function getDisplayLabel(name?: string | null, email?: string | null): string {
       return username.charAt(0).toUpperCase() + username.slice(1);
     }
   }
-  return 'Conta';
+  return fallback;
 }
 
-/**
- * Devolve a inicial para o avatar fallback.
- * - "Andre" → "A"
- * - email "andre@..." → "A"
- * - vazio → "U"
- */
 function getInitial(name?: string | null, email?: string | null): string {
   const first = getFirstName(name);
   if (first) return first.charAt(0).toUpperCase();
@@ -65,18 +52,13 @@ function getInitial(name?: string | null, email?: string | null): string {
   return 'U';
 }
 
-/**
- * Cor do avatar derivada de hash do nome/email.
- * Mantém-se sempre a mesma para o mesmo utilizador.
- * Usa tons da paleta GrowKind (verde, ocre, terracota).
- */
 const AVATAR_COLORS = [
-  '#1A5C2A', // verde GrowKind
-  '#e8943a', // ocre GrowKind
-  '#c4a44a', // dourado mostarda
-  '#7aab96', // verde-salva
-  '#8a6c1f', // dourado escuro
-  '#4d7a64', // verde-salva escuro
+  '#1A5C2A',
+  '#e8943a',
+  '#c4a44a',
+  '#7aab96',
+  '#8a6c1f',
+  '#4d7a64',
 ];
 
 function getAvatarColor(seed: string): string {
@@ -93,11 +75,11 @@ export default function UserMenu({
   iconFilter = 'none',
 }: UserMenuProps) {
   const { data: session, status } = useSession();
+  const t = useTranslations('nav');
   const [open, setOpen] = useState(false);
   const [imageError, setImageError] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Fechar ao clicar fora
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -108,7 +90,6 @@ export default function UserMenu({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Fechar com Esc (acessibilidade)
   useEffect(() => {
     function handleEsc(e: KeyboardEvent) {
       if (e.key === 'Escape') setOpen(false);
@@ -138,7 +119,7 @@ export default function UserMenu({
         <button
           onClick={() => setOpen(!open)}
           className='cursor-pointer p-1'
-          aria-label='Entrar ou criar conta'
+          aria-label={t('signInOrRegister')}
           aria-expanded={open}
         >
           <User
@@ -157,14 +138,14 @@ export default function UserMenu({
                 onClick={() => setOpen(false)}
                 className='px-5 py-3 text-[13px] font-medium uppercase tracking-[0.06em] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
               >
-                Entrar
+                {t('login')}
               </Link>
               <Link
                 href='/registar'
                 onClick={() => setOpen(false)}
                 className='px-5 py-3 text-[13px] font-medium uppercase tracking-[0.06em] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
               >
-                Criar conta
+                {t('register')}
               </Link>
             </div>
           </div>
@@ -178,24 +159,20 @@ export default function UserMenu({
   const userEmail = session.user?.email;
   const userImage = session.user?.image;
 
-  const displayLabel = getDisplayLabel(userName, userEmail);
+  const displayLabel = getDisplayLabel(userName, userEmail, t('account'));
   const initial = getInitial(userName, userEmail);
   const avatarColor = getAvatarColor(userEmail || userName || 'user');
   const showImage = !!userImage && !imageError;
-
-  // Cor do texto do nome (acompanha a navbar)
   const nameColor = iconColor;
 
   return (
     <div ref={menuRef} className='relative'>
-      {/* TRIGGER — Avatar + nome (desktop) ou só avatar (mobile) */}
       <button
         onClick={() => setOpen(!open)}
         className='flex cursor-pointer items-center gap-2 p-1 transition-opacity duration-200 hover:opacity-80'
-        aria-label={`Menu da conta — ${displayLabel}`}
+        aria-label={t('accountMenu', { name: displayLabel })}
         aria-expanded={open}
       >
-        {/* Avatar — foto Google ou inicial colorida */}
         <div
           className='relative flex h-7 w-7 flex-shrink-0 items-center justify-center overflow-hidden rounded-full'
           style={{
@@ -224,7 +201,6 @@ export default function UserMenu({
           )}
         </div>
 
-        {/* Primeiro nome — só desktop (≥640px) */}
         <span
           className='hidden text-[13px] font-medium tracking-tight transition-colors duration-500 sm:inline'
           style={{
@@ -236,7 +212,6 @@ export default function UserMenu({
           {displayLabel}
         </span>
 
-        {/* Chevron — só desktop, indica que abre menu */}
         <ChevronDown
           size={14}
           strokeWidth={2}
@@ -249,10 +224,8 @@ export default function UserMenu({
         />
       </button>
 
-      {/* DROPDOWN */}
       {open && (
         <div className='absolute right-0 top-full mt-3 w-64 overflow-hidden rounded-lg border border-[var(--color-gk-green-dark)]/10 bg-white shadow-lg'>
-          {/* Cabeçalho — avatar + nome completo + email */}
           <div className='flex items-center gap-3 border-b border-[var(--color-gk-green-dark)]/8 bg-[var(--color-gk-creme)]/40 px-5 py-4'>
             <div
               className='relative flex h-10 w-10 flex-shrink-0 items-center justify-center overflow-hidden rounded-full'
@@ -287,14 +260,14 @@ export default function UserMenu({
             </div>
           </div>
 
-          {/* Links do cliente */}
           <div className='flex flex-col py-2'>
             <Link
               href='/a-minha-conta'
               onClick={() => setOpen(false)}
               className='flex items-center gap-3 px-5 py-3 text-[13px] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
             >
-              <User size={16} strokeWidth={1.8} />A minha conta
+              <User size={16} strokeWidth={1.8} />
+              {t('account')}
             </Link>
             <Link
               href='/a-minha-conta/cursos'
@@ -302,17 +275,17 @@ export default function UserMenu({
               className='flex items-center gap-3 px-5 py-3 text-[13px] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
             >
               <GraduationCap size={16} strokeWidth={1.8} />
-              Os meus cursos
+              {t('myCourses')}
             </Link>
             <Link
               href='/a-minha-conta/livro'
               onClick={() => setOpen(false)}
               className='flex items-center gap-3 px-5 py-3 text-[13px] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-[var(--color-gk-green-dark)]'
             >
-              <BookOpen size={16} strokeWidth={1.8} />O meu livro
+              <BookOpen size={16} strokeWidth={1.8} />
+              {t('myBook')}
             </Link>
 
-            {/* Separador + Sair */}
             <div className='mx-5 my-1 border-t border-[var(--color-gk-green-dark)]/8' />
             <button
               onClick={() => {
@@ -322,7 +295,7 @@ export default function UserMenu({
               className='flex w-full cursor-pointer items-center gap-3 px-5 py-3 text-[13px] text-[var(--color-gk-black)]/70 transition-colors hover:bg-[var(--color-gk-creme)] hover:text-red-600'
             >
               <LogOut size={16} strokeWidth={1.8} />
-              Sair
+              {t('logout')}
             </button>
           </div>
         </div>

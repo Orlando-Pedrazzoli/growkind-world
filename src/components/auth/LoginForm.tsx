@@ -5,20 +5,18 @@
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { safeNext } from '@/lib/safeRedirect';
 
 export default function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useTranslations('auth');
 
-  // Valida e captura o destino pretendido após login
   const nextUrl = safeNext(searchParams.get('next'), '/');
-
-  // Para Google OAuth (callback URL absoluto)
   const googleCallbackUrl = nextUrl;
 
-  // Para o link "Criar conta" — preserva o ?next=
   const registarHref =
     nextUrl === '/'
       ? '/registar'
@@ -41,7 +39,7 @@ export default function LoginForm() {
     });
 
     if (result?.error) {
-      setError('Email ou password incorrectos');
+      setError(t('errorCredentials'));
       setLoading(false);
     } else {
       router.push(nextUrl);
@@ -80,14 +78,14 @@ export default function LoginForm() {
             fill='#EA4335'
           />
         </svg>
-        Entrar com Google
+        {t('loginGoogle')}
       </button>
 
       {/* Divisor */}
       <div className='my-8 flex items-center gap-4'>
         <div className='h-px flex-1 bg-[var(--color-gk-green-dark)]/10' />
         <span className='text-[11px] uppercase tracking-[0.14em] text-[var(--color-gk-cinza)]'>
-          ou
+          {t('or')}
         </span>
         <div className='h-px flex-1 bg-[var(--color-gk-green-dark)]/10' />
       </div>
@@ -96,7 +94,7 @@ export default function LoginForm() {
       <form onSubmit={handleCredentials} className='flex flex-col gap-4'>
         <input
           type='email'
-          placeholder='Email'
+          placeholder={t('email')}
           value={email}
           onChange={e => setEmail(e.target.value)}
           required
@@ -104,7 +102,7 @@ export default function LoginForm() {
         />
         <input
           type='password'
-          placeholder='Password'
+          placeholder={t('password')}
           value={password}
           onChange={e => setPassword(e.target.value)}
           required
@@ -118,18 +116,18 @@ export default function LoginForm() {
           disabled={loading}
           className='btn-primary mt-2 w-full text-center'
         >
-          {loading ? 'A entrar...' : 'Entrar'}
+          {loading ? t('loggingIn') : t('login')}
         </button>
       </form>
 
       {/* Link registo */}
       <p className='mt-8 text-center text-[14px] text-[var(--color-gk-cinza)]'>
-        Ainda não tens conta?{' '}
+        {t('noAccount')}{' '}
         <Link
           href={registarHref}
           className='font-medium text-[var(--color-gk-green-dark)] underline underline-offset-2'
         >
-          Criar conta
+          {t('createAccount')}
         </Link>
       </p>
     </div>
