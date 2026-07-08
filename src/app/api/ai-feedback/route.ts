@@ -4,53 +4,54 @@ import { NextRequest, NextResponse } from 'next/server';
 
 /**
  * Proxy seguro para a Anthropic API.
- *
- * Recebe prompts dos HTMLs dos cursos e devolve o feedback gerado pelo Claude.
- * A chave API NUNCA é exposta ao browser — fica apenas no ambiente do servidor
- * (process.env.ANTHROPIC_API_KEY).
- *
- * Endpoint: POST /api/ai-feedback
- * Body: { prompt: string, maxTokens?: number, model?: 'sonnet' | 'haiku' }
- * Response: { text: string } | { error: string }
+ * A chave API NUNCA é exposta ao browser — fica só no servidor.
+ * Body: { prompt, maxTokens?, model?: 'sonnet'|'haiku', moduleId? }
+ * Sem moduleId → comportamento antigo (retrocompatível).
+ * Com moduleId → injecta o system prompt centralizado do módulo.
  */
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
-// Modelos disponíveis — mapeamento de alias para ID real
 const MODELS = {
   sonnet: 'claude-sonnet-4-20250514',
   haiku: 'claude-haiku-4-5-20251001',
 } as const;
 
-// Limites de segurança
-const MAX_PROMPT_LENGTH = 4000; // evita abuso (utilizador malicioso a colar textos enormes)
-const MAX_TOKENS_CAP = 1000; // limite de saída por pedido
+const GUARDRAILS_COMUNS = `Responde SEMPRE em Português (PT-BR). Referencia sempre detalhes concretos do que o aluno escreveu — nunca uses elogios genéricos nem frases de encaixe. Nunca sugiras diagnósticos, rótulos clínicos ou intervenções terapêuticas. Responde APENAS com o texto do feedback — sem etiquetas, sem JSON, sem preâmbulo, sem título.`;
 
-// Rate limiting simples em memória (protege contra bursts por IP)
-// Nota: em múltiplas instâncias Vercel, cada instância tem o seu próprio contador.
-// Para rate limiting robusto, migrar para Upstash/Redis no futuro.
-const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minuto
-const RATE_LIMIT_MAX = 10; // 10 chamadas por IP por minuto
+const SYSTEM_PROMPTS: Record<string, string> = {
+  'cz-m2-prof': `És o tutor de feedback CPD GrowKind para profissionais de apoio educativo e TAs. Contexto: Curso Zero · Módulo 2 — "Os três elementos do campo". Competência: observação deliberada com o Observation Protocol (7 campos). Conceito RDF: ler o campo relacional nos três elementos — criança, ambiente e adulto — em simultâneo, antes de qualquer decisão de intervenção. Tom: caloroso, preciso, profissional, na segunda pessoa (você). ${GUARDRAILS_COMUNS}`,
+
+  'cz-m3-prof': `És o tutor de feedback CPD GrowKind para profissionais de apoio educativo e TAs. Contexto: Curso Zero · Módulo 3 — "A sua presença já é a intervenção". Competência: tornar-se presença reguladora antes de qualquer instrução verbal — Movimento 1 do RDF (Ser Chão). Conceito: quando o campo está desregulado, a primeira resposta do adulto não é instrução — é regulação. O estado do adulto chega ao sistema nervoso da criança antes de qualquer palavra. Usa linguagem de co-regulação e polivagal com parcimónia e sem jargão excessivo. Tom: caloroso, preciso, profissional, na segunda pessoa (você). ${GUARDRAILS_COMUNS}`,
+
+  'cz-m4-prof': `És o tutor de feedback CPD GrowKind para profissionais de apoio educativo e TAs. Contexto: Curso Zero · Módulo 4 — "O adulto não se torna especialista. Torna-se eixo." (módulo final, de integração). Competência: integrar as três lentes (leitura de campo · Observation Protocol · presença reguladora) numa leitura completa e partilhável — o Movimento Transversal, Ser Eixo. Conceito: o profissional não se torna especialista, torna-se o ponto de coerência entre todos os adultos à volta da criança. O que vê, nomeia; o que nomeia, partilha; o que partilha, cria coerência. Tom: caloroso, preciso, com sentido de chegada, na segunda pessoa (você). ${GUARDRAILS_COMUNS}`,
+
+  'cz-m2-fam': `És o tutor de feedback GrowKind Famílias. Contexto: Curso Zero · Módulo 2 Famílias — "Os três elementos: a criança, o ambiente e você". Conceito RDF: o comportamento do filho não começa no filho — começa no que o campo está a comunicar; ler os três elementos antes de reagir (Tabela Se→Então). Tom: muito caloroso, próximo, linguagem de casa, sem jargão clínico. Enquadra o estado do próprio adulto como ferramenta, nunca como culpa. ${GUARDRAILS_COMUNS}`,
+
+  'cz-m3-fam': `És o tutor de feedback GrowKind Famílias. Contexto: Curso Zero · Módulo 3 Famílias — "Quando o seu filho perde o chão". Conceito RDF: a crise é o limite fisiológico do sistema nervoso — não é falha do filho nem da família; o pedido é presença calma antes de qualquer palavra (Movimento 1, Ser Chão). O estado do adulto chega ao sistema nervoso do filho antes da instrução. Tom: muito caloroso, próximo, sem julgamento — esta família esteve numa situação difícil. Linguagem de casa. ${GUARDRAILS_COMUNS}`,
+
+  'cz-m4-fam': `És o tutor de feedback GrowKind Famílias. Contexto: Curso Zero · Módulo 4 Famílias (módulo final, de integração). Conceito RDF: a família que conclui o Curso Zero não se torna especialista do filho — torna-se o ponto de coerência entre todos os adultos à sua volta (professores, terapeutas, família alargada). O que vêem, conseguem nomear; o que nomeiam, conseguem partilhar. Movimento Transversal, Ser Eixo. Tom: caloroso, com sentido de chegada — completaram um percurso real. Linguagem de casa. ${GUARDRAILS_COMUNS}`,
+};
+
+const MAX_PROMPT_LENGTH = 4000;
+const MAX_TOKENS_CAP = 1000;
+
+const RATE_LIMIT_WINDOW_MS = 60_000;
+const RATE_LIMIT_MAX = 10;
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
-
   if (!entry || now > entry.resetAt) {
     rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
     return true;
   }
-
-  if (entry.count >= RATE_LIMIT_MAX) {
-    return false;
-  }
-
+  if (entry.count >= RATE_LIMIT_MAX) return false;
   entry.count++;
   return true;
 }
 
-// Limpeza periódica do mapa (evita crescer indefinidamente)
 if (typeof globalThis !== 'undefined') {
   setInterval(() => {
     const now = Date.now();
@@ -61,7 +62,6 @@ if (typeof globalThis !== 'undefined') {
 }
 
 export async function POST(req: NextRequest) {
-  // 1. Validar que a chave API está configurada
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     console.error('[ai-feedback] ANTHROPIC_API_KEY não configurada');
@@ -71,7 +71,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 2. Rate limit por IP
   const ip =
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
     req.headers.get('x-real-ip') ||
@@ -84,15 +83,19 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 3. Validar body
-  let body: { prompt?: string; maxTokens?: number; model?: string };
+  let body: {
+    prompt?: string;
+    maxTokens?: number;
+    model?: string;
+    moduleId?: string;
+  };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ error: 'Pedido inválido.' }, { status: 400 });
   }
 
-  const { prompt, maxTokens, model } = body;
+  const { prompt, maxTokens, model, moduleId } = body;
 
   if (typeof prompt !== 'string' || prompt.trim().length === 0) {
     return NextResponse.json(
@@ -108,15 +111,21 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Seleção do modelo
-  const modelId = model === 'haiku' ? MODELS.haiku : MODELS.sonnet; // default: sonnet
+  let systemPrompt: string | undefined;
+  if (typeof moduleId === 'string' && moduleId.trim().length > 0) {
+    systemPrompt = SYSTEM_PROMPTS[moduleId];
+    if (!systemPrompt) {
+      console.warn(`[ai-feedback] moduleId desconhecido: ${moduleId}`);
+    }
+  }
+
+  const modelId = model === 'haiku' ? MODELS.haiku : MODELS.sonnet;
 
   const tokens = Math.min(
     typeof maxTokens === 'number' && maxTokens > 0 ? maxTokens : 400,
     MAX_TOKENS_CAP,
   );
 
-  // 4. Chamar Anthropic
   try {
     const anthropicRes = await fetch(ANTHROPIC_URL, {
       method: 'POST',
@@ -128,6 +137,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: modelId,
         max_tokens: tokens,
+        ...(systemPrompt ? { system: systemPrompt } : {}),
         messages: [{ role: 'user', content: prompt }],
       }),
     });
@@ -165,7 +175,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// Bloquear outros métodos
 export async function GET() {
   return NextResponse.json({ error: 'Método não permitido.' }, { status: 405 });
 }

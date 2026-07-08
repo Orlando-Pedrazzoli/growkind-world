@@ -6,16 +6,38 @@
 // Inspiração: Apple Books + Substack + Kindle Paper
 // ============================================================
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/i18n/navigation';
 import type { Chapter, ContentBlock } from '@/lib/book-data/types';
-import { bookIndex, bookMeta } from '@/lib/book-data';
+import { getBook, type IndexEntry } from '@/lib/book-data/i18n';
+
+// ── Lista ordenada e "plana" de capítulos (espelha a ordem da sidebar) ──────
+// Usada para calcular o capítulo anterior/seguinte na navegação de rodapé.
+// Recebe o índice JÁ resolvido para o locale actual.
+type FlatChapter = { id: string; label: string; access?: string };
+function flattenIndex(index: IndexEntry[]): FlatChapter[] {
+  const out: FlatChapter[] = [];
+  for (const section of index) {
+    if (section.chapters) {
+      for (const ch of section.chapters)
+        out.push({ id: ch.id, label: ch.label, access: ch.access });
+    } else {
+      out.push({
+        id: section.id,
+        label: section.label,
+        access: section.access,
+      });
+    }
+  }
+  return out;
+}
 
 interface ReadingViewProps {
   chapter: Chapter;
   hasFullAccess: boolean;
   onChapterChange: (chapterId: string) => void;
+  locale: string;
 }
 
 // Largura da sidebar quando ancorada (desktop)
@@ -139,13 +161,120 @@ function PaywallGate() {
   );
 }
 
+// ── Navegação de fim de capítulo (substitui o antigo "Continuar") ──────────
+function ChapterNav({
+  currentId,
+  hasFullAccess,
+  onChapterChange,
+  flatChapters,
+  chaptersMap,
+}: {
+  currentId: string;
+  hasFullAccess: boolean;
+  onChapterChange: (chapterId: string) => void;
+  flatChapters: FlatChapter[];
+  chaptersMap: Record<string, Chapter>;
+}) {
+  const t = useTranslations('book.reader');
+
+  const idx = flatChapters.findIndex(c => c.id === currentId);
+  const prev = idx > 0 ? flatChapters[idx - 1] : null;
+  const next =
+    idx >= 0 && idx < flatChapters.length - 1 ? flatChapters[idx + 1] : null;
+
+  // Fim do livro — sem próximo capítulo
+  if (!next) {
+    return (
+      <div className='reading-chapter-nav'>
+        <div className='reading-chapter-nav-rule' />
+        <div className='reading-end'>
+          <div className='reading-end-ornament'>✦</div>
+          <p className='reading-end-eyebrow'>{t('endEyebrow')}</p>
+          <h3 className='reading-end-title'>{t('endTitle')}</h3>
+          <p className='reading-end-text'>{t('endText')}</p>
+          <Link href='/cursos' className='reading-paywall-btn'>
+            {t('endButton')}
+          </Link>
+        </div>
+        {prev && (
+          <button
+            type='button'
+            className='reading-nav-prev'
+            onClick={() => onChapterChange(prev.id)}
+          >
+            <IconArrowLeft />
+            <span>{t('prevChapter')}</span>
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  const nextDetail = chaptersMap[next.id];
+  const nextTitle = next.label || nextDetail?.title || '';
+  const nextMinutes = nextDetail?.estimatedMinutes;
+  const nextLocked = next.access === 'full' && !hasFullAccess;
+
+  return (
+    <div className='reading-chapter-nav'>
+      <div className='reading-chapter-nav-rule' />
+
+      <button
+        type='button'
+        className={`reading-next-card${nextLocked ? ' is-locked' : ''}`}
+        onClick={() => onChapterChange(next.id)}
+      >
+        <span className='reading-next-card-eyebrow'>
+          {nextLocked ? t('unlockNext') : t('nextChapter')}
+        </span>
+        <span className='reading-next-card-title'>{nextTitle}</span>
+        <span className='reading-next-card-meta'>
+          {nextLocked ? (
+            <>
+              <IconLock />
+              <span>
+                {t('paywallAmount')} · {t('paywallPeriod')}
+              </span>
+            </>
+          ) : (
+            typeof nextMinutes === 'number' && (
+              <span>{t('readingTime', { minutes: nextMinutes })}</span>
+            )
+          )}
+          <IconArrowRight />
+        </span>
+      </button>
+
+      {prev && (
+        <button
+          type='button'
+          className='reading-nav-prev'
+          onClick={() => onChapterChange(prev.id)}
+        >
+          <IconArrowLeft />
+          <span>{t('prevChapter')}</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ── Componente principal ──────────────────────────────────
 export default function ReadingView({
   chapter,
   hasFullAccess,
   onChapterChange,
+  locale,
 }: ReadingViewProps) {
   const t = useTranslations('book.reader');
+
+  // Índice, meta e mapa de capítulos resolvidos para o idioma actual
+  // (EN sobreposto ao PT; fallback string-a-string).
+  const { chaptersMap, bookIndex, bookMeta } = useMemo(
+    () => getBook(locale),
+    [locale],
+  );
+  const flatChapters = useMemo(() => flattenIndex(bookIndex), [bookIndex]);
 
   // Sidebar fechada inicialmente (será definida no useEffect com base em ecrã + preferência)
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -466,10 +595,13 @@ export default function ReadingView({
 
           {/* Navegação anterior/próximo */}
           {!isGated && (
-            <div className='reading-chapter-nav'>
-              <div className='reading-chapter-nav-rule' />
-              <p className='reading-chapter-nav-label'>{t('continue')}</p>
-            </div>
+            <ChapterNav
+              currentId={chapter.id}
+              hasFullAccess={hasFullAccess}
+              onChapterChange={onChapterChange}
+              flatChapters={flatChapters}
+              chaptersMap={chaptersMap}
+            />
           )}
         </div>
       </main>
@@ -510,6 +642,31 @@ function IconArrowLeft() {
       strokeLinejoin='round'
     >
       <path d='M12.5 4L6.5 10l6 6' />
+    </svg>
+  );
+}
+
+function IconArrowRight() {
+  return (
+    <svg
+      width='18'
+      height='18'
+      viewBox='0 0 20 20'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='1.8'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+    >
+      <path d='M7.5 4l6 6-6 6' />
+    </svg>
+  );
+}
+
+function IconLock() {
+  return (
+    <svg width='13' height='13' viewBox='0 0 20 20' fill='currentColor'>
+      <path d='M6 9V6.5a4 4 0 018 0V9h1a1 1 0 011 1v7a1 1 0 01-1 1H5a1 1 0 01-1-1v-7a1 1 0 011-1h1zm2 0h4V6.5a2 2 0 10-4 0V9z' />
     </svg>
   );
 }

@@ -1855,7 +1855,7 @@ Escreva feedback em PT-BR de 150-180 palavras que:
 - Prepare para o Módulo 3: a presença do adulto como intervenção
 Tom caloroso, directo, sem jargão clínico.`;
   try{
-    const res=await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:(prompt),maxTokens:350,model:'sonnet'})});
+    const res=await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:(prompt),maxTokens:350,model:'sonnet',moduleId:'cz-m2-fam'})});
     const data=await res.json();
     const txt=data.text||'Reflexão registada. Os três elementos estão visíveis — continue para o certificado.';
     const wrap=document.getElementById('aiFbWrap');

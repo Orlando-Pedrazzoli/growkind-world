@@ -719,6 +719,123 @@
   margin: 0;
 }
 
+/* Cartão "próximo capítulo" (substitui o antigo rótulo Continuar) */
+.reading-next-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--r-bg-card);
+  border: 1px solid var(--r-border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  cursor: pointer;
+  transition:
+    border-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.reading-next-card:hover {
+  border-color: var(--r-sage);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+.reading-next-card:focus-visible {
+  outline: 2px solid var(--r-sage);
+  outline-offset: 2px;
+}
+.reading-next-card-eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--r-sage);
+  margin-bottom: 8px;
+}
+.reading-next-card-title {
+  display: block;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(19px, 3.4vw, 23px);
+  font-weight: 600;
+  color: var(--r-ink);
+  line-height: 1.3;
+}
+.reading-next-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--r-ink-60);
+}
+.reading-next-card-meta svg {
+  margin-left: auto;
+  color: var(--r-sage);
+}
+.reading-next-card.is-locked {
+  border-style: dashed;
+}
+.reading-next-card.is-locked .reading-next-card-eyebrow {
+  color: var(--r-gold);
+}
+.reading-next-card.is-locked .reading-next-card-meta svg {
+  color: var(--r-gold);
+}
+
+/* Link discreto para o capítulo anterior */
+.reading-nav-prev {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--r-ink-60);
+  transition: color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.reading-nav-prev:hover {
+  color: var(--r-ink);
+}
+
+/* Estado de fim do livro */
+.reading-end {
+  padding: 8px 0 4px;
+}
+.reading-end-ornament {
+  font-size: 20px;
+  color: var(--r-gold);
+  margin-bottom: 12px;
+}
+.reading-end-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--r-sage);
+  margin: 0 0 10px;
+}
+.reading-end-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--r-ink);
+  margin: 0 0 12px;
+}
+.reading-end-text {
+  font-size: 15px;
+  color: var(--r-ink-60);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 22px;
+}
+
 /* ── Mobile ──────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .reading-content-inner {

@@ -1,5 +1,6 @@
 // src/app/livro/preview/page.tsx
 import type { Metadata } from 'next';
+import { getLocale } from 'next-intl/server';
 import { previewChapterIds } from '@/lib/book-data';
 import BookReader from '@/components/book/BookReader';
 
@@ -26,6 +27,7 @@ interface PageProps {
 
 export default async function BookPreviewPage({ searchParams }: PageProps) {
   const { capitulo } = await searchParams;
+  const locale = await getLocale();
 
   const initialChapterId =
     capitulo && previewChapterIds.includes(capitulo) ? capitulo : 'introducao';
@@ -35,6 +37,7 @@ export default async function BookPreviewPage({ searchParams }: PageProps) {
       initialChapterId={initialChapterId}
       hasFullAccess={false}
       previewChapterIds={previewChapterIds}
+      locale={locale}
     />
   );
 }

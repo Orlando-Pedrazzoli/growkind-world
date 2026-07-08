@@ -47,7 +47,7 @@ function isValidModulo(m: string): m is ModuloSlug {
 }
 
 export async function GET(
-  _req: NextRequest,
+  req: NextRequest,
   context: { params: Promise<{ curso: string; modulo: string }> },
 ) {
   const { curso, modulo } = await context.params;
@@ -84,30 +84,42 @@ export async function GET(
     );
   }
 
-  // 4. Ler HTML do filesystem (fora de public/)
-  const filename = MODULO_TO_FILENAME[curso][modulo];
-  const filePath = path.join(
-    process.cwd(),
-    'private',
-    'cursos',
-    curso,
-    filename,
-  );
+  // 4. Ler HTML do filesystem (fora de public/), consciente do idioma.
+  //    Convenção: EN vive em `cz-mX-track.en.html` (mesma pasta).
+  //    Fallback: se o idioma pedido for EN mas o ficheiro ainda não existir,
+  //    servimos o PT — assim o utilizador nunca apanha um 404 enquanto a
+  //    tradução não estiver pronta.
+  const baseFilename = MODULO_TO_FILENAME[curso][modulo];
+  const lang = req.nextUrl.searchParams.get('lang') === 'en' ? 'en' : 'pt';
 
-  try {
-    const html = await readFile(filePath, 'utf-8');
-    return new NextResponse(html, {
-      status: 200,
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'private, no-store, must-revalidate',
-      },
-    });
-  } catch (err) {
-    console.error('[CURSO PROTECTED] Erro a ler ficheiro:', filePath, err);
-    return NextResponse.json(
-      { error: 'Conteúdo do módulo indisponível de momento.' },
-      { status: 404 },
-    );
+  const candidates =
+    lang === 'en'
+      ? [baseFilename.replace(/\.html$/, '.en.html'), baseFilename]
+      : [baseFilename];
+
+  const dir = path.join(process.cwd(), 'private', 'cursos', curso);
+
+  for (const candidate of candidates) {
+    try {
+      const html = await readFile(path.join(dir, candidate), 'utf-8');
+      return new NextResponse(html, {
+        status: 200,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'private, no-store, must-revalidate',
+        },
+      });
+    } catch {
+      // Ficheiro não existe (ex.: EN ainda por traduzir) → tenta o próximo.
+    }
   }
+
+  console.error(
+    '[CURSO PROTECTED] Nenhum ficheiro encontrado em:',
+    path.join(dir, candidates[candidates.length - 1]),
+  );
+  return NextResponse.json(
+    { error: 'Conteúdo do módulo indisponível de momento.' },
+    { status: 404 },
+  );
 }

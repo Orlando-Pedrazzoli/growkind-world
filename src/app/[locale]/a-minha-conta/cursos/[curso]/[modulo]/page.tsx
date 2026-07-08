@@ -2,7 +2,9 @@
 import type { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
-import { getTranslations, getMessages } from 'next-intl/server';
+import { getTranslations, getMessages, getLocale } from 'next-intl/server';
+import { existsSync } from 'fs';
+import path from 'path';
 import { Link } from '@/i18n/navigation';
 import { auth } from '@/lib/auth';
 import { hasAccess } from '@/lib/access';
@@ -46,8 +48,16 @@ export default async function ModuloViewerPage({ params }: PageProps) {
   const moduloData = cursoData.modulos.find(m => m.slug === moduloSlug);
   if (!moduloData) notFound();
 
-  // 2) M1 GRATUITO
+  // Locale actual — define o idioma servido ao conteúdo do curso.
+  const locale = await getLocale();
+
+  // 2) M1 GRATUITO (estático em public/) — versão EN opcional com fallback PT.
   if (moduloData.gratuito) {
+    if (locale === 'en') {
+      const enWebPath = moduloData.htmlPath.replace(/\.html$/, '.en.html');
+      const enFsPath = path.join(process.cwd(), 'public', enWebPath);
+      if (existsSync(enFsPath)) redirect(enWebPath);
+    }
     redirect(moduloData.htmlPath);
   }
 
@@ -62,16 +72,12 @@ export default async function ModuloViewerPage({ params }: PageProps) {
 
   // Textos traduzidos
   const t = await getTranslations('account');
+  type CursoItemI18n = {
+    cardName: { prefix: string; emphasis: string };
+    modulos: Record<string, { titulo: string }>;
+  };
   const messages = (await getMessages()) as unknown as {
-    courses: {
-      items: Record<
-        string,
-        {
-          cardName: { prefix: string; emphasis: string };
-          modulos: Record<string, { titulo: string }>;
-        }
-      >;
-    };
+    courses: { items: Record<string, CursoItemI18n> };
   };
   const cursoItemI18n = messages.courses.items[cursoSlug];
   const cursoNomeI18n = `${cursoItemI18n.cardName.prefix} ${cursoItemI18n.cardName.emphasis}`;
@@ -106,7 +112,7 @@ export default async function ModuloViewerPage({ params }: PageProps) {
           style={{ height: 'calc(100vh - 200px)', minHeight: '600px' }}
         >
           <iframe
-            src={`/api/curso/${cursoSlug}/${moduloSlug}`}
+            src={`/api/curso/${cursoSlug}/${moduloSlug}?lang=${locale}`}
             title={`${cursoNomeI18n} — ${tituloModulo}`}
             className='h-full w-full border-0'
             sandbox='allow-scripts allow-same-origin allow-popups allow-forms'

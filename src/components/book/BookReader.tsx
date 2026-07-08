@@ -2,25 +2,30 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ReadingView from './ReadingView';
-import { chaptersMap } from '@/lib/book-data';
+import { getBook } from '@/lib/book-data/i18n';
 import './reading.css';
 
 interface BookReaderProps {
   initialChapterId: string;
   hasFullAccess: boolean;
   previewChapterIds: string[];
+  locale: string;
 }
 
 export default function BookReader({
   initialChapterId,
   hasFullAccess,
   previewChapterIds,
+  locale,
 }: BookReaderProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+  // Mapa de capítulos resolvido para o idioma actual (EN cai no PT se faltar).
+  const { chaptersMap } = useMemo(() => getBook(locale), [locale]);
 
   const [currentChapterId, setCurrentChapterId] = useState(initialChapterId);
 
@@ -62,6 +67,7 @@ export default function BookReader({
       chapter={chapter}
       hasFullAccess={hasFullAccess}
       onChapterChange={handleChapterChange}
+      locale={locale}
     />
   );
 }

@@ -1329,7 +1329,7 @@ Escreva feedback de 160-200 palavras em PT-BR que:
 Tom caloroso e profissional. Primeira pessoa (você).`;
 
   try {
-    const res = await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:(prompt),maxTokens:400,model:'sonnet'})});
+    const res = await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:(prompt),maxTokens:400,model:'sonnet',moduleId:'cz-m2-prof'})});
     const data = await res.json();
     const text = data.text || 'Reflexão registada. Continue para o certificado.';
     const wrap = document.getElementById('cpdAiWrap');

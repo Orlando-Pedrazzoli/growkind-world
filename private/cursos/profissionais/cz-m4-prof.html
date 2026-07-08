@@ -1137,10 +1137,10 @@ function typeText(el,text,speed=15){
 }
 function showLoader(el){el.innerHTML='<div class="ai-loader"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div></div>';}
 
-async function callAI(prompt,el){
+async function callAI(prompt,el,moduleId){
   showLoader(el);
   try{
-    const r=await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:`Você é o agente pedagógico GrowKind Profissionais. Responda em PT-BR. Análise concisa e precisa (120-180 palavras). Conecte directamente ao que o aluno escreveu. Use linguagem RDF — Field Reading Sequence, Field Archive, co-regulação, Ser Eixo. Nunca genérico. Sempre específico.\n\n---\n\n`+(prompt),maxTokens:1000,model:'sonnet'})});
+    const r=await fetch('/api/ai-feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:`Você é o agente pedagógico GrowKind Profissionais. Responda em PT-BR. Análise concisa e precisa (120-180 palavras). Conecte directamente ao que o aluno escreveu. Use linguagem RDF — Field Reading Sequence, Field Archive, co-regulação, Ser Eixo. Nunca genérico. Sempre específico.\n\n---\n\n`+(prompt),maxTokens:1000,model:'sonnet',...(moduleId?{moduleId}:{})})});
     const d=await r.json();
     typeText(el,d.text||'Análise registada.',14);
   }catch(e){el.textContent='Análise registada. Continue.';}
@@ -1266,7 +1266,7 @@ async function submitCPD(n){
   const v=document.getElementById(`cpd${n}ta`).value.trim();if(!v)return;
   document.getElementById(`cpd${n}btn`).disabled=true;
   const fb=document.getElementById(`cpd${n}fb`);fb.classList.add('vis');
-  await callAI(cpdPs[n](v),document.getElementById(`cpd${n}txt`));
+  await callAI(cpdPs[n](v),document.getElementById(`cpd${n}txt`),'cz-m4-prof');
   setTimeout(()=>{
     if(n<3){document.getElementById(`cpd${n+1}Wrap`).style.display='block';setupCPDTA(n+1);}
     else{document.getElementById('cpd4Wrap').style.display='block';document.getElementById('cpd4ta').addEventListener('input',function(){document.getElementById('cpd4btn').disabled=this.value.trim().length<5;});markDone(8);}
