@@ -3039,5 +3039,244 @@
       "type": "paragraph",
       "text": "Development becomes a shared path."
     }
+  ],
+  "enc-3": [
+    {
+      "type": "paragraph",
+      "text": "Throughout this part, the other has been taking shape."
+    },
+    {
+      "type": "paragraph",
+      "text": "It began as an obstacle. It became a reference. It turned into a possible presence within a protected doing. And, finally, it began to gain a mind."
+    },
+    {
+      "type": "paragraph",
+      "text": "None of those steps happened in a linear way. Each of them required repetition, holding, and time."
+    },
+    {
+      "type": "pullquote",
+      "text": "The path opens."
+    },
+    {
+      "type": "paragraph",
+      "text": "Not because everything is resolved. But because the child no longer walks this path alone — and the adult beside her no longer looks from the same place."
+    }
+  ],
+  "glossario": [
+    {
+      "type": "paragraph",
+      "text": "This glossary does not need to be read in order, or right now. It exists to serve as a bridge: when you encounter a technical term in a report or meeting, come back here to connect the difficult name to the experience you and the child already live. Use it as a reference, in your own time."
+    },
+    {
+      "type": "section-title",
+      "text": "PART I: THE BODY AND FEELING",
+      "subtitle": "Sensory integration and regulation (Chapters 1–5)"
+    },
+    {
+      "type": "glossary",
+      "entries": [
+        {
+          "term": "1. PROPRIOCEPTION — “Ground” and Contour",
+          "bookLanguage": "In the book: the physical search for “weight,” “resistance,” “pressing against something” — or the need to find edges to know where the body ends. The professional says the child is seeking “proprioceptive input” to self-organize.",
+          "technicalTerm": "Proprioceptive input",
+          "explanation": "The brain’s capacity to know where the body’s parts are in space through pressure in muscles and joints. It is the sense that gives us the feeling of bodily limit."
+        },
+        {
+          "term": "2. VESTIBULAR SYSTEM — Axis and Movement",
+          "bookLanguage": "In the book: the child who runs, spins, or rocks her body to feel alive — or who feels the world has “lost its compass” and become unstable. Technically called “vestibular seeking” or “gravitational insecurity.”",
+          "technicalTerm": "Vestibular seeking",
+          "explanation": "The system located in the inner ear that controls balance, the sense of movement, and the relationship with gravity."
+        },
+        {
+          "term": "3. INTEROCEPTION — Feeling From Within",
+          "bookLanguage": "In the book: the “silent territory” — the internal sensation the child feels (hunger, discomfort, agitation) but cannot yet locate or name. The professional refers to difficulties in “interoceptive awareness.”",
+          "technicalTerm": "Interoceptive awareness.",
+          "explanation": "The capacity to perceive and interpret internal signals from the body. When it fails, the child feels the discomfort but cannot identify the cause (pain, thirst, needing the bathroom)."
+        },
+        {
+          "term": "4. EMOTIONAL DYSREGULATION — The “Crisis”",
+          "bookLanguage": "In the book: “loss of direction” — when the limit of processing is reached and the body overflows in an attempt to survive the excess. The professional says the child has entered a meltdown (external collapse) or shutdown (disconnection / freezing).",
+          "technicalTerm": "",
+          "explanation": "The temporary inability to manage sensory or emotional intensity. It is not a tantrum (which has intention) — it is a physiological response to nervous system overload."
+        },
+        {
+          "term": "5. STEREOTYPIES / STIMMING — Repetition That Organizes",
+          "bookLanguage": "In the book: the “repeated gesture,” “rocking,” or sounds that serve as a legitimate attempt to maintain structure when the surroundings shift. Technically called “self-stimulatory behaviors” or “motor stereotypies.”",
+          "technicalTerm": "Self-stimulatory behaviors",
+          "explanation": "Repetitive movements or sounds that serve a self-regulatory function: calming the system, focusing attention, or expressing excitement."
+        },
+        {
+          "term": "6. CENTRAL COHERENCE — Joining the Parts",
+          "bookLanguage": "In the book: the challenge of “joining what arrives in pieces” — perceiving the detail with clarity before seeing the whole. The professional speaks of “weak central coherence” or “hyperfocus on detail.”",
+          "technicalTerm": "Weak central coherence",
+          "explanation": "The cognitive ability to bring various details together to form an overall picture. In autism, the brain tends to process details with precision but may take longer to assemble the broader context."
+        }
+      ]
+    },
+    {
+      "type": "section-title",
+      "text": "PART II: ACTION AND DOING",
+      "subtitle": "Executive functions and organization (Chapters 6–11)"
+    },
+    {
+      "type": "glossary",
+      "entries": [
+        {
+          "term": "7. TASK INITIATION — “Beginning”",
+          "bookLanguage": "In the book: the moment when the child wants to do something but the body hesitates — like someone holding the key but unable to turn it. Technically called “difficulty with initiation” or “autistic inertia.”",
+          "technicalTerm": "Difficulty with initiation",
+          "explanation": "The executive ability to begin a physical or mental activity. The difficulty is not laziness — it is a failure in the neurological “starter motor.”"
+        },
+        {
+          "term": "8. WORKING MEMORY — Holding the “Middle”",
+          "bookLanguage": "In the book: the difficulty of “sustaining the path” — when the action dissolves in the middle and must be reconstructed from zero at every few steps. The professional refers to a failure in “operational working memory.”",
+          "technicalTerm": "Operational working memory.",
+          "explanation": "The capacity to temporarily “hold” information in mind while using it to complete a task (e.g. remembering an instruction while walking to the bedroom)."
+        },
+        {
+          "term": "9. INHIBITORY CONTROL — “Edges” and Focus",
+          "bookLanguage": "In the book: the need for “contour” and “limits” so that the action does not spread across competing stimuli. Technically called “reduced inhibitory control” or “high distractibility.”",
+          "technicalTerm": "Reduced inhibitory control",
+          "explanation": "The capacity to brake impulses and ignore irrelevant distractions in order to focus on what is necessary in the moment."
+        },
+        {
+          "term": "10. HYPERFOCUS / RESTRICTED INTEREST — Interest as Direction",
+          "bookLanguage": "In the book: using deep interest as “traction,” “bridge,” or “engine” to give meaning to difficult tasks. The professional uses the diagnostic term “restricted and repetitive interests” or simply “hyperfocus.”",
+          "technicalTerm": "Restricted and repetitive interests",
+          "explanation": "A state of intense concentration and absorption in a specific topic. In the book, repositioned not as symptom — but as a lever for engagement."
+        },
+        {
+          "term": "11. VISUAL SUPPORTS AND STRUCTURING — “Seeing” to Organize",
+          "bookLanguage": "In the book: leaving the “next step visible,” using objects or images to mark time, sequence, and routine. Technically called “environmental structuring” or “visual supports.” When images are used for the child to communicate, the technical term is AAC (Augmentative and Alternative Communication). The use of AAC does not prevent speech — by organizing intention, it often facilitates its emergence.",
+          "technicalTerm": "Environmental structuring",
+          "explanation": "The use of visual resources to make time and tasks concrete, reducing anxiety."
+        }
+      ]
+    },
+    {
+      "type": "section-title",
+      "text": "PART III: RELATIONSHIP AND THE OTHER",
+      "subtitle": "Social cognition, play, and communication (Chapters 12–19)"
+    },
+    {
+      "type": "glossary",
+      "entries": [
+        {
+          "term": "12. MANDING / PRAGMATIC FUNCTION — The Bridge Word",
+          "bookLanguage": "In the book: using a short word to “reach and ask” — language as a tool to make the world function. The professional says the child is “manding” or using the “instrumental function of language.”",
+          "technicalTerm": "Manding",
+          "explanation": "The use of communication with the specific function of asking for something or controlling the environment to satisfy an immediate desire."
+        },
+        {
+          "term": "13. COGNITIVE FLEXIBILITY — When the World Changes",
+          "bookLanguage": "In the book: the challenge faced when “the world stops responding as it always has” — the difficulty in tolerating changes of rule. Technically called “cognitive rigidity” or difficulty with “mental flexibility.”",
+          "technicalTerm": "Cognitive rigidity",
+          "explanation": "The brain’s capacity to adapt thinking and behavior when unexpected changes occur in the environment."
+        },
+        {
+          "term": "14. JOINT ATTENTION — Looking Together",
+          "bookLanguage": "In the book: the moment when the child begins to “follow the other” — observing where the other looks in order to share interest. The professional calls this “joint attention.”",
+          "technicalTerm": "Joint attention.",
+          "explanation": "The process in which two people focus simultaneously on the same object or event. It is the foundation of social connection."
+        },
+        {
+          "term": "15. SYMBOLIC PLAY — The Elasticity of the World",
+          "bookLanguage": "In the book: when the block becomes a car and the cloth becomes a road. The object stops being only physical and gains new meaning. Technically called “representational play.”",
+          "technicalTerm": "Representational play.",
+          "explanation": "The cognitive capacity to use one object to represent another. It is the first training in mental flexibility."
+        },
+        {
+          "term": "16. MAKE-BELIEVE / PRETEND PLAY — Rehearsing the Other",
+          "bookLanguage": "In the book: when the toy begins to “want” or “feel.” The laboratory where the child rehearses emotions without risk. The professional calls this “imaginative play” or “role play.”",
+          "technicalTerm": "Imaginative play",
+          "explanation": "The attribution of mental states to objects. The fundamental preparation for understanding the human mind."
+        },
+        {
+          "term": "17. THEORY OF MIND — Predicting the Other",
+          "bookLanguage": "In the book: the final journey — the other stops being an obstacle and becomes someone with their own intention (“they want something different from me”). The professional calls this “Theory of Mind” (ToM).",
+          "technicalTerm": "Theory of Mind",
+          "explanation": "The capacity to understand that other people have thoughts and desires different from one’s own. Not only empathy — the logical understanding that the other’s mind is separate from mine."
+        }
+      ]
+    },
+    {
+      "type": "section-title",
+      "text": "FINAL TRANSLATION",
+      "subtitle": ""
+    },
+    {
+      "type": "paragraph",
+      "text": "When the book says: “Be the ground for the child.”\nThe Occupational Therapist says: “Provide co-regulation through proprioceptive support.”"
+    },
+    {
+      "type": "paragraph",
+      "text": "When the book says: “Lend the beginning of the action.”\nThe Neuropsychologist says: “Provide external support for executive initiation.”"
+    },
+    {
+      "type": "paragraph",
+      "text": "When the book says: “The world has lost its direction.”\nThe report says: “Sensory and vestibular dysregulation.”"
+    },
+    {
+      "type": "pullquote",
+      "text": "The book shows how to accompany. The science names what is happening. The child is the same. What changes is the gaze that learns to move across languages."
+    }
+  ],
+  "fundamentos": [
+    {
+      "type": "paragraph",
+      "text": "This book was written in accessible language by deliberate choice. The goal was to transform complex neuroscientific concepts into living tools for daily life."
+    },
+    {
+      "type": "paragraph",
+      "text": "However, for readers who seek the technical origins of the orientations presented here, it is important to clarify that the structure of this work rests on robust evidence from developmental science and neurobiology."
+    },
+    {
+      "type": "paragraph",
+      "text": "Each chapter rests on specific theoretical pillars:"
+    },
+    {
+      "type": "section-title",
+      "text": "1. PREDICTIVE CODING",
+      "subtitle": ""
+    },
+    {
+      "type": "paragraph",
+      "text": "When the book speaks of “logic,” “patterns,” “rituals,” and the need for “safety,” we are drawing on the theory of Predictive Coding (associated with Karl Friston). In autism, the brain operates with a different precision in its predictions: the world is frequently perceived as chaotic and surprising. What we call “rigidity” is read here, scientifically, as an attempt by the brain to minimize prediction error and restore order."
+    },
+    {
+      "type": "section-title",
+      "text": "2. SENSORY INTEGRATION (Jean Ayres)",
+      "subtitle": ""
+    },
+    {
+      "type": "paragraph",
+      "text": "When we speak of “ground,” “contour,” “axis,” and “the search for weight,” we are translating the classical principles of Jean Ayres. The premise is that the organization of behavior begins with the organization of sensation. The book applies the view that physiological regulation (body) precedes emotional and cognitive regulation."
+    },
+    {
+      "type": "section-title",
+      "text": "3. CO-REGULATION AND SOCIAL ENGAGEMENT SYSTEM",
+      "subtitle": ""
+    },
+    {
+      "type": "paragraph",
+      "text": "The emphasis on the adult’s role as “axis” and “holding” is based in the neurobiology of co-regulation. An immature or disorganized nervous system does not learn to calm itself alone — it needs a mature nervous system to lend organization. This engages with concepts from Polyvagal Theory and with developmental models that prioritize relational safety as a prerequisite for learning."
+    },
+    {
+      "type": "section-title",
+      "text": "4. SOCIAL COGNITION AND JOINT ATTENTION",
+      "subtitle": ""
+    },
+    {
+      "type": "paragraph",
+      "text": "The final chapters draw on the literature on Joint Attention and Theory of Mind. The chosen approach refuses mechanical training of social skills and instead builds progressively: first the predictability of the object, then symbolic play, and finally the understanding of the other’s mind."
+    },
+    {
+      "type": "paragraph",
+      "text": "This book, therefore, is an invitation to live the science on the floor of the living room, in the bath, at lunchtime."
+    },
+    {
+      "type": "pullquote",
+      "text": "Theory guarantees the map. But it is the human relationship that makes the path."
+    }
   ]
 }
