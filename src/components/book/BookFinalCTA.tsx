@@ -1,10 +1,10 @@
 'use client';
 
 import { useRef } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion, useInView } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useBookData } from '@/lib/data/book';
 
 // ebookPrice (opcional) vem da página (server) e sincroniza o preço mostrado
@@ -92,7 +92,7 @@ export default function BookFinalCTA({ ebookPrice }: { ebookPrice?: string }) {
               <Component
                 key={edition.format}
                 href={edition.href}
-                className='flex items-center gap-2 px-7 py-3.5 text-[13px] font-medium transition-all duration-300'
+                className='group flex items-center gap-2 px-7 py-3.5 text-[13px] font-medium transition-all duration-300 hover:brightness-125 hover:bg-white/[0.04]'
                 style={{
                   border:
                     edition.style === 'secondary'
@@ -107,9 +107,17 @@ export default function BookFinalCTA({ ebookPrice }: { ebookPrice?: string }) {
                 <span>
                   {edition.format === 'kindle'
                     ? te('kindle')
-                    : te('physicalAmazon')}{' '}
-                  — {edition.price}
+                    : te('physicalAmazon')}
+                  {edition.price ? ` — ${edition.price}` : ''}
                 </span>
+                {isExternal && (
+                  <ArrowUpRight
+                    size={14}
+                    strokeWidth={1.8}
+                    aria-hidden='true'
+                    className='opacity-60 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100'
+                  />
+                )}
               </Component>
             );
           })}

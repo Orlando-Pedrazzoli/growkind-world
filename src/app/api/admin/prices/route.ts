@@ -1,5 +1,6 @@
-// src/app/api/admin/prices/route.ts
+// 📄 src/app/api/admin/prices/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { auth } from '@/lib/auth';
 import { isAdminEmail } from '@/lib/access';
 import { connectDB } from '@/lib/db';
@@ -68,6 +69,17 @@ export async function PATCH(req: NextRequest) {
     { product, amount, currency: 'eur' },
     { upsert: true, new: true, setDefaultsOnInsert: true },
   );
+
+  // ── Revalidação on-demand ────────────────────────────────────────────
+  // As páginas públicas que mostram preços são geradas estaticamente (SSG)
+  // no build. Sem isto, o preço novo só apareceria no próximo deploy.
+  // Usamos a rota do filesystem ('/[locale]/...') para revalidar TODOS os
+  // idiomas (PT e EN) de uma só vez.
+  revalidatePath('/[locale]/o-livro', 'page');
+  revalidatePath('/[locale]/cursos', 'page');
+  revalidatePath('/[locale]/cursos/profissionais', 'page');
+  revalidatePath('/[locale]/cursos/familias', 'page');
+  revalidatePath('/[locale]', 'page'); // homepage, por segurança
 
   return NextResponse.json({ ok: true, product, amount });
 }

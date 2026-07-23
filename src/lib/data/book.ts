@@ -65,15 +65,15 @@ const EDITIONS_CONFIG: EditionConfig[] = [
   },
   {
     format: 'physical',
-    price: '€19.99',
+    price: '', // preço gerido pela Amazon — não mostramos valor fixo no site
     icon: Book,
-    href: 'https://amazon.com/dp/XXXXXXXXX', // TODO: substituir por ISBN físico real
-    style: 'ghost',
+    href: 'https://amzn.eu/d/09yRB2Mh', // Julho 2026 — link oficial Amazon
+    style: 'secondary',
   },
 ];
 
 // Só os formatos listados aqui aparecem no site
-const ACTIVE_FORMATS: BookEdition['format'][] = ['ebook'];
+const ACTIVE_FORMATS: BookEdition['format'][] = ['ebook', 'physical'];
 
 // Estrutura das partes (números romanos) e dos públicos (ícones)
 const PART_KEYS = ['part1', 'part2', 'part3'] as const;

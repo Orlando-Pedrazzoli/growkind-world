@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { buildPageMetadata } from '@/lib/seo';
 import CursosHero from '@/components/cursos/CursosHero';
 import CursosEmBreve from '@/components/cursos/CursosEmBreve';
+import { getPricesMap } from '@/lib/prices';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Cursos — Formações para acompanhar a infância neurodivergente',
@@ -19,11 +20,20 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-export default function CursosPage() {
+export default async function CursosPage() {
+  // Preços atuais da BD (sincronizados com o admin e com o checkout).
+  // Passados por prop ao CursosEmBreve, que é client component.
+  const precos = await getPricesMap();
+
   return (
     <>
       <CursosHero />
-      <CursosEmBreve />
+      <CursosEmBreve
+        precos={{
+          profissionais: precos['curso-prof'],
+          familias: precos['curso-fam'],
+        }}
+      />
     </>
   );
 }

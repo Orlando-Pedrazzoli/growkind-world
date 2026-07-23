@@ -2,7 +2,7 @@
 
 'use client';
 
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion } from 'framer-motion';
 import { useTranslations, useMessages } from 'next-intl';
 import { ArrowRight, GraduationCap, Users } from 'lucide-react';
@@ -19,21 +19,35 @@ const ICON_BY_SLUG = {
   familias: Users,
 } as const;
 
-export default function CursosEmBreve() {
-  const t = useTranslations('courses.list');
-  const messages = useMessages() as unknown as {
-    courses: {
-      items: Record<
-        string,
-        {
-          cardName: { prefix: string; emphasis: string };
-          subtitulo: string;
-          publico: string;
-          descricao: string;
-        }
-      >;
-    };
+// Preços em cêntimos, vindos da BD via página server (/cursos/page.tsx).
+// Fallback para o precoEur estático de cursos.ts se a prop não vier.
+interface CursosEmBreveProps {
+  precos?: Partial<Record<'profissionais' | 'familias', number>>;
+}
+
+// Tipagem do bloco courses.items do dicionário (useMessages)
+interface CursoItemMessages {
+  cardName: { prefix: string; emphasis: string };
+  subtitulo: string;
+  publico: string;
+  descricao: string;
+}
+
+interface CursosMessages {
+  courses: {
+    items: Record<string, CursoItemMessages>;
   };
+}
+
+// Formata cêntimos -> "€98" (sem decimais se for valor redondo)
+function formatPrecoEur(cents: number): string {
+  const eur = cents / 100;
+  return Number.isInteger(eur) ? `€${eur}` : `€${eur.toFixed(2)}`;
+}
+
+export default function CursosEmBreve({ precos }: CursosEmBreveProps) {
+  const t = useTranslations('courses.list');
+  const messages = useMessages() as unknown as CursosMessages;
 
   return (
     <section
@@ -180,7 +194,12 @@ export default function CursosEmBreve() {
                       className='text-[14px] font-medium'
                       style={{ color: CREAM }}
                     >
-                      {t('priceValue', { price: curso.precoEur })}
+                      {t('priceValue', {
+                        price:
+                          precos?.[curso.slug] != null
+                            ? formatPrecoEur(precos[curso.slug]!)
+                            : curso.precoEur,
+                      })}
                     </p>
                   </div>
                 </div>

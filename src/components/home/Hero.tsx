@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -35,7 +35,7 @@ const SLIDES: Slide[] = [
     altKey: 'slideRdf',
     desktop: '/images/hero-rdf.jpg',
     mobile: '/images/hero-rdf-mobile.jpg',
-    href: '/rdf',
+    href: '/cursos', // Julho 2026 — banner RDF passa a levar aos cursos
   },
 ];
 

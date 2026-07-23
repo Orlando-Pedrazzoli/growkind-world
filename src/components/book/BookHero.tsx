@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { useBookData } from '@/lib/data/book';
 
 // ebookPrice (opcional) vem da página (server) e sincroniza o preço mostrado
@@ -137,9 +137,9 @@ export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
                 <Component
                   key={edition.format}
                   href={edition.href}
-                  className={btnClasses}
+                  className={`${btnClasses} group hover:brightness-125 hover:bg-white/[0.04]`}
                   style={{
-                    border: '1px solid rgba(240,232,208,0.2)',
+                    border: '1px solid rgba(240,232,208,0.3)',
                     color: '#f0e8d0',
                     borderRadius: '8px',
                   }}
@@ -147,7 +147,7 @@ export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
                 >
                   <span className='flex items-center gap-3'>
                     <Icon
-                      size={20}
+                      size={22}
                       strokeWidth={1.8}
                       className='shrink-0 opacity-80'
                       aria-hidden='true'
@@ -161,12 +161,21 @@ export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
                       </span>
                     </span>
                   </span>
-                  <span
-                    className='font-[family-name:var(--font-display)] text-xl opacity-80'
-                    style={{ fontWeight: 400 }}
-                  >
-                    {edition.price}
-                  </span>
+                  {edition.price ? (
+                    <span
+                      className='font-[family-name:var(--font-display)] text-xl opacity-80'
+                      style={{ fontWeight: 400 }}
+                    >
+                      {edition.price}
+                    </span>
+                  ) : (
+                    <ArrowUpRight
+                      size={20}
+                      strokeWidth={1.8}
+                      aria-hidden='true'
+                      className='shrink-0 opacity-60 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100'
+                    />
+                  )}
                 </Component>
               );
             })}
