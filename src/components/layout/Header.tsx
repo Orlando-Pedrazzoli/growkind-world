@@ -6,19 +6,25 @@ import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useSession, signOut } from 'next-auth/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, LogOut } from 'lucide-react';
+import { User, LogOut, ArrowUpRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 // 👇 Link e usePathname vêm AGORA do i18n (aplicam o prefixo /en automaticamente).
 import { Link, usePathname } from '@/i18n/navigation';
 import UserMenu from '@/components/auth/UserMenu';
 import LanguageToggle from './LanguageToggle';
 
+// Site do livro infantil "Bloom e a Bicicleta que Ensina a Voar" (Netlify).
+// Quando ganhar domínio próprio (ex.: bloom.growkindworld.com) basta mudar aqui.
+export const BLOOM_URL = 'https://bloom-livro.netlify.app/';
+
 // href fixo + chave de tradução (o texto deixa de estar hardcoded).
+// `external: true` → abre noutro separador com <a>, sem passar pelo i18n Link.
 const navItems = [
   { key: 'home', href: '/' },
   { key: 'book', href: '/o-livro' },
   { key: 'rdf', href: '/rdf' },
   { key: 'courses', href: '/cursos' },
+  { key: 'bloom', href: BLOOM_URL, external: true },
   { key: 'about', href: '/sobre' },
 ] as const;
 
@@ -175,23 +181,41 @@ export default function Header({ logoUrl }: { logoUrl?: string }) {
           className='absolute left-1/2 hidden -translate-x-1/2 items-center gap-10 md:flex lg:gap-12'
           aria-label='Navegação principal'
         >
-          {navItems.map(item => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.75)',
-                textShadow: isTransparent
-                  ? '0 1px 4px rgba(0,0,0,0.6)'
-                  : 'none',
-                fontSize: '14px',
-                letterSpacing: '0.08em',
-              }}
-              className='cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-70'
-            >
-              {t(item.key)}
-            </Link>
-          ))}
+          {navItems.map(item => {
+            const style = {
+              color: isTransparent ? '#FFFFFF' : 'rgba(30,30,30,0.75)',
+              textShadow: isTransparent ? '0 1px 4px rgba(0,0,0,0.6)' : 'none',
+              fontSize: '14px',
+              letterSpacing: '0.08em',
+            };
+            const cls =
+              'cursor-pointer font-normal uppercase transition-all duration-500 hover:opacity-70';
+            if ('external' in item) {
+              return (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  style={style}
+                  className={`${cls} inline-flex items-center gap-1`}
+                >
+                  {t(item.key)}
+                  <ArrowUpRight size={13} strokeWidth={2} aria-hidden />
+                </a>
+              );
+            }
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={style}
+                className={cls}
+              >
+                {t(item.key)}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Direita: toggle de idioma + UserMenu (desktop) + hamburger (mobile) */}
@@ -257,16 +281,35 @@ export default function Header({ logoUrl }: { logoUrl?: string }) {
               className='flex flex-col gap-0 py-4'
               style={{ padding: '16px 24px' }}
             >
-              {navItems.map(item => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMenuAberto(false)}
-                  className='cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]'
-                >
-                  {t(item.key)}
-                </Link>
-              ))}
+              {navItems.map(item => {
+                const cls =
+                  'cursor-pointer border-b border-[var(--color-gk-green-dark)]/5 px-0 py-4 text-[14px] font-normal uppercase tracking-wider text-[var(--color-gk-black)]/65 transition-colors duration-200 hover:text-[var(--color-gk-green-dark)]';
+                if ('external' in item) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      onClick={() => setMenuAberto(false)}
+                      className={`${cls} flex items-center gap-1`}
+                    >
+                      {t(item.key)}
+                      <ArrowUpRight size={14} strokeWidth={2} aria-hidden />
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMenuAberto(false)}
+                    className={cls}
+                  >
+                    {t(item.key)}
+                  </Link>
+                );
+              })}
 
               <MobileAccountLinks onNavigate={() => setMenuAberto(false)} />
 
