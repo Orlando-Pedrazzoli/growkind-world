@@ -12,7 +12,8 @@ import QuandoAdulto from '@/components/home/QuandoAdulto';
 import OLivro from '@/components/home/OLivro';
 import FrameworkRDF from '@/components/home/FrameworkRDF';
 import CapturaLista from '@/components/home/CapturaLista';
-import { getLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
+import { routing } from '@/i18n/routing';
 import {
   getHeroSlides,
   getSiteImages,
@@ -38,10 +39,24 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-export default async function HomePage() {
-  // Conteúdo editável no admin (Homepage). Com a BD vazia devolve os
-  // valores originais — a página é SSG e é revalidada a cada gravação.
-  const locale = (await getLocale()) as Locale;
+// Pré-gera PT e EN em build (SSG) — igual ao layout.
+export function generateStaticParams() {
+  return routing.locales.map(locale => ({ locale }));
+}
+
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  // Locale vem dos params (não de headers) para a página continuar
+  // estática; setRequestLocale é obrigatório para SSG com next-intl.
+  const { locale: rawLocale } = await params;
+  const locale: Locale = rawLocale === 'en' ? 'en' : 'pt';
+  setRequestLocale(locale);
+
+  // Conteúdo editável no admin (Homepage). Com a BD vazia (ou em baixo)
+  // devolve os valores originais — a página é revalidada a cada gravação.
   const [slides, images, bookTexts, rdfTexts] = await Promise.all([
     getHeroSlides(locale),
     getSiteImages(),

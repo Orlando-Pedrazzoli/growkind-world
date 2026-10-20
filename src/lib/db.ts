@@ -34,6 +34,13 @@ export async function connectDB() {
     });
   }
 
-  cached.conn = await cached.promise;
+  try {
+    cached.conn = await cached.promise;
+  } catch (err) {
+    // Sem isto, uma falha pontual ficava em cache para sempre na mesma
+    // instância e todos os pedidos seguintes rebentavam com o mesmo erro.
+    cached.promise = null;
+    throw err;
+  }
   return cached.conn;
 }
