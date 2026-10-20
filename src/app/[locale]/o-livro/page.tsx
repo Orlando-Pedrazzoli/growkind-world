@@ -10,6 +10,7 @@ import BookExcerpt from '@/components/book/BookExcerpt';
 import BookFinalCTA from '@/components/book/BookFinalCTA';
 import { getPrice } from '@/lib/prices';
 import { formatMoney } from '@/lib/products';
+import { getSiteImage } from '@/lib/cms/content';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('book.meta');
@@ -20,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: '/o-livro',
     ogType: 'book',
     ogImage: {
-      url: '/images/book-cover.jpg',
+      url: await getSiteImage('book.cover'),
       alt: t('ogAlt'),
     },
     authors: ['João Pereira'],
@@ -32,11 +33,12 @@ export default async function LivroPage() {
   // Preço do ebook (BD) — sincronizado com o checkout. Passa por prop aos
   // componentes (que são client e não podem chamar getPrice diretamente).
   const ebookPrice = formatMoney(await getPrice('ebook'));
+  const coverUrl = await getSiteImage('book.cover'); // editável no admin
 
   return (
     <>
       <JsonLd data={bookJsonLd()} />
-      <BookHero ebookPrice={ebookPrice} />
+      <BookHero ebookPrice={ebookPrice} coverUrl={coverUrl} />
       <BookAbout />
       <BookTOC />
       <BookExcerpt />

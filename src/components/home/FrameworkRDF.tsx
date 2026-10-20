@@ -6,8 +6,17 @@ import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem, revealFade } from '@/lib/motion';
 
-export default function FrameworkRDF() {
-  const t = useTranslations('home.rdfSection');
+// imageUrl / texts vêm da BD via page.tsx (admin → Homepage → Secção RDF).
+// Campo em falta em `texts` → cai na tradução de messages/{locale}.json.
+// Imagem: 1200 × 1800 px (2:3).
+interface Props {
+  imageUrl?: string;
+  texts?: Record<string, string>;
+}
+
+export default function FrameworkRDF({ imageUrl, texts = {} }: Props) {
+  const tr = useTranslations('home.rdfSection');
+  const t = (key: string) => texts[key] ?? tr(key as Parameters<typeof tr>[0]);
 
   return (
     <section id='rdf' className='w-full' style={{ backgroundColor: '#ffffff' }}>
@@ -25,10 +34,10 @@ export default function FrameworkRDF() {
           className='flex items-center justify-center px-6 pt-12 pb-6 md:w-1/2 md:px-[60px] md:py-[var(--spacing-section)]'
         >
           <Image
-            src='/images/rdf-principal.jpg'
-            alt='Relational Development Framework'
+            src={imageUrl ?? '/images/rdf-principal.jpg'}
+            alt={texts.imageAlt ?? 'Relational Development Framework'}
             width={1200}
-            height={1600}
+            height={1800}
             className='w-full max-w-sm md:max-w-md'
             sizes='(max-width: 768px) 100vw, 50vw'
           />

@@ -7,47 +7,24 @@ import { Link } from '@/i18n/navigation';
 import { useTranslations } from 'next-intl';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface Slide {
-  id: string;
-  altKey: 'slideHome' | 'slideBook' | 'slideRdf';
-  desktop: string;
-  mobile: string;
-  href: string | null;
-}
-
-const SLIDES: Slide[] = [
-  {
-    id: 'home',
-    altKey: 'slideHome',
-    desktop: '/images/hero-home.jpg',
-    mobile: '/images/hero-mobile.png',
-    href: null,
-  },
-  {
-    id: 'livro',
-    altKey: 'slideBook',
-    desktop: '/images/hero-livro.jpg',
-    mobile: '/images/hero-livro-mobile.jpg',
-    href: '/o-livro',
-  },
-  {
-    id: 'rdf',
-    altKey: 'slideRdf',
-    desktop: '/images/hero-rdf.jpg',
-    mobile: '/images/hero-rdf-mobile.jpg',
-    href: '/cursos', // Julho 2026 — banner RDF passa a levar aos cursos
-  },
-];
+// Os slides vêm da BD (admin → Homepage → Hero) através de page.tsx.
+// Shape: ver HeroSlideView em @/types/cms. Se a BD estiver vazia, page.tsx
+// envia os 3 slides originais (DEFAULT_HERO_SLIDES em lib/cms/registry.ts).
+//
+// Medidas das imagens (proporções FIXAS do carrossel, ver abaixo):
+//   desktop 1920 × 800 px (12:5) · mobile 1080 × 1440 px (3:4)
+import type { HeroSlideView as Slide } from '@/types/cms';
 
 const AUTOPLAY_MS = 5000;
 
-export default function Hero() {
+export default function Hero({ slides }: { slides: Slide[] }) {
   const t = useTranslations('home.hero');
+  const SLIDES = slides;
 
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  const slideCount = SLIDES.length;
+  const slideCount = Math.max(SLIDES.length, 1);
 
   const goNext = useCallback(
     () => setIndex(i => (i + 1) % slideCount),
@@ -58,7 +35,7 @@ export default function Hero() {
     [slideCount],
   );
 
-  const shouldAutoplay = !isHovered;
+  const shouldAutoplay = !isHovered && slideCount > 1;
   useEffect(() => {
     if (!shouldAutoplay) return;
     const id = setInterval(goNext, AUTOPLAY_MS);
@@ -92,7 +69,7 @@ export default function Hero() {
         {t('slideStatus', {
           current: index + 1,
           total: slideCount,
-          alt: t(SLIDES[index].altKey),
+          alt: SLIDES[index]?.alt ?? '',
         })}
       </div>
 
@@ -115,7 +92,7 @@ export default function Hero() {
             >
               <SlideMedia
                 slide={slide}
-                alt={t(slide.altKey)}
+                alt={slide.alt}
                 isActive={isActive}
                 priority={i === 0}
               />
@@ -126,22 +103,26 @@ export default function Hero() {
         <div className='pointer-events-none absolute inset-x-0 top-0 z-10 h-32 bg-gradient-to-b from-black/45 to-transparent' />
       </div>
 
-      <button
-        type='button'
-        onClick={goPrev}
-        aria-label={t('prevSlide')}
-        className='absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-5'
-      >
-        <ChevronLeft className='h-6 w-6' />
-      </button>
-      <button
-        type='button'
-        onClick={goNext}
-        aria-label={t('nextSlide')}
-        className='absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-5'
-      >
-        <ChevronRight className='h-6 w-6' />
-      </button>
+      {slideCount > 1 && (
+        <button
+          type='button'
+          onClick={goPrev}
+          aria-label={t('prevSlide')}
+          className='absolute left-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:left-5'
+        >
+          <ChevronLeft className='h-6 w-6' />
+        </button>
+      )}
+      {slideCount > 1 && (
+        <button
+          type='button'
+          onClick={goNext}
+          aria-label={t('nextSlide')}
+          className='absolute right-3 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/35 text-white backdrop-blur-sm transition hover:bg-black/55 focus:outline-none focus-visible:ring-2 focus-visible:ring-white md:right-5'
+        >
+          <ChevronRight className='h-6 w-6' />
+        </button>
+      )}
     </section>
   );
 }

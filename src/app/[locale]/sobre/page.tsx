@@ -7,6 +7,7 @@ import SobreOrigem from '@/components/sobre/SobreOrigem';
 import SobreRDF from '@/components/sobre/SobreRDF';
 import SobreParaQuem from '@/components/sobre/SobreParaQuem';
 import SobreCTA from '@/components/sobre/SobreCTA';
+import { getSiteImage } from '@/lib/cms/content';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'Sobre João Pereira',
@@ -27,11 +28,13 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-export default function SobrePage() {
+export default async function SobrePage() {
+  const photoUrl = await getSiteImage('about.photo'); // editável no admin
+
   return (
     <>
       <JsonLd data={personJsonLd()} />
-      <SobreHero />
+      <SobreHero photoUrl={photoUrl} />
       <SobreOrigem />
       <SobreRDF />
       <SobreParaQuem />

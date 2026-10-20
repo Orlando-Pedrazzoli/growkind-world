@@ -12,6 +12,13 @@ import QuandoAdulto from '@/components/home/QuandoAdulto';
 import OLivro from '@/components/home/OLivro';
 import FrameworkRDF from '@/components/home/FrameworkRDF';
 import CapturaLista from '@/components/home/CapturaLista';
+import { getLocale } from 'next-intl/server';
+import {
+  getHeroSlides,
+  getSiteImages,
+  getSectionTexts,
+} from '@/lib/cms/content';
+import type { Locale } from '@/types/cms';
 
 export const metadata: Metadata = buildPageMetadata({
   title: 'GrowKind World — Educação que cresce com a criança',
@@ -31,10 +38,20 @@ export const metadata: Metadata = buildPageMetadata({
   ],
 });
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Conteúdo editável no admin (Homepage). Com a BD vazia devolve os
+  // valores originais — a página é SSG e é revalidada a cada gravação.
+  const locale = (await getLocale()) as Locale;
+  const [slides, images, bookTexts, rdfTexts] = await Promise.all([
+    getHeroSlides(locale),
+    getSiteImages(),
+    getSectionTexts('home.bookSection', locale),
+    getSectionTexts('home.rdfSection', locale),
+  ]);
+
   return (
     <>
-      <Hero />
+      <Hero slides={slides} />
       <Aterrissagem />
       <SeccaoLivro />
       <OQueVimos />
@@ -42,8 +59,8 @@ export default function HomePage() {
       <OQueFazemos />
       <ParaQuem />
       <QuandoAdulto />
-      <OLivro />
-      <FrameworkRDF />
+      <OLivro coverUrl={images['book.cover']} texts={bookTexts} />
+      <FrameworkRDF imageUrl={images['home.rdf']} texts={rdfTexts} />
       <CapturaLista />
     </>
   );

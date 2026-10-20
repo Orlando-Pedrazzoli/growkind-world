@@ -12,6 +12,7 @@ import Footer from '@/components/layout/Footer';
 import CookieBanner from '@/components/layout/CookieBanner';
 import JsonLd from '@/components/seo/JsonLd';
 import { SEO_CONFIG, organizationJsonLd, websiteJsonLd } from '@/lib/seo';
+import { getSiteImages } from '@/lib/cms/content';
 import '../globals.css'; // ⚠️ agora é UM nível mais fundo: ../globals.css
 
 // Pré-gera as versões PT e EN em build (SSG).
@@ -123,6 +124,9 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale); // necessário para SSG com next-intl
 
+  // Logótipos editáveis no admin (fallback para /public se a BD estiver vazia)
+  const images = await getSiteImages();
+
   return (
     <html
       lang={locale === 'pt' ? 'pt-PT' : 'en'}
@@ -162,9 +166,9 @@ export default async function LocaleLayout({
         {/* 👇 Disponibiliza as traduções aos Client Components (Header, etc.) */}
         <NextIntlClientProvider>
           <SessionProvider>
-            <Header />
+            <Header logoUrl={images['header.logo']} />
             <main className='flex-1 pt-20 md:pt-24'>{children}</main>
-            <Footer />
+            <Footer logoUrl={images['footer.logo']} />
             <CookieBanner />
           </SessionProvider>
         </NextIntlClientProvider>

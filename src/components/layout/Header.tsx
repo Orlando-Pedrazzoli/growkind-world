@@ -101,7 +101,9 @@ function MobileAccountLinks({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-export default function Header() {
+// logoUrl vem da BD via layout.tsx (admin → Homepage → Outras imagens).
+// Logótipo: 512 × 512 px, PNG transparente.
+export default function Header({ logoUrl }: { logoUrl?: string }) {
   const pathname = usePathname();
   const t = useTranslations('nav');
   const [menuAberto, setMenuAberto] = useState(false);
@@ -142,7 +144,7 @@ export default function Header() {
         {/* Logo + Nome (esquerda) */}
         <Link href='/' className='flex items-center gap-3'>
           <Image
-            src='/images/logo-growkind3.png'
+            src={logoUrl ?? '/images/logo-growkind3.png'}
             alt='GrowKind World Logo'
             width={58}
             height={58}

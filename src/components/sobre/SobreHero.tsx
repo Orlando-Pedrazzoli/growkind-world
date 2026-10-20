@@ -3,7 +3,9 @@
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 
-export default function SobreHero() {
+// photoUrl vem da BD via page.tsx (admin → Homepage → Outras imagens).
+// Foto: 800 × 800 px, quadrada — é recortada em círculo.
+export default function SobreHero({ photoUrl }: { photoUrl?: string }) {
   const t = useTranslations('about.hero');
   const paises = t.raw('countries') as string[];
 
@@ -14,7 +16,7 @@ export default function SobreHero() {
         <div className='sobre-hero__image-col'>
           <div className='sobre-hero__image-wrapper'>
             <Image
-              src='/images/joao-profile.jpeg'
+              src={photoUrl ?? '/images/joao-profile.jpeg'}
               alt={t('photoAlt')}
               fill
               sizes='(max-width: 768px) 180px, 220px'

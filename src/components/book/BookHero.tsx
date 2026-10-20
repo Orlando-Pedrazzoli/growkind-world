@@ -9,7 +9,15 @@ import { useBookData } from '@/lib/data/book';
 
 // ebookPrice (opcional) vem da página (server) e sincroniza o preço mostrado
 // do ebook com o que o Stripe cobra. As edições Kindle/Físico (Amazon) não mudam.
-export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
+// coverUrl vem da BD via page.tsx (admin → Homepage → Secção "O Livro" → capa).
+// Capa: 1000 × 1500 px (2:3).
+export default function BookHero({
+  ebookPrice,
+  coverUrl,
+}: {
+  ebookPrice?: string;
+  coverUrl?: string;
+}) {
   const t = useTranslations('book.hero');
   const tBook = useTranslations('book');
   const { editions } = useBookData();
@@ -228,10 +236,10 @@ export default function BookHero({ ebookPrice }: { ebookPrice?: string }) {
           }}
         >
           <Image
-            src='/images/book-cover.jpg'
+            src={coverUrl ?? '/images/book-cover.jpg'}
             alt={t('coverAlt')}
-            width={800}
-            height={1200}
+            width={1000}
+            height={1500}
             priority
             className='w-full'
             sizes='(max-width: 768px) 340px, 400px'

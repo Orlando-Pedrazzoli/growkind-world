@@ -7,6 +7,7 @@ import {
   BookOpen,
   GraduationCap,
   Settings,
+  Images,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -19,6 +20,7 @@ export interface AdminNavItem {
 // Fonte única — usada pela sidebar (desktop) e pelo menu mobile.
 export const adminNavItems: AdminNavItem[] = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { label: 'Homepage', href: '/admin/homepage', icon: Images },
   { label: 'Pedidos', href: '/admin/pedidos', icon: Receipt },
   { label: 'Preços', href: '/admin/precos', icon: Tag },
   { label: 'Utilizadores', href: '/admin/utilizadores', icon: Users },

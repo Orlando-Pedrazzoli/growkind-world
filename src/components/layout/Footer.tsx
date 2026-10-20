@@ -55,7 +55,8 @@ function shouldHideFooter(pathname: string | null): boolean {
   );
 }
 
-export default function Footer() {
+// logoUrl vem da BD via layout.tsx (admin → Homepage → Outras imagens).
+export default function Footer({ logoUrl }: { logoUrl?: string }) {
   const t = useTranslations('footer');
 
   const pathname = usePathname();
@@ -79,7 +80,7 @@ export default function Footer() {
         {/* Logo + Nome */}
         <Link href='/' className='flex items-center gap-3'>
           <Image
-            src='/images/logo-growkind.jpg'
+            src={logoUrl ?? '/images/logo-growkind.jpg'}
             alt={t('logoAlt')}
             width={36}
             height={36}

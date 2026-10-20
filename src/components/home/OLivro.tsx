@@ -6,8 +6,17 @@ import { motion } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { revealContainer, revealItem, revealFade } from '@/lib/motion';
 
-export default function OLivro() {
-  const t = useTranslations('home.bookSection');
+// coverUrl / texts vêm da BD via page.tsx (admin → Homepage → Secção "O Livro").
+// Campo em falta em `texts` → cai na tradução de messages/{locale}.json.
+// Capa: 1000 × 1500 px (2:3).
+interface Props {
+  coverUrl?: string;
+  texts?: Record<string, string>;
+}
+
+export default function OLivro({ coverUrl, texts = {} }: Props) {
+  const tr = useTranslations('home.bookSection');
+  const t = (key: string) => texts[key] ?? tr(key as Parameters<typeof tr>[0]);
 
   return (
     <section
@@ -33,10 +42,10 @@ export default function OLivro() {
             className='w-full max-w-xs shrink-0 md:w-2/5 md:max-w-sm'
           >
             <Image
-              src='/images/book-cover.jpg'
+              src={coverUrl ?? '/images/book-cover.jpg'}
               alt={t('coverAlt')}
               width={1000}
-              height={1502}
+              height={1500}
               className='w-full'
               sizes='(max-width: 768px) 320px, 420px'
             />
