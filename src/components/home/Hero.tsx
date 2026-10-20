@@ -22,7 +22,6 @@ export default function Hero({ slides }: { slides: Slide[] }) {
   const SLIDES = slides;
 
   const [index, setIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
   const slideCount = Math.max(SLIDES.length, 1);
 
@@ -35,7 +34,8 @@ export default function Hero({ slides }: { slides: Slide[] }) {
     [slideCount],
   );
 
-  const shouldAutoplay = !isHovered && slideCount > 1;
+  // Autoplay contínuo: NÃO pausa com hover/foco (pedido do João).
+  const shouldAutoplay = slideCount > 1;
   useEffect(() => {
     if (!shouldAutoplay) return;
     const id = setInterval(goNext, AUTOPLAY_MS);
@@ -59,10 +59,6 @@ export default function Hero({ slides }: { slides: Slide[] }) {
       aria-label={t('carouselLabel')}
       className='relative -mt-20 overflow-hidden md:-mt-24'
       style={{ backgroundColor: '#1b140c' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocusCapture={() => setIsHovered(true)}
-      onBlurCapture={() => setIsHovered(false)}
       onKeyDown={onKeyDown}
     >
       <div aria-live='polite' aria-atomic='true' className='sr-only'>
