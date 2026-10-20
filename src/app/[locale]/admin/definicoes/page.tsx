@@ -6,7 +6,9 @@ import {
   Shield,
   Webhook,
   AlertTriangle,
+  Images,
 } from 'lucide-react';
+import { getCloudinaryConfig } from '@/lib/cloudinary';
 
 // Helper: a env var existe e não está vazia?
 const has = (v?: string) => !!v && v.trim().length > 0;
@@ -32,6 +34,13 @@ export default function AdminSettingsPage() {
     .split(',')
     .map(e => e.trim())
     .filter(Boolean);
+
+  // Cloudinary — upload de imagens do CMS (admin → Homepage)
+  const cloudinary = getCloudinaryConfig();
+  const cloudinaryOk =
+    has(cloudinary.cloudName) &&
+    has(cloudinary.apiKey) &&
+    has(cloudinary.apiSecret);
 
   const integrations = [
     {
@@ -67,6 +76,14 @@ export default function AdminSettingsPage() {
       ok: has(process.env.RESEND_API_KEY),
       description: `Emails transacionais · ${emailDomain}`,
       icon: Mail,
+    },
+    {
+      name: 'Cloudinary',
+      ok: cloudinaryOk,
+      description: cloudinaryOk
+        ? `Imagens do site (Homepage) · cloud "${cloudinary.cloudName}"`
+        : 'Imagens do site — faltam CLOUDINARY_CLOUD_NAME / API_KEY / API_SECRET',
+      icon: Images,
     },
   ];
 
